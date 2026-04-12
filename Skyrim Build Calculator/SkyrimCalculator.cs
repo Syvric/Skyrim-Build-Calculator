@@ -34,11 +34,12 @@ namespace Skyrim_Build_Architect
     {
         // 1. WAFFEN-BERECHNUNG
         public static WeaponCalculationResult CalculateWeapon(
-            Weapon w,
-            int level,
-            List<Perk> activePerks,
-            double difficultyMult,
-            Enchantment? selectedEnch)
+    Weapon w,
+    int level,
+    List<Perk> activePerks,
+    double difficultyMult,
+    Enchantment? ench1,
+    Enchantment? ench2 = null) // Unterstützt jetzt zwei Verzauberungen
         {
             var result = new WeaponCalculationResult();
             var stats = w.GetStatsForLevel(level);
@@ -46,7 +47,7 @@ namespace Skyrim_Build_Architect
             string wName = w.Name.ToLower();
             string wCategory = (w.Category ?? "").ToLower();
 
-            // Schmiede-Bonus
+            // 1. Schmiede-Bonus
             double smithingBonus = 0;
             bool hasSmithingPerk = activePerks.Any(p =>
                 p.SkillGroup == "Smithing" &&
@@ -62,7 +63,7 @@ namespace Skyrim_Build_Architect
                 else { smithingBonus = 2; result.SmithingTierName = "(Fine)"; }
             }
 
-            // Waffen-Perks
+            // 2. Waffen-Perks (Einhand, Zweihand, Schießen)
             double wMult = 1.0;
             var matchingPerks = activePerks.Where(p => {
                 string pGroup = (p.SkillGroup ?? "").ToLower();
@@ -74,48 +75,76 @@ namespace Skyrim_Build_Architect
 
             if (matchingPerks.Any()) wMult = matchingPerks.Max(p => p.Multiplier);
 
-            // Finaler Schaden
+            // 3. Finaler Schaden & Sneak Damage
             result.FinalDamage = (stats.dmg + smithingBonus) * wMult * difficultyMult;
+            double roundedDamage = Math.Round(result.FinalDamage);
 
-            // Sneak-Multiplikator
-            double sMult = activePerks.Where(p => p.SkillGroup != null && p.SkillGroup.Contains("Sneak")).Select(p => p.Multiplier).DefaultIfEmpty(3.0).Max();
-            result.SneakDamage = result.FinalDamage * sMult;
-
-            // Verzauberungen
-            double eMult = activePerks.Where(p => p.SkillGroup == "Enchanting").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
-
-            if (selectedEnch != null && selectedEnch.Name != "None")
-            {
-                double mag = selectedEnch.AddedValue * eMult;
-                string enchText = string.Format(selectedEnch.Description, Math.Round(mag));
-                result.FinalEffectText = (string.IsNullOrEmpty(stats.eff) || stats.eff == "None") ? enchText : stats.eff + " + " + enchText;
-            }
+            double sMult = 3.0;
+            if (wName.Contains("dagger"))
+                sMult = activePerks.Where(p => p.SkillGroup == "SneakDagger").Select(p => p.Multiplier).DefaultIfEmpty(3.0).Max();
+            else if (wName.Contains("bow") || wName.Contains("crossbow"))
+                sMult = activePerks.Where(p => p.SkillGroup == "SneakBow").Select(p => p.Multiplier).DefaultIfEmpty(2.0).Max();
             else
+                sMult = activePerks.Where(p => p.SkillGroup == "Sneak1H").Select(p => p.Multiplier).DefaultIfEmpty(3.0).Max();
+
+            result.SneakDamage = roundedDamage * sMult;
+
+            // 4. Verzauberungen berechnen
+            List<string> effectTexts = new List<string>();
+
+            // Bestehenden Waffen-Effekt hinzufügen (falls vorhanden)
+            if (!string.IsNullOrEmpty(stats.eff) && stats.eff != "None")
+                effectTexts.Add(stats.eff);
+
+            // Interne Helfer-Funktion für die Berechnung einzelner Enchantments
+            string ProcessEnch(Enchantment? ench)
             {
-                result.FinalEffectText = !string.IsNullOrEmpty(stats.eff) ? stats.eff : "None";
+                if (ench == null || ench.Name == "None") return "";
+
+                string eName = ench.Name.ToLower();
+                double eMult = activePerks.Where(p => p.SkillGroup == "Enchanting").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
+
+                // Elementar-Perks anwenden
+                if (activePerks.Any(p => p.Name.Contains("Fire Enchanter")) && (eName.Contains("fire") || eName.Contains("burn"))) eMult *= 1.25;
+                if (activePerks.Any(p => p.Name.Contains("Frost Enchanter")) && eName.Contains("frost")) eMult *= 1.25;
+                if (activePerks.Any(p => p.Name.Contains("Storm Enchanter")) && (eName.Contains("shock") || eName.Contains("lightning"))) eMult *= 1.25;
+
+                double mag = ench.AddedValue * eMult;
+                return string.Format(ench.Description, Math.Round(mag));
             }
+
+            // Beide Slots berechnen
+            string res1 = ProcessEnch(ench1);
+            if (!string.IsNullOrEmpty(res1)) effectTexts.Add(res1);
+
+            string res2 = ProcessEnch(ench2);
+            if (!string.IsNullOrEmpty(res2)) effectTexts.Add(res2);
+
+            // Texte zusammenfügen (z.B. "Feuerschaden + Frostschaden")
+            result.FinalEffectText = effectTexts.Count > 0 ? string.Join(" + ", effectTexts) : "None";
 
             return result;
         }
 
         // 2. RÜSTUNGS-BERECHNUNG
         public static ArmorCalculationResult CalculateArmor(
-            Armor a,
-            int level,
-            List<Perk> activePerks,
-            Enchantment? selectedEnch)
+    Armor a,
+    int level,
+    List<Perk> activePerks,
+    Enchantment? ench1,
+    Enchantment? ench2 = null) // Unterstützt jetzt zwei Slots
         {
             var result = new ArmorCalculationResult();
             var stats = a.GetStatsForLevel(level);
 
             string aName = a.Name.ToLower();
-            string aCategory = (a.Category ?? "").ToLower();
+            string aSlot = (a.Slot ?? "").ToLower();
 
-            // Schmiede-Bonus
+            // 1. Schmiede-Bonus
             double smithingBonus = 0;
             bool hasSmithingPerk = activePerks.Any(p =>
                 p.SkillGroup == "Smithing" &&
-                (aName.Contains(p.BaseName.ToLower()) || aCategory.Contains(p.BaseName.ToLower()))
+                (aName.Contains(p.BaseName.ToLower()) || aSlot.Contains(p.BaseName.ToLower()))
             );
 
             if (hasSmithingPerk)
@@ -127,33 +156,61 @@ namespace Skyrim_Build_Architect
                 else { smithingBonus = 2; result.SmithingTierName = "(Fine)"; }
             }
 
-            // Rüstungs-Perks
+            // 2. Rüstungs-Perks (Heavy/Light Armor)
             double aMult = 1.0;
-            var matchingPerks = activePerks.Where(p => {
-                string pGroup = (p.SkillGroup ?? "").ToLower();
-                if (pGroup.Contains("heavyarmor") && aCategory.Contains("heavy")) return true;
-                if (pGroup.Contains("lightarmor") && aCategory.Contains("light")) return true;
-                return false;
-            }).ToList();
+            string category = a.Category?.ToLower() ?? "";
+            if (category == "heavy")
+                aMult = activePerks.Where(p => p.SkillGroup == "HeavyArmor").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
+            else if (category == "light")
+                aMult = activePerks.Where(p => p.SkillGroup == "LightArmor").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
 
-            if (matchingPerks.Any()) aMult = matchingPerks.Max(p => p.Multiplier);
-
-            // Finaler Rüstungswert
+            // HIER WAR DER FEHLER: stats.rating statt stats.dmg benutzen!
             result.FinalArmorRating = (stats.rating + smithingBonus) * aMult;
 
-            // Verzauberungen
-            double eMult = activePerks.Where(p => p.SkillGroup == "Enchanting").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
+            // 3. Verzauberungen berechnen
+            List<string> effectTexts = new List<string>();
 
-            if (selectedEnch != null && selectedEnch.Name != "None")
+            // Bestehenden Rüstungs-Effekt (z.B. von Quest-Items) hinzufügen
+            if (!string.IsNullOrEmpty(stats.eff) && stats.eff != "None")
+                effectTexts.Add(stats.eff);
+
+            // Helfer-Funktion für Rüstungs-Enchantments
+            string ProcessArmorEnch(Enchantment? ench)
             {
-                double mag = selectedEnch.AddedValue * eMult;
-                string enchText = string.Format(selectedEnch.Description, Math.Round(mag));
-                result.FinalEffectText = (string.IsNullOrEmpty(stats.eff) || stats.eff == "None") ? enchText : stats.eff + " + " + enchText;
+                if (ench == null || ench.Name == "None") return "";
+
+                string eName = ench.Name.ToLower();
+                string eDesc = ench.Description.ToLower();
+
+                // Basis-Enchanting Perk (1.2 bis 2.0)
+                double eMult = activePerks.Where(p => p.SkillGroup == "Enchanting").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
+
+                // Corpus Enchanter Perk (+25% auf Stats)
+                if (activePerks.Any(p => p.Name.Contains("Corpus Enchanter")))
+                {
+                    if (eName.Contains("health") || eName.Contains("magicka") || eName.Contains("stamina"))
+                        eMult *= 1.25;
+                }
+
+                // Insightful Enchanter Perk (+25% auf Skills/Rüstungs-Effekte)
+                if (activePerks.Any(p => p.Name.Contains("Insightful Enchanter")))
+                {
+                    eMult *= 1.25;
+                }
+
+                double mag = ench.AddedValue * eMult;
+                return string.Format(ench.Description, Math.Round(mag));
             }
-            else
-            {
-                result.FinalEffectText = !string.IsNullOrEmpty(stats.eff) ? stats.eff : "None";
-            }
+
+            // Beide Slots verarbeiten
+            string res1 = ProcessArmorEnch(ench1);
+            if (!string.IsNullOrEmpty(res1)) effectTexts.Add(res1);
+
+            string res2 = ProcessArmorEnch(ench2);
+            if (!string.IsNullOrEmpty(res2)) effectTexts.Add(res2);
+
+            // Effekte mit " + " verbinden
+            result.FinalEffectText = effectTexts.Count > 0 ? string.Join(" + ", effectTexts) : "None";
 
             return result;
         }

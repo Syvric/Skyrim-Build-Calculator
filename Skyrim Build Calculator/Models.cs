@@ -103,7 +103,9 @@ namespace Skyrim_Build_Architect
         public double AddedValue { get; set; }
         public string SkillGroup { get; set; } = "Enchanting";
         public string Description { get; set; } = "";
-        public List<string> AllowedSlots { get; set; } = new List<string>();
+
+        // Von 'AllowedSlots' zu 'CompatibleSlots' umbenannt:
+        public List<string> CompatibleSlots { get; set; } = new List<string>();
     }
 
     public class SoulGem

@@ -44,6 +44,8 @@ namespace Skyrim_Build_Architect
             LoadData();
             LoadRaceData();
             LoadStandingStones();
+            CmbEnchantment2.ItemsSource = EnchantmentDatabase;
+            CmbEnchantment2.SelectedIndex = 0;
 
             var view = (CollectionView)CollectionViewSource.GetDefaultView(PerkDatabase);
             if (view != null)
@@ -142,7 +144,9 @@ namespace Skyrim_Build_Architect
 
         private void CalculateAttributes()
         {
-            if (_isCalculating || !IsLoaded || TxtPlayerLevel == null || CmbRace == null || CmbStandingStone == null || LblSoulGem == null) return;
+            // Sicherheitscheck: Wir haben LblEnchantment2 und CmbEnchantment2 hinzugefügt
+            if (_isCalculating || !IsLoaded || TxtPlayerLevel == null || CmbRace == null ||
+                CmbStandingStone == null || LblSoulGem == null || LblEnchantment2 == null || CmbEnchantment2 == null) return;
 
             try
             {
@@ -179,14 +183,24 @@ namespace Skyrim_Build_Architect
                 TxtTotalHealth.Text = totalHealth.ToString("0");
                 TxtTotalStamina.Text = totalStamina.ToString("0");
 
+                // --- REGENERATION BERECHNEN ---
                 double mRegenMult = stone?.MagickaRegenMult ?? 1.0;
                 double hRegenMult = stone?.HealthRegenMult ?? 1.0;
                 double sRegenMult = stone?.StaminaRegenMult ?? 1.0;
+
+                double recoveryBonus = PerkDatabase?
+                    .Where(p => p.IsActive && p.Name.Contains("Recovery"))
+                    .Select(p => p.Multiplier - 1.0)
+                    .DefaultIfEmpty(0.0)
+                    .Max() ?? 0.0;
+
+                mRegenMult += recoveryBonus;
 
                 TxtRegenMagicka.Text = $"(+{(totalMagicka * 0.03 * mRegenMult):0.0} /s)";
                 TxtRegenHealth.Text = $"(+{(totalHealth * 0.005 * hRegenMult):0.0} /s)";
                 TxtRegenStamina.Text = $"(+{(totalStamina * 0.05 * sRegenMult):0.0} /s)";
 
+                // --- PERK VERFÜGBARKEIT ---
                 if (PerkDatabase != null)
                 {
                     foreach (var perk in PerkDatabase)
@@ -199,6 +213,22 @@ namespace Skyrim_Build_Architect
                     if (TxtWarriorCount != null) TxtWarriorCount.Text = $"Warrior: {PerkDatabase.Count(p => p.IsActive && p.Category == "WARRIOR")}";
                     if (TxtThiefCount != null) TxtThiefCount.Text = $"Thief: {PerkDatabase.Count(p => p.IsActive && p.Category == "THIEF")}";
                     if (TxtMageCount != null) TxtMageCount.Text = $"Mage: {PerkDatabase.Count(p => p.IsActive && p.Category == "MAGE")}";
+                }
+
+                // --- EXTRA EFFECT UI TOGGLE ---
+                // Steuert, ob das zweite Verzauberungs-Feld angezeigt wird
+                bool hasExtraEffect = PerkDatabase?.Any(p => p.IsActive && p.Name == "Extra Effect") ?? false;
+
+                if (hasExtraEffect)
+                {
+                    LblEnchantment2.Visibility = Visibility.Visible;
+                    CmbEnchantment2.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    LblEnchantment2.Visibility = Visibility.Collapsed;
+                    CmbEnchantment2.Visibility = Visibility.Collapsed;
+                    CmbEnchantment2.SelectedIndex = 0; // Zurück auf "None" setzen
                 }
             }
             finally
@@ -280,13 +310,32 @@ namespace Skyrim_Build_Architect
 
         private void UpdateCalculations()
         {
-            if (CmbSelect == null || CmbEnchantment == null || CmbDifficulty == null || CmbSelect.SelectedItem == null) return;
-
+            // --- 1. SCHRITT: STATS IMMER BERECHNEN ---
             CalculateAttributes();
 
+            // --- 2. SCHRITT: DER TÜRSTEHER ---
+            if (CmbSelect == null || CmbEnchantment == null || CmbEnchantment2 == null || CmbDifficulty == null || CmbSelect.SelectedItem == null) return;
+
+            // --- 3. SCHRITT: ITEM-SPEZIFISCHE BERECHNUNG ---
             int level = int.TryParse(TxtPlayerLevel.Text, out int l) ? l : 1;
             var active = PerkDatabase.Where(p => p.IsActive).ToList();
+
+            // Wir holen uns beide Verzauberungen aus den ComboBoxen
             var selectedEnch = CmbEnchantment.SelectedItem as Enchantment;
+            var selectedEnch2 = CmbEnchantment2.SelectedItem as Enchantment;
+
+            // --- DOPPEL-CHECK: Skyrim erlaubt nicht 2x denselben Effekt ---
+            if (selectedEnch != null && selectedEnch2 != null &&
+                selectedEnch.Name != "None" && selectedEnch.Name == selectedEnch2.Name)
+            {
+                // Wir unterdrücken kurz die Berechnung, um eine Endlosschleife zu verhindern
+                _isCalculating = true;
+                CmbEnchantment2.SelectedIndex = 0;
+                _isCalculating = false;
+
+                // Wert für die weitere Berechnung aktualisieren
+                selectedEnch2 = CmbEnchantment2.SelectedItem as Enchantment;
+            }
 
             var diff = CmbDifficulty.SelectedItem as Difficulty;
             double dMult = diff?.DamageDealtMultiplier ?? 1.0;
@@ -306,7 +355,8 @@ namespace Skyrim_Build_Architect
                     return;
                 }
 
-                var calcResult = SkyrimCalculator.CalculateWeapon(w, level, active, dMult, selectedEnch);
+                // Aufruf des Rechners mit beiden Verzauberungen
+                var calcResult = SkyrimCalculator.CalculateWeapon(w, level, active, dMult, selectedEnch, selectedEnch2);
 
                 TxtWeaponCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
                                          ? w.Category
@@ -334,7 +384,8 @@ namespace Skyrim_Build_Architect
                     return;
                 }
 
-                var calcResult = SkyrimCalculator.CalculateArmor(a, level, active, selectedEnch);
+                // Aufruf des Rechners mit beiden Verzauberungen
+                var calcResult = SkyrimCalculator.CalculateArmor(a, level, active, selectedEnch, selectedEnch2);
 
                 TxtArmorCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
                                          ? a.Slot
@@ -404,6 +455,34 @@ namespace Skyrim_Build_Architect
             UpdateCalculations();
         }
 
+        private void ApplyEnchantmentFilter()
+        {
+            if (CmbSelect == null || CmbEnchantment == null || CmbEnchantment2 == null) return;
+
+            // Wir holen uns das aktuell gewählte Item
+            var selectedItem = CmbSelect.SelectedItem;
+            string currentSlot = "";
+
+            if (selectedItem is Weapon) currentSlot = "Weapon";
+            else if (selectedItem is Armor a) currentSlot = a.Slot;
+
+            // Die Filter-Logik:
+            // Wir zeigen nur Verzauberungen an, die entweder "None" heißen 
+            // oder deren 'CompatibleSlots' den aktuellen Slot enthalten.
+            var filteredList = EnchantmentDatabase.Where(e =>
+                e.Name == "None" ||
+                e.CompatibleSlots.Contains(currentSlot)
+            ).ToList();
+
+            // Wir weisen die gefilterte Liste BEIDEN Boxen zu
+            CmbEnchantment.ItemsSource = filteredList;
+            CmbEnchantment2.ItemsSource = filteredList;
+
+            // Falls die aktuelle Auswahl durch den Filter ungültig wurde, auf "None" zurücksetzen
+            if (CmbEnchantment.SelectedIndex == -1) CmbEnchantment.SelectedIndex = 0;
+            if (CmbEnchantment2.SelectedIndex == -1) CmbEnchantment2.SelectedIndex = 0;
+        }
+
         private void CmbSoulGem_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateCalculations();
 
         private void BtnShowWeapons_Click(object sender, RoutedEventArgs e)
@@ -439,17 +518,35 @@ namespace Skyrim_Build_Architect
         {
             if (CmbSelect.SelectedItem == null) return;
 
+            bool enchantable = true;
+
+            // 1. Prüfen, ob das Item verzaubert werden darf
             if (isWeaponMode && CmbSelect.SelectedItem is Weapon w)
             {
-                CmbEnchantment.IsEnabled = w.IsEnchantable;
-                if (!w.IsEnchantable) CmbEnchantment.SelectedIndex = 0;
+                enchantable = w.IsEnchantable;
             }
             else if (!isWeaponMode && CmbSelect.SelectedItem is Armor a)
             {
-                CmbEnchantment.IsEnabled = true;
+                // Bei Rüstung gehen wir aktuell davon aus, dass sie immer verzauberbar ist.
+                // Falls du eine 'IsEnchantable' Eigenschaft bei Armor hast, hier einbauen:
+                enchantable = true;
             }
 
+            // 2. Beide Boxen (Enchantment 1 & 2) steuern
+            CmbEnchantment.IsEnabled = enchantable;
+            CmbEnchantment2.IsEnabled = enchantable;
+
+            // 3. Falls nicht verzauberbar: Beide auf "None" (Index 0) zurücksetzen
+            if (!enchantable)
+            {
+                CmbEnchantment.SelectedIndex = 0;
+                CmbEnchantment2.SelectedIndex = 0;
+            }
+
+            // 4. Die Liste filtern (damit nur passende Effekte für den Slot erscheinen)
             UpdateEnchantmentList();
+
+            // 5. Alles neu berechnen
             UpdateCalculations();
         }
 
@@ -489,23 +586,18 @@ namespace Skyrim_Build_Architect
         {
             if (CmbSelect.SelectedItem == null) return;
 
-            List<Enchantment> filteredList = new List<Enchantment>();
-            var noneEnch = EnchantmentDatabase.FirstOrDefault(e => e.Name == "None");
-            if (noneEnch != null) filteredList.Add(noneEnch);
+            string currentSlot = "";
+            if (isWeaponMode && CmbSelect.SelectedItem is Weapon) currentSlot = "Weapon";
+            else if (!isWeaponMode && CmbSelect.SelectedItem is Armor a) currentSlot = a.Slot;
 
-            if (isWeaponMode && CmbSelect.SelectedItem is Weapon w)
-            {
-                var weaponsEnchs = EnchantmentDatabase.Where(e => e.AllowedSlots != null && e.AllowedSlots.Contains("Weapon"));
-                filteredList.AddRange(weaponsEnchs);
-            }
-            else if (!isWeaponMode && CmbSelect.SelectedItem is Armor a)
-            {
-                var armorEnchs = EnchantmentDatabase.Where(e => e.AllowedSlots != null && e.AllowedSlots.Contains(a.Slot));
-                filteredList.AddRange(armorEnchs);
-            }
+            // Filter: Nur Effekte für den richtigen Slot (oder "None")
+            var filtered = EnchantmentDatabase
+                .Where(e => e.Name == "None" || e.CompatibleSlots.Contains(currentSlot))
+                .ToList();
 
-            CmbEnchantment.ItemsSource = filteredList;
-            if (filteredList.Count > 0) CmbEnchantment.SelectedIndex = 0;
+            // WICHTIG: Beiden Dropdowns die gefilterte Liste geben
+            CmbEnchantment.ItemsSource = filtered;
+            CmbEnchantment2.ItemsSource = filtered;
         }
 
         private void CmbStandingStone_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -517,7 +609,15 @@ namespace Skyrim_Build_Architect
         private void Perk_CheckChanged(object sender, RoutedEventArgs e)
         {
             if (_isCalculating) return;
+
+            // Zuerst die Basis-Attribute (Regeneration, HP, etc.) berechnen
+            CalculateAttributes();
+
+            // Dann die Item-Vorschau (falls ein Item gewählt ist)
             UpdateCalculations();
+
+            // Dann die gesamte Build-Statistik (für Rüstungswerte etc.)
+            UpdateTotalBuildStats();
         }
 
         private void BtnSaveBuild_Click(object sender, RoutedEventArgs e)

@@ -296,8 +296,9 @@ namespace Skyrim_Build_Architect
             PerkDatabase.Add(new Perk { Name = "Elemental Potency", BaseName = "Elemental Potency", Description = "Conjured Atronachs are 50% more potent.", RequiredLevel = 50, Category = "MAGE", SubCategory = cj });
             PerkDatabase.Add(new Perk { Name = "Twin Souls", BaseName = "Twin Souls", Description = "You can have two atronachs or reanimated zombies.", RequiredLevel = 100, Category = "MAGE", SubCategory = cj });
 
-            // RESTORATION
+            // --- RESTORATION ---
             string re = "RESTORATION";
+
             PerkDatabase.Add(new Perk { Name = "Novice Restoration", BaseName = "Mastery", Description = "Cast Novice level Restoration spells for half Magicka.", RequiredLevel = 0, Category = "MAGE", SubCategory = re });
             PerkDatabase.Add(new Perk { Name = "Apprentice Restoration", BaseName = "Mastery", Description = "Cast Apprentice level Restoration spells for half Magicka.", RequiredLevel = 25, Category = "MAGE", SubCategory = re });
             PerkDatabase.Add(new Perk { Name = "Adept Restoration", BaseName = "Mastery", Description = "Cast Adept level Restoration spells for half Magicka.", RequiredLevel = 50, Category = "MAGE", SubCategory = re });
@@ -309,25 +310,55 @@ namespace Skyrim_Build_Architect
             PerkDatabase.Add(new Perk { Name = "Respite", BaseName = "Respite", Description = "Healing spells also restore Stamina.", RequiredLevel = 40, Category = "MAGE", SubCategory = re });
             PerkDatabase.Add(new Perk { Name = "Necromage", BaseName = "Necromage", Description = "All spells are more effective against undead.", RequiredLevel = 70, Category = "MAGE", SubCategory = re });
             PerkDatabase.Add(new Perk { Name = "Ward Absorb", BaseName = "Ward Absorb", Description = "Wards recharge your Magicka when hit with spells.", RequiredLevel = 60, Category = "MAGE", SubCategory = re });
-            PerkDatabase.Add(new Perk { Name = "Recovery (1/2)", BaseName = "Recovery", Description = "Magicka regenerates 25% faster.", RequiredLevel = 30, Category = "MAGE", SubCategory = re });
-            PerkDatabase.Add(new Perk { Name = "Recovery (2/2)", BaseName = "Recovery", Description = "Magicka regenerates 50% faster.", RequiredLevel = 60, Category = "MAGE", SubCategory = re });
+
+            // Hier sind die gefixten Recovery-Perks mit Multiplier und SkillGroup
+            PerkDatabase.Add(new Perk { Name = "Recovery (1/2)", BaseName = "Recovery", Description = "Magicka regenerates 25% faster.", RequiredLevel = 30, Category = "MAGE", SubCategory = re, SkillGroup = "Restoration", Multiplier = 1.25 });
+            PerkDatabase.Add(new Perk { Name = "Recovery (2/2)", BaseName = "Recovery", Description = "Magicka regenerates 50% faster.", RequiredLevel = 60, Category = "MAGE", SubCategory = re, SkillGroup = "Restoration", Multiplier = 1.50 });
+
             PerkDatabase.Add(new Perk { Name = "Avoid Death", BaseName = "Avoid Death", Description = "Once a day, heals 250 points automatically if you fall below 10% health.", RequiredLevel = 90, Category = "MAGE", SubCategory = re });
 
-            // ENCHANTING
 
+            // ==========================================
+            // 1. PERKS (Bleiben so, die sind perfekt)
+            // ==========================================
             string en = "ENCHANTING";
-            // WICHTIG: Hier im AddP auch "MAGE" statt "CRAFTS" eintragen
-            AddP("Enchanter", "New enchantments are {X}% stronger.", "Enchanting", "MAGE", en, 5, 0.2, 0, 20, 20, 20);
+            PerkDatabase.Add(new Perk { Name = "Enchanter 1/5", BaseName = "Enchanter", Description = "New enchantments are 20% stronger.", RequiredLevel = 0, Category = "MAGE", SubCategory = en, SkillGroup = "Enchanting", Multiplier = 1.2 });
+            PerkDatabase.Add(new Perk { Name = "Enchanter 2/5", BaseName = "Enchanter", Description = "New enchantments are 40% stronger.", RequiredLevel = 20, Category = "MAGE", SubCategory = en, SkillGroup = "Enchanting", Multiplier = 1.4 });
+            PerkDatabase.Add(new Perk { Name = "Enchanter 3/5", BaseName = "Enchanter", Description = "New enchantments are 60% stronger.", RequiredLevel = 40, Category = "MAGE", SubCategory = en, SkillGroup = "Enchanting", Multiplier = 1.6 });
+            PerkDatabase.Add(new Perk { Name = "Enchanter 4/5", BaseName = "Enchanter", Description = "New enchantments are 80% stronger.", RequiredLevel = 60, Category = "MAGE", SubCategory = en, SkillGroup = "Enchanting", Multiplier = 1.8 });
+            PerkDatabase.Add(new Perk { Name = "Enchanter 5/5", BaseName = "Enchanter", Description = "New enchantments are 100% stronger.", RequiredLevel = 80, Category = "MAGE", SubCategory = en, SkillGroup = "Enchanting", Multiplier = 2.0 });
 
-            PerkDatabase.Add(new Perk { Name = "Fire Enchanter", BaseName = "Fire Enchanter", Description = "Fire enchantments on weapons and armor are 25% stronger.", RequiredLevel = 30, Category = "MAGE", SubCategory = en });
-            PerkDatabase.Add(new Perk { Name = "Frost Enchanter", BaseName = "Frost Enchanter", Description = "Frost enchantments on weapons and armor are 25% stronger.", RequiredLevel = 40, Category = "MAGE", SubCategory = en });
-            PerkDatabase.Add(new Perk { Name = "Storm Enchanter", BaseName = "Storm Enchanter", Description = "Shock enchantments on weapons and armor are 25% stronger.", RequiredLevel = 50, Category = "MAGE", SubCategory = en });
-            PerkDatabase.Add(new Perk { Name = "Insightful Enchanter", BaseName = "Insightful Enchanter", Description = "Skill enchantments on armor are 25% stronger.", RequiredLevel = 50, Category = "MAGE", SubCategory = en });
-            PerkDatabase.Add(new Perk { Name = "Corpus Enchanter", BaseName = "Corpus Enchanter", Description = "Health, magicka, and stamina enchantments on armor are 25% stronger.", RequiredLevel = 70, Category = "MAGE", SubCategory = en });
+            PerkDatabase.Add(new Perk { Name = "Fire Enchanter", BaseName = "Fire Enchanter", Description = "Fire enchantments on weapons and armor are 25% stronger.", RequiredLevel = 30, Category = "MAGE", SubCategory = en, SkillGroup = "EnchantingSpecial" });
+            PerkDatabase.Add(new Perk { Name = "Frost Enchanter", BaseName = "Frost Enchanter", Description = "Frost enchantments on weapons and armor are 25% stronger.", RequiredLevel = 40, Category = "MAGE", SubCategory = en, SkillGroup = "EnchantingSpecial" });
+            PerkDatabase.Add(new Perk { Name = "Storm Enchanter", BaseName = "Storm Enchanter", Description = "Shock enchantments on weapons and armor are 25% stronger.", RequiredLevel = 50, Category = "MAGE", SubCategory = en, SkillGroup = "EnchantingSpecial" });
+            PerkDatabase.Add(new Perk { Name = "Insightful Enchanter", BaseName = "Insightful Enchanter", Description = "Skill enchantments on armor are 25% stronger.", RequiredLevel = 50, Category = "MAGE", SubCategory = en, SkillGroup = "EnchantingSpecial" });
+            PerkDatabase.Add(new Perk { Name = "Corpus Enchanter", BaseName = "Corpus Enchanter", Description = "Health, magicka, and stamina enchantments on armor are 25% stronger.", RequiredLevel = 70, Category = "MAGE", SubCategory = en, SkillGroup = "EnchantingSpecial" });
+
             PerkDatabase.Add(new Perk { Name = "Extra Effect", BaseName = "Extra Effect", Description = "Can put two enchantments on the same item.", RequiredLevel = 100, Category = "MAGE", SubCategory = en });
-            PerkDatabase.Add(new Perk { Name = "Soul Squeezer", BaseName = "Soul Squeezer", Description = "Soul gems provide extra magicka for recharging.", RequiredLevel = 20, Category = "MAGE", SubCategory = en });
-            PerkDatabase.Add(new Perk { Name = "Soul Siphon", BaseName = "Soul Siphon", Description = "Death blows to creatures, but not people, trap 5% of the victim's soul, recharging the weapon.", RequiredLevel = 40, Category = "MAGE", SubCategory = en });
 
+            // ==========================================
+            // 2. ENCHANTMENT HELPER LISTS
+            // ==========================================
+            var combatSlots = new List<string> { "Gloves", "Boots", "Ring", "Amulet" };
+            var magicSlots = new List<string> { "Head", "Chest", "Ring", "Amulet" };
+            var resistSlots = new List<string> { "Boots", "Shield", "Ring", "Amulet" };
+
+            // ==========================================
+            // 3. ENCHANTMENTS
+            // ==========================================
+            EnchantmentDatabase.Add(new Enchantment { Name = "None", Description = "", AddedValue = 0, CompatibleSlots = new List<string> { "Weapon", "Chest", "Boots", "Gloves", "Head", "Shield", "Ring", "Amulet" } });
+
+            // Waffen
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fire Damage", Description = "Burns for {0} points.", AddedValue = 10, CompatibleSlots = new List<string> { "Weapon" } });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Frost Damage", Description = "Frost damage of {0} points.", AddedValue = 10, CompatibleSlots = new List<string> { "Weapon" } });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Absorb Health", Description = "Absorb {0} points of health.", AddedValue = 8, CompatibleSlots = new List<string> { "Weapon" } });
+
+            // Rüstung & Schmuck
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Health", Description = "Increases Health by {0} points.", AddedValue = 20, CompatibleSlots = new List<string> { "Chest", "Shield", "Ring", "Amulet" } });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Magicka", Description = "Increases Magicka by {0} points.", AddedValue = 20, CompatibleSlots = new List<string> { "Head", "Chest", "Ring", "Amulet" } });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify One-Handed", Description = "One-handed does {0}% more damage.", AddedValue = 15, CompatibleSlots = combatSlots });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Destruction", Description = "Destruction costs {0}% less.", AddedValue = 12, CompatibleSlots = magicSlots });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Fire", Description = "Fire resistance {0}%.", AddedValue = 15, CompatibleSlots = resistSlots });
         }
 
         private void LoadWeaponData()
@@ -859,11 +890,11 @@ namespace Skyrim_Build_Architect
                 Slot = "Chest",
                 Category = "Heavy Armor",
                 LevelVariants = new List<LeveledStat>
-    {
+                {
                 new LeveledStat { MinLevel = 1, ArmorRating = 25, Value = 550, Effect = "+20 Health, +10 Heavy Armor" },
                 new LeveledStat { MinLevel = 19, ArmorRating = 31, Value = 1200, Effect = "+35 Health, +12 Heavy Armor" },
                 new LeveledStat { MinLevel = 36, ArmorRating = 43, Value = 2800, Effect = "+50 Health, +15 Heavy Armor" }
-    }
+                }
             });
 
             ArmorDatabase.Add(new Armor
@@ -872,11 +903,11 @@ namespace Skyrim_Build_Architect
                 Slot = "Feet",
                 Category = "Heavy Armor",
                 LevelVariants = new List<LeveledStat>
-    {
+                {
                 new LeveledStat { MinLevel = 1, ArmorRating = 10, Value = 150, Effect = "+20 Stamina" },
                 new LeveledStat { MinLevel = 19, ArmorRating = 12, Value = 300, Effect = "+35 Stamina" },
                 new LeveledStat { MinLevel = 36, ArmorRating = 16, Value = 700, Effect = "+50 Stamina" }
-    }
+                }
             });
 
             ArmorDatabase.Add(new Armor
@@ -885,11 +916,11 @@ namespace Skyrim_Build_Architect
                 Slot = "Hands",
                 Category = "Heavy Armor",
                 LevelVariants = new List<LeveledStat>
-    {
+                {
                 new LeveledStat { MinLevel = 1, ArmorRating = 10, Value = 150, Effect = "+10 Heavy Armor" },
                 new LeveledStat { MinLevel = 19, ArmorRating = 12, Value = 300, Effect = "+12 Heavy Armor" },
                 new LeveledStat { MinLevel = 36, ArmorRating = 16, Value = 700, Effect = "+15 Heavy Armor" }
-    }
+                }
             });
 
             ArmorDatabase.Add(new Armor
@@ -898,11 +929,11 @@ namespace Skyrim_Build_Architect
                 Slot = "Head",
                 Category = "Heavy Armor",
                 LevelVariants = new List<LeveledStat>
-    {
+                {
                 new LeveledStat { MinLevel = 1, ArmorRating = 15, Value = 350, Effect = "+20 Magicka" },
                 new LeveledStat { MinLevel = 19, ArmorRating = 17, Value = 650, Effect = "+35 Magicka" },
                 new LeveledStat { MinLevel = 36, ArmorRating = 21, Value = 1200, Effect = "+50 Magicka" }
-    }
+                }
             });
 
             ArmorDatabase.Add(new Armor
@@ -912,11 +943,11 @@ namespace Skyrim_Build_Architect
                 Category = "Shield",
                 Weight = 12.0,
                 LevelVariants = new List<LeveledStat>
-    {
+                {
                 new LeveledStat { MinLevel = 1, ArmorRating = 20, Value = 450, Effect = "Resist Magic 10%, Block 15% better." },
                 new LeveledStat { MinLevel = 18, ArmorRating = 24, Value = 685, Effect = "Resist Magic 15%, Block 20% better." },
                 new LeveledStat { MinLevel = 40, ArmorRating = 32, Value = 2000, Effect = "Resist Magic 30%, Block 35% better." }
-    }
+                }
             });
 
             ArmorDatabase.Add(new Armor
@@ -926,11 +957,11 @@ namespace Skyrim_Build_Architect
                 Category = "Heavy Armor",
                 Weight = 9.0,
                 LevelVariants = new List<LeveledStat>
-    {
+                {
                 new LeveledStat { MinLevel = 1, ArmorRating = 23, Value = 455, Effect = "+40 Magicka" },
                 new LeveledStat { MinLevel = 45, ArmorRating = 25, Value = 510, Effect = "+60 Magicka" },
                 new LeveledStat { MinLevel = 60, ArmorRating = 27, Value = 603, Effect = "+70 Magicka" }
-    }
+                }
             });
 
             // ==========================================
@@ -995,11 +1026,11 @@ namespace Skyrim_Build_Architect
                 Category = "Light Armor",
                 Weight = 9.0,
                 LevelVariants = new List<LeveledStat>
-    {
-        new LeveledStat { MinLevel = 1, ArmorRating = 26, Value = 645, Effect = "+20 Stamina, Frost Resist 15%" },
-        new LeveledStat { MinLevel = 19, ArmorRating = 30, Value = 1115, Effect = "+30 Stamina, Frost Resist 30%" },
-        new LeveledStat { MinLevel = 32, ArmorRating = 34, Value = 1750, Effect = "+40 Stamina, Frost Resist 50%" }
-    }
+                {
+                    new LeveledStat { MinLevel = 1, ArmorRating = 26, Value = 645, Effect = "+20 Stamina, Frost Resist 15%" },
+                    new LeveledStat { MinLevel = 19, ArmorRating = 30, Value = 1115, Effect = "+30 Stamina, Frost Resist 30%" },
+                    new LeveledStat { MinLevel = 32, ArmorRating = 34, Value = 1750, Effect = "+40 Stamina, Frost Resist 50%" }
+                }
             });
 
             ArmorDatabase.Add(new Armor
@@ -1009,11 +1040,11 @@ namespace Skyrim_Build_Architect
                 Category = "Light Armor",
                 Weight = 2.0,
                 LevelVariants = new List<LeveledStat>
-    {
-        new LeveledStat { MinLevel = 1, ArmorRating = 13, Value = 475, Effect = "+40 Magicka" },
-        new LeveledStat { MinLevel = 45, ArmorRating = 15, Value = 535, Effect = "+60 Magicka" },
-        new LeveledStat { MinLevel = 60, ArmorRating = 17, Value = 635, Effect = "+70 Magicka" }
-    }
+                {
+                    new LeveledStat { MinLevel = 1, ArmorRating = 13, Value = 475, Effect = "+40 Magicka" },
+                    new LeveledStat { MinLevel = 45, ArmorRating = 15, Value = 535, Effect = "+60 Magicka" },
+                    new LeveledStat { MinLevel = 60, ArmorRating = 17, Value = 635, Effect = "+70 Magicka" }
+                }
             });
 
             // ==========================================
@@ -1280,11 +1311,11 @@ namespace Skyrim_Build_Architect
                 Category = "Jewelry",
                 Weight = 0.3,
                 LevelVariants = new List<LeveledStat>
-        {
+                {
             new LeveledStat { MinLevel = 1, Value = 500, Effect = "+20 Magicka" },
             new LeveledStat { MinLevel = 15, Value = 700, Effect = "+40 Magicka" },
             new LeveledStat { MinLevel = 25, Value = 1000, Effect = "+70 Magicka" }
-        }
+                }
             });
 
             // SORTIERUNG AM ENDE
@@ -1307,75 +1338,85 @@ namespace Skyrim_Build_Architect
         private void LoadEnchantmentData()
         {
             EnchantmentDatabase.Clear();
-            // "None" braucht keine Slots, da er im Code immer eingeblendet wird.
-            EnchantmentDatabase.Add(new Enchantment { Name = "None", AddedValue = 0, Description = "No enchantment" });
+
+            // Alle möglichen Slots für den "None"-Eintrag definieren
+            var allSlots = new List<string> { "Weapon", "Head", "Chest", "Hands", "Feet", "Shield", "Necklace", "Ring" };
+
+            // "None" bekommt jetzt alle Slots, damit er nie aus dem Filter fliegt
+            EnchantmentDatabase.Add(new Enchantment
+            {
+                Name = "None",
+                AddedValue = 0,
+                Description = "No enchantment",
+                CompatibleSlots = allSlots
+            });
 
             // ==========================================
             // WEAPON ENCHANTMENTS (Slot: "Weapon")
             // ==========================================
             var weaponOnly = new List<string> { "Weapon" };
 
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fire Damage", AddedValue = 10, AllowedSlots = weaponOnly, Description = "Burns the target for {0} points." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Frost Damage", AddedValue = 10, AllowedSlots = weaponOnly, Description = "Deals {0} points of frost damage to Health and Stamina." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Shock Damage", AddedValue = 10, AllowedSlots = weaponOnly, Description = "Deals {0} points of shock damage to Health and half as much to Magicka." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Chaos Damage (DB)", AddedValue = 15, AllowedSlots = weaponOnly, Description = "50% chance for each element to do {0} damage." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Magicka Damage", AddedValue = 15, AllowedSlots = weaponOnly, Description = "Does {0} points of Magicka damage." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Stamina Damage", AddedValue = 15, AllowedSlots = weaponOnly, Description = "Does {0} points of Stamina damage." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Absorb Health", AddedValue = 8, AllowedSlots = weaponOnly, Description = "Absorbs {0} points of Health." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Absorb Magicka", AddedValue = 10, AllowedSlots = weaponOnly, Description = "Absorbs {0} points of Magicka." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Absorb Stamina", AddedValue = 10, AllowedSlots = weaponOnly, Description = "Absorbs {0} points of Stamina." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Soul Trap", AddedValue = 5, AllowedSlots = weaponOnly, Description = "Fills a soul gem if the target dies within {0} seconds." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Paralyze", AddedValue = 2, AllowedSlots = weaponOnly, Description = "Chance to paralyze the target for {0} seconds." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Banish", AddedValue = 0, AllowedSlots = weaponOnly, Description = "Summoned Daedra up to level {0} are sent back to Oblivion." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Turn Undead", AddedValue = 0, AllowedSlots = weaponOnly, Description = "Undead up to level {0} flee for 30 seconds." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fear", AddedValue = 0, AllowedSlots = weaponOnly, Description = "Creatures and people up to level {0} flee for 30 seconds." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fire Damage", AddedValue = 10, CompatibleSlots = weaponOnly, Description = "Burns the target for {0} points." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Frost Damage", AddedValue = 10, CompatibleSlots = weaponOnly, Description = "Deals {0} points of frost damage to Health and Stamina." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Shock Damage", AddedValue = 10, CompatibleSlots = weaponOnly, Description = "Deals {0} points of shock damage to Health and half as much to Magicka." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Chaos Damage (DB)", AddedValue = 15, CompatibleSlots = weaponOnly, Description = "50% chance for each element to do {0} damage." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Magicka Damage", AddedValue = 15, CompatibleSlots = weaponOnly, Description = "Does {0} points of Magicka damage." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Stamina Damage", AddedValue = 15, CompatibleSlots = weaponOnly, Description = "Does {0} points of Stamina damage." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Absorb Health", AddedValue = 8, CompatibleSlots = weaponOnly, Description = "Absorbs {0} points of Health." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Absorb Magicka", AddedValue = 10, CompatibleSlots = weaponOnly, Description = "Absorbs {0} points of Magicka." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Absorb Stamina", AddedValue = 10, CompatibleSlots = weaponOnly, Description = "Absorbs {0} points of Stamina." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Soul Trap", AddedValue = 5, CompatibleSlots = weaponOnly, Description = "Fills a soul gem if the target dies within {0} seconds." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Paralyze", AddedValue = 2, CompatibleSlots = weaponOnly, Description = "Chance to paralyze the target for {0} seconds." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Banish", AddedValue = 0, CompatibleSlots = weaponOnly, Description = "Summoned Daedra up to level {0} are sent back to Oblivion." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Turn Undead", AddedValue = 0, CompatibleSlots = weaponOnly, Description = "Undead up to level {0} flee for 30 seconds." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fear", AddedValue = 0, CompatibleSlots = weaponOnly, Description = "Creatures and people up to level {0} flee for 30 seconds." });
 
             // ==========================================
             // APPAREL ENCHANTMENTS (According to UESP)
             // ==========================================
 
             // Fortify Attributes
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Health", AddedValue = 20, AllowedSlots = new List<string> { "Chest", "Shield", "Necklace", "Ring" }, Description = "Increases Health by {0} points." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Magicka", AddedValue = 20, AllowedSlots = new List<string> { "Head", "Hands", "Necklace", "Ring" }, Description = "Increases Magicka by {0} points." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Stamina", AddedValue = 20, AllowedSlots = new List<string> { "Chest", "Feet", "Necklace", "Ring" }, Description = "Increases Stamina by {0} points." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Carry Weight", AddedValue = 15, AllowedSlots = new List<string> { "Feet", "Hands", "Necklace", "Ring" }, Description = "Carrying capacity increased by {0} points." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Unarmed", AddedValue = 5, AllowedSlots = new List<string> { "Hands", "Ring" }, Description = "Unarmed strikes do {0} additional damage." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Health", AddedValue = 20, CompatibleSlots = new List<string> { "Chest", "Shield", "Necklace", "Ring" }, Description = "Increases Health by {0} points." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Magicka", AddedValue = 20, CompatibleSlots = new List<string> { "Head", "Hands", "Necklace", "Ring" }, Description = "Increases Magicka by {0} points." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Stamina", AddedValue = 20, CompatibleSlots = new List<string> { "Chest", "Feet", "Necklace", "Ring" }, Description = "Increases Stamina by {0} points." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Carry Weight", AddedValue = 15, CompatibleSlots = new List<string> { "Feet", "Hands", "Necklace", "Ring" }, Description = "Carrying capacity increased by {0} points." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Unarmed", AddedValue = 5, CompatibleSlots = new List<string> { "Hands", "Ring" }, Description = "Unarmed strikes do {0} additional damage." });
 
             // Fortify Combat Skills
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Archery", AddedValue = 15, AllowedSlots = new List<string> { "Head", "Hands", "Necklace", "Ring" }, Description = "Bows do {0}% more damage." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify One-Handed", AddedValue = 15, AllowedSlots = new List<string> { "Hands", "Feet", "Necklace", "Ring" }, Description = "One-handed weapons do {0}% more damage." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Two-Handed", AddedValue = 15, AllowedSlots = new List<string> { "Hands", "Feet", "Necklace", "Ring" }, Description = "Two-handed weapons do {0}% more damage." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Block", AddedValue = 15, AllowedSlots = new List<string> { "Hands", "Shield", "Necklace", "Ring" }, Description = "Blocks are {0}% more effective." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Archery", AddedValue = 15, CompatibleSlots = new List<string> { "Head", "Hands", "Necklace", "Ring" }, Description = "Bows do {0}% more damage." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify One-Handed", AddedValue = 15, CompatibleSlots = new List<string> { "Hands", "Feet", "Necklace", "Ring" }, Description = "One-handed weapons do {0}% more damage." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Two-Handed", AddedValue = 15, CompatibleSlots = new List<string> { "Hands", "Feet", "Necklace", "Ring" }, Description = "Two-handed weapons do {0}% more damage." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Block", AddedValue = 15, CompatibleSlots = new List<string> { "Hands", "Shield", "Necklace", "Ring" }, Description = "Blocks are {0}% more effective." });
 
             // Fortify Stealth & Utility Skills
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Sneak", AddedValue = 15, AllowedSlots = new List<string> { "Feet", "Hands", "Necklace", "Ring" }, Description = "Sneaking is {0}% better." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Lockpicking", AddedValue = 15, AllowedSlots = new List<string> { "Head", "Hands", "Necklace", "Ring" }, Description = "Lockpicking is {0}% easier." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Pickpocket", AddedValue = 15, AllowedSlots = new List<string> { "Hands", "Feet", "Necklace", "Ring" }, Description = "Pickpocketing is {0}% easier." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Barter", AddedValue = 10, AllowedSlots = new List<string> { "Necklace" }, Description = "Prices are {0}% better." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Sneak", AddedValue = 15, CompatibleSlots = new List<string> { "Feet", "Hands", "Necklace", "Ring" }, Description = "Sneaking is {0}% better." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Lockpicking", AddedValue = 15, CompatibleSlots = new List<string> { "Head", "Hands", "Necklace", "Ring" }, Description = "Lockpicking is {0}% easier." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Pickpocket", AddedValue = 15, CompatibleSlots = new List<string> { "Hands", "Feet", "Necklace", "Ring" }, Description = "Pickpocketing is {0}% easier." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Barter", AddedValue = 10, CompatibleSlots = new List<string> { "Necklace" }, Description = "Prices are {0}% better." });
 
             // Magic School Cost Reduction
             var magicSchools = new List<string> { "Head", "Chest", "Necklace", "Ring" };
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Alteration", AddedValue = 12, AllowedSlots = magicSchools, Description = "Alteration spells cost {0}% less to cast." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Conjuration", AddedValue = 12, AllowedSlots = magicSchools, Description = "Conjuration spells cost {0}% less to cast." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Destruction", AddedValue = 12, AllowedSlots = magicSchools, Description = "Destruction spells cost {0}% less to cast." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Illusion", AddedValue = 12, AllowedSlots = magicSchools, Description = "Illusion spells cost {0}% less to cast." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Restoration", AddedValue = 12, AllowedSlots = magicSchools, Description = "Restoration spells cost {0}% less to cast." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Alteration", AddedValue = 12, CompatibleSlots = magicSchools, Description = "Alteration spells cost {0}% less to cast." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Conjuration", AddedValue = 12, CompatibleSlots = magicSchools, Description = "Conjuration spells cost {0}% less to cast." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Destruction", AddedValue = 12, CompatibleSlots = magicSchools, Description = "Destruction spells cost {0}% less to cast." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Illusion", AddedValue = 12, CompatibleSlots = magicSchools, Description = "Illusion spells cost {0}% less to cast." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Restoration", AddedValue = 12, CompatibleSlots = magicSchools, Description = "Restoration spells cost {0}% less to cast." });
 
             // Resistances
             var elementalResist = new List<string> { "Chest", "Feet", "Shield", "Necklace", "Ring" };
-            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Fire", AddedValue = 15, AllowedSlots = elementalResist, Description = "Increases Fire Resistance by {0}%." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Frost", AddedValue = 15, AllowedSlots = elementalResist, Description = "Increases Frost Resistance by {0}%." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Shock", AddedValue = 15, AllowedSlots = elementalResist, Description = "Increases Shock Resistance by {0}%." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Magic", AddedValue = 8, AllowedSlots = new List<string> { "Shield", "Necklace", "Ring" }, Description = "Increases Magic Resistance by {0}%." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Poison", AddedValue = 50, AllowedSlots = new List<string> { "Chest", "Necklace", "Ring" }, Description = "Increases Poison Resistance by {0}%." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Disease", AddedValue = 50, AllowedSlots = new List<string> { "Chest", "Necklace", "Ring" }, Description = "Increases Disease Resistance by {0}%." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Fire", AddedValue = 15, CompatibleSlots = elementalResist, Description = "Increases Fire Resistance by {0}%." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Frost", AddedValue = 15, CompatibleSlots = elementalResist, Description = "Increases Frost Resistance by {0}%." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Shock", AddedValue = 15, CompatibleSlots = elementalResist, Description = "Increases Shock Resistance by {0}%." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Magic", AddedValue = 8, CompatibleSlots = new List<string> { "Shield", "Necklace", "Ring" }, Description = "Increases Magic Resistance by {0}%." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Poison", AddedValue = 50, CompatibleSlots = new List<string> { "Chest", "Necklace", "Ring" }, Description = "Increases Poison Resistance by {0}%." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Resist Disease", AddedValue = 50, CompatibleSlots = new List<string> { "Chest", "Necklace", "Ring" }, Description = "Increases Disease Resistance by {0}%." });
 
             // Regeneration & Misc
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Magicka Regen", AddedValue = 20, AllowedSlots = new List<string> { "Head", "Chest", "Ring" }, Description = "Magicka regenerates {0}% faster." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Stamina Regen", AddedValue = 20, AllowedSlots = new List<string> { "Chest", "Feet", "Necklace" }, Description = "Stamina regenerates {0}% faster." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Health Regen", AddedValue = 20, AllowedSlots = new List<string> { "Chest", "Necklace", "Ring" }, Description = "Health regenerates {0}% faster." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Waterbreathing", AddedValue = 0, AllowedSlots = new List<string> { "Head", "Necklace", "Ring" }, Description = "Can breathe under water." });
-            EnchantmentDatabase.Add(new Enchantment { Name = "Muffle", AddedValue = 0, AllowedSlots = new List<string> { "Feet" }, Description = "Wearer moves silently." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Magicka Regen", AddedValue = 20, CompatibleSlots = new List<string> { "Head", "Chest", "Ring" }, Description = "Magicka regenerates {0}% faster." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Stamina Regen", AddedValue = 20, CompatibleSlots = new List<string> { "Chest", "Feet", "Necklace" }, Description = "Stamina regenerates {0}% faster." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Health Regen", AddedValue = 20, CompatibleSlots = new List<string> { "Chest", "Necklace", "Ring" }, Description = "Health regenerates {0}% faster." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Waterbreathing", AddedValue = 0, CompatibleSlots = new List<string> { "Head", "Necklace", "Ring" }, Description = "Can breathe under water." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Muffle", AddedValue = 0, CompatibleSlots = new List<string> { "Feet" }, Description = "Wearer moves silently." });
         }
 
         private void LoadSoulGemData()
