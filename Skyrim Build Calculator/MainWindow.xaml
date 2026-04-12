@@ -243,7 +243,7 @@
                 </ComboBox>
 
                 <TextBlock x:Name="LblSoulGem" Text="Soul Gem:" Foreground="#E1B80D" Margin="0,0,0,2"/>
-                <ComboBox x:Name="CmbSoulGem" SelectionChanged="CmbSoulGem_SelectionChanged" Margin="0,0,0,20">
+                <ComboBox x:Name="CmbSoulGem" SelectionChanged="CmbSoulGem_SelectionChanged" Margin="0,0,0,10">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}" Foreground="#E1B80D" />
@@ -299,6 +299,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>

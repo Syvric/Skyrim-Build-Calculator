@@ -314,7 +314,9 @@ namespace Skyrim_Build_Architect
             CalculateAttributes();
 
             // --- 2. SCHRITT: DER TÜRSTEHER ---
-            if (CmbSelect == null || CmbEnchantment == null || CmbEnchantment2 == null || CmbDifficulty == null || CmbSelect.SelectedItem == null) return;
+            // CmbSoulGem wurde zur Sicherheitsabfrage hinzugefügt
+            if (CmbSelect == null || CmbEnchantment == null || CmbEnchantment2 == null ||
+                CmbSoulGem == null || CmbDifficulty == null || CmbSelect.SelectedItem == null) return;
 
             // --- 3. SCHRITT: ITEM-SPEZIFISCHE BERECHNUNG ---
             int level = int.TryParse(TxtPlayerLevel.Text, out int l) ? l : 1;
@@ -324,16 +326,18 @@ namespace Skyrim_Build_Architect
             var selectedEnch = CmbEnchantment.SelectedItem as Enchantment;
             var selectedEnch2 = CmbEnchantment2.SelectedItem as Enchantment;
 
+            // --- SEELENSTEIN HOLEN ---
+            var selectedGem = CmbSoulGem.SelectedItem as SoulGem;
+            double gemMultiplier = selectedGem?.Multiplier ?? 1.0;
+
             // --- DOPPEL-CHECK: Skyrim erlaubt nicht 2x denselben Effekt ---
             if (selectedEnch != null && selectedEnch2 != null &&
                 selectedEnch.Name != "None" && selectedEnch.Name == selectedEnch2.Name)
             {
-                // Wir unterdrücken kurz die Berechnung, um eine Endlosschleife zu verhindern
                 _isCalculating = true;
                 CmbEnchantment2.SelectedIndex = 0;
                 _isCalculating = false;
 
-                // Wert für die weitere Berechnung aktualisieren
                 selectedEnch2 = CmbEnchantment2.SelectedItem as Enchantment;
             }
 
@@ -355,8 +359,8 @@ namespace Skyrim_Build_Architect
                     return;
                 }
 
-                // Aufruf des Rechners mit beiden Verzauberungen
-                var calcResult = SkyrimCalculator.CalculateWeapon(w, level, active, dMult, selectedEnch, selectedEnch2);
+                // Aufruf des Rechners mit beiden Verzauberungen UND dem gemMultiplier
+                var calcResult = SkyrimCalculator.CalculateWeapon(w, level, active, dMult, selectedEnch, selectedEnch2, gemMultiplier);
 
                 TxtWeaponCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
                                          ? w.Category
@@ -384,8 +388,8 @@ namespace Skyrim_Build_Architect
                     return;
                 }
 
-                // Aufruf des Rechners mit beiden Verzauberungen
-                var calcResult = SkyrimCalculator.CalculateArmor(a, level, active, selectedEnch, selectedEnch2);
+                // Aufruf des Rechners mit beiden Verzauberungen UND dem gemMultiplier
+                var calcResult = SkyrimCalculator.CalculateArmor(a, level, active, selectedEnch, selectedEnch2, gemMultiplier);
 
                 TxtArmorCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
                                          ? a.Slot
@@ -419,6 +423,27 @@ namespace Skyrim_Build_Architect
             }
 
             CmbSelect.SelectedIndex = 0;
+        }
+
+        private void Perk_Click(object sender, RoutedEventArgs e)
+        {
+            // Wir prüfen, ob der Absender eine CheckBox ist UND ob sie Text enthält
+            if (sender is CheckBox chk && chk.Content != null)
+            {
+                string perkName = chk.Content.ToString() ?? "";
+
+                // Wir suchen den Perk in der Datenbank (und stellen sicher, dass p.Name nicht null ist)
+                var perk = PerkDatabase.FirstOrDefault(p =>
+                    p.Name != null && perkName != "" && p.Name.Contains(perkName));
+
+                if (perk != null)
+                {
+                    perk.IsActive = chk.IsChecked ?? false;
+                }
+            }
+
+            // Alles neu berechnen
+            UpdateCalculations();
         }
 
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e) => ApplyItemFilter();

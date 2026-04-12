@@ -104,7 +104,7 @@ namespace Skyrim_Build_Architect
         public string SkillGroup { get; set; } = "Enchanting";
         public string Description { get; set; } = "";
 
-        // Von 'AllowedSlots' zu 'CompatibleSlots' umbenannt:
+        // Das muss EXAKT so heißen, damit die Fehler in MainWindow verschwinden:
         public List<string> CompatibleSlots { get; set; } = new List<string>();
     }
 

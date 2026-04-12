@@ -39,7 +39,8 @@ namespace Skyrim_Build_Architect
     List<Perk> activePerks,
     double difficultyMult,
     Enchantment? ench1,
-    Enchantment? ench2 = null) // Unterstützt jetzt zwei Verzauberungen
+    Enchantment? ench2,
+    double gemMult) // NEU: Seelenstein-Multiplikator wird hier übernommen
         {
             var result = new WeaponCalculationResult();
             var stats = w.GetStatsForLevel(level);
@@ -96,20 +97,22 @@ namespace Skyrim_Build_Architect
             if (!string.IsNullOrEmpty(stats.eff) && stats.eff != "None")
                 effectTexts.Add(stats.eff);
 
-            // Interne Helfer-Funktion für die Berechnung einzelner Enchantments
+            // Interne Helfer-Funktion (jetzt mit gemMult)
             string ProcessEnch(Enchantment? ench)
             {
                 if (ench == null || ench.Name == "None") return "";
 
                 string eName = ench.Name.ToLower();
+                // Basis-Enchanter Perks (1/5 bis 5/5)
                 double eMult = activePerks.Where(p => p.SkillGroup == "Enchanting").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
 
-                // Elementar-Perks anwenden
+                // Elementar-Perks anwenden (Spezial-Perks)
                 if (activePerks.Any(p => p.Name.Contains("Fire Enchanter")) && (eName.Contains("fire") || eName.Contains("burn"))) eMult *= 1.25;
                 if (activePerks.Any(p => p.Name.Contains("Frost Enchanter")) && eName.Contains("frost")) eMult *= 1.25;
                 if (activePerks.Any(p => p.Name.Contains("Storm Enchanter")) && (eName.Contains("shock") || eName.Contains("lightning"))) eMult *= 1.25;
 
-                double mag = ench.AddedValue * eMult;
+                // BERECHNUNG: Basiswert * Perk-Bonus * Seelenstein-Multiplikator
+                double mag = ench.AddedValue * eMult * gemMult;
                 return string.Format(ench.Description, Math.Round(mag));
             }
 
@@ -120,7 +123,7 @@ namespace Skyrim_Build_Architect
             string res2 = ProcessEnch(ench2);
             if (!string.IsNullOrEmpty(res2)) effectTexts.Add(res2);
 
-            // Texte zusammenfügen (z.B. "Feuerschaden + Frostschaden")
+            // Texte zusammenfügen
             result.FinalEffectText = effectTexts.Count > 0 ? string.Join(" + ", effectTexts) : "None";
 
             return result;
@@ -128,11 +131,12 @@ namespace Skyrim_Build_Architect
 
         // 2. RÜSTUNGS-BERECHNUNG
         public static ArmorCalculationResult CalculateArmor(
-    Armor a,
-    int level,
-    List<Perk> activePerks,
-    Enchantment? ench1,
-    Enchantment? ench2 = null) // Unterstützt jetzt zwei Slots
+            Armor a,
+            int level,
+            List<Perk> activePerks,
+            Enchantment? ench1,
+            Enchantment? ench2,
+            double gemMult) // NEU: Der Seelenstein-Multiplikator
         {
             var result = new ArmorCalculationResult();
             var stats = a.GetStatsForLevel(level);
@@ -164,41 +168,39 @@ namespace Skyrim_Build_Architect
             else if (category == "light")
                 aMult = activePerks.Where(p => p.SkillGroup == "LightArmor").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
 
-            // HIER WAR DER FEHLER: stats.rating statt stats.dmg benutzen!
+            // Finaler Rüstungswert
             result.FinalArmorRating = (stats.rating + smithingBonus) * aMult;
 
             // 3. Verzauberungen berechnen
             List<string> effectTexts = new List<string>();
 
-            // Bestehenden Rüstungs-Effekt (z.B. von Quest-Items) hinzufügen
+            // Bestehenden Rüstungs-Effekt hinzufügen
             if (!string.IsNullOrEmpty(stats.eff) && stats.eff != "None")
                 effectTexts.Add(stats.eff);
 
-            // Helfer-Funktion für Rüstungs-Enchantments
+            // Helfer-Funktion (jetzt inklusive gemMult)
             string ProcessArmorEnch(Enchantment? ench)
             {
                 if (ench == null || ench.Name == "None") return "";
 
                 string eName = ench.Name.ToLower();
-                string eDesc = ench.Description.ToLower();
-
-                // Basis-Enchanting Perk (1.2 bis 2.0)
                 double eMult = activePerks.Where(p => p.SkillGroup == "Enchanting").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
 
-                // Corpus Enchanter Perk (+25% auf Stats)
-                if (activePerks.Any(p => p.Name.Contains("Corpus Enchanter")))
+                // Logik-Check: Ist es ein Stat (H/M/S) oder ein Skill?
+                bool isStat = eName.Contains("health") || eName.Contains("magicka") || eName.Contains("stamina");
+
+                if (isStat)
                 {
-                    if (eName.Contains("health") || eName.Contains("magicka") || eName.Contains("stamina"))
-                        eMult *= 1.25;
+                    // Corpus wirkt NUR auf Health, Magicka, Stamina
+                    if (activePerks.Any(p => p.Name.Contains("Corpus Enchanter"))) eMult *= 1.25;
+                }
+                else
+                {
+                    // Insightful wirkt auf ALLES ANDERE (Skills)
+                    if (activePerks.Any(p => p.Name.Contains("Insightful Enchanter"))) eMult *= 1.25;
                 }
 
-                // Insightful Enchanter Perk (+25% auf Skills/Rüstungs-Effekte)
-                if (activePerks.Any(p => p.Name.Contains("Insightful Enchanter")))
-                {
-                    eMult *= 1.25;
-                }
-
-                double mag = ench.AddedValue * eMult;
+                double mag = ench.AddedValue * eMult * gemMult;
                 return string.Format(ench.Description, Math.Round(mag));
             }
 
@@ -209,7 +211,7 @@ namespace Skyrim_Build_Architect
             string res2 = ProcessArmorEnch(ench2);
             if (!string.IsNullOrEmpty(res2)) effectTexts.Add(res2);
 
-            // Effekte mit " + " verbinden
+            // Texte zusammenführen
             result.FinalEffectText = effectTexts.Count > 0 ? string.Join(" + ", effectTexts) : "None";
 
             return result;
