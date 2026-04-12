@@ -1,176 +1,14 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-
-namespace Skyrim_Build_Architect
-{
-    // --- DIE DATEN-MODELLE ---
-    public class Weapon
-    {
-        public string Name { get; set; } = "";
-        public string Category { get; set; } = "";
-        public string Slot => "Weapon";
-        public double Damage { get; set; }
-        public double Value { get; set; }
-        public double Reach { get; set; }
-        public double Speed { get; set; }
-        public double Stagger { get; set; }
-        public string Effect { get; set; } = "";
-        public bool IsEnchantable { get; set; } = true;
-        public List<LeveledStat> LevelVariants { get; set; } = new List<LeveledStat>();
-
-        public (double dmg, double val, string eff) GetStatsForLevel(int playerLevel)
-        {
-            if (LevelVariants == null || LevelVariants.Count == 0) return (Damage, Value, Effect);
-            var match = LevelVariants.Where(v => playerLevel >= v.MinLevel).OrderByDescending(v => v.MinLevel).FirstOrDefault();
-            return match != null ? (match.Damage, match.Value, match.Effect) : (Damage, Value, Effect);
-        }
-    }
-
-    public class Armor
-    {
-        public string Name { get; set; } = "";
-        public string Category { get; set; } = "";
-        public string Slot { get; set; } = "";
-        public double ArmorRating { get; set; }
-        public double Weight { get; set; }
-        public double Value { get; set; }
-        public string Effect { get; set; } = "None";
-        public List<LeveledStat> LevelVariants { get; set; } = new List<LeveledStat>();
-
-        public (double rating, double val, string eff) GetStatsForLevel(int l)
-        {
-            var f = LevelVariants.OrderByDescending(v => v.MinLevel).FirstOrDefault(v => l >= v.MinLevel);
-            return f != null ? (f.ArmorRating, f.Value, f.Effect) : (ArmorRating, Value, Effect);
-        }
-    }
-
-    public class Perk : System.ComponentModel.INotifyPropertyChanged
-    {
-        private bool _isActive;
-        private bool _isAvailable = true;
-
-        public string Name { get; set; } = "";
-        public string BaseName { get; set; } = "";
-        public string Description { get; set; } = "";
-        public int RequiredLevel { get; set; }
-        public string Category { get; set; } = "";    // z.B. WARRIOR
-        public string SubCategory { get; set; } = ""; // z.B. One-Handed
-        public string SkillGroup { get; set; } = "";
-        public double Multiplier { get; set; } = 1.0;
-
-        public bool IsActive
-        {
-            get => _isActive;
-            set
-            {
-                if (_isActive != value)
-                {
-                    _isActive = value;
-                    OnPropertyChanged(nameof(IsActive));
-                }
-            }
-        }
-
-        public bool IsAvailable
-        {
-            get => _isAvailable;
-            set
-            {
-                if (_isAvailable != value)
-                {
-                    _isAvailable = value;
-                    OnPropertyChanged(nameof(IsAvailable));
-                }
-            }
-        }
-
-        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-    }
-
-    public class LeveledStat
-    {
-        public int MinLevel { get; set; }
-        public double Damage { get; set; }
-        public double ArmorRating { get; set; }
-        public double Value { get; set; }
-        public string Effect { get; set; } = "";
-    }
-
-    public class Enchantment
-    {
-        public string Name { get; set; } = "";
-        public double AddedValue { get; set; }
-        public string SkillGroup { get; set; } = "Enchanting";
-        public string Description { get; set; } = "";
-        public List<string> AllowedSlots { get; set; } = new List<string>();
-    }
-
-    public class SoulGem
-    {
-        public string Name { get; set; } = "";
-        public double Multiplier { get; set; }
-    }
-
-    public class Difficulty
-    {
-        public string Name { get; set; } = "";
-        public double DamageDealtMultiplier { get; set; }
-        public double DamageTakenMultiplier { get; set; }
-    }
-
-    public class Race
-    {
-        public string Name { get; set; } = "";
-        public string PassiveEffect { get; set; } = "";
-        public string Power { get; set; } = "";
-        public int BonusMagicka { get; set; } = 0;
-    }
-
-    public class EquippedItemDisplay
-    {
-        public string Slot { get; set; } = "";
-        public string ItemName { get; set; } = "";
-        public string Enchantment { get; set; } = "";
-        public string Rating { get; set; } = "";
-    }
-
-    public class StandingStone
-    {
-        public string Name { get; set; } = "";
-        public string Description { get; set; } = "";
-        public int BonusMagicka { get; set; } = 0;
-        public int BonusArmor { get; set; } = 0;
-        public int BonusMagicResist { get; set; } = 0;
-        public double MagickaRegenMult { get; set; } = 1.0;
-        public double HealthRegenMult { get; set; } = 1.0;
-        public double StaminaRegenMult { get; set; } = 1.0;
-        public double SpellAbsorption { get; set; } = 0;
-    }
-
-    public class SavedBuild
-    {
-        public string BuildName { get; set; } = "";
-        public string SelectedRace { get; set; } = "";
-        public int Level { get; set; }
-        public int InvestMagicka { get; set; }
-        public int InvestHealth { get; set; }
-        public int InvestStamina { get; set; }
-        public List<string> ActivePerkNames { get; set; } = new List<string>();
-    }
-}
 
 namespace Skyrim_Build_Architect
 {
@@ -235,22 +73,6 @@ namespace Skyrim_Build_Architect
         }
 
         // --- CHARACTER CORE LOGIK ---
-
-        private void LoadRaceData()
-        {
-            RaceDatabase.Clear();
-            RaceDatabase.Add(new Race { Name = "None", PassiveEffect = "No passive effect selected.", Power = "None", BonusMagicka = 0 });
-            RaceDatabase.Add(new Race { Name = "Altmer (High Elf)", PassiveEffect = "+50 Base Magicka", Power = "Highborn", BonusMagicka = 50 });
-            RaceDatabase.Add(new Race { Name = "Argonian", PassiveEffect = "Waterbreathing, 50% Disease Resist", Power = "Histskin" });
-            RaceDatabase.Add(new Race { Name = "Bosmer (Wood Elf)", PassiveEffect = "50% Poison/Disease Resist", Power = "Command Animal" });
-            RaceDatabase.Add(new Race { Name = "Breton", PassiveEffect = "25% Magic Resistance", Power = "Dragonskin" });
-            RaceDatabase.Add(new Race { Name = "Dunmer (Dark Elf)", PassiveEffect = "50% Fire Resistance", Power = "Ancestor's Wrath" });
-            RaceDatabase.Add(new Race { Name = "Imperial", PassiveEffect = "Find more Gold", Power = "Voice of the Emperor" });
-            RaceDatabase.Add(new Race { Name = "Khajiit", PassiveEffect = "Claw Damage, Night Eye", Power = "Night Eye" });
-            RaceDatabase.Add(new Race { Name = "Nord", PassiveEffect = "50% Frost Resistance", Power = "Battle Cry" });
-            RaceDatabase.Add(new Race { Name = "Orc", PassiveEffect = "None", Power = "Berserker Rage" });
-            RaceDatabase.Add(new Race { Name = "Redguard", PassiveEffect = "50% Poison Resistance", Power = "Adrenaline Rush" });
-        }
 
         private void CmbRace_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -427,13 +249,11 @@ namespace Skyrim_Build_Architect
             }
         }
 
-        // --- HIER IST DIE SAUBERE UPDATE TOTAL STATS METHODE ---
         private void UpdateTotalBuildStats()
         {
             var sortedDisplayList = new List<EquippedItemDisplay>();
             string[] slotOrder = { "Weapon", "Head", "Necklace", "Chest", "Hands", "Ring", "Feet", "Shield" };
 
-            // 1. Ausgerüstete Items in die richtige Reihenfolge bringen
             foreach (var slotName in slotOrder)
             {
                 if (CurrentBuild.ContainsKey(slotName) && CurrentBuild[slotName] != null)
@@ -442,14 +262,11 @@ namespace Skyrim_Build_Architect
                 }
             }
 
-            // 2. Den Taschenrechner rufen! (Keine Mathematik mehr hier!)
             var activePerks = PerkDatabase.Where(p => p.IsActive).ToList();
             var stone = CmbStandingStone.SelectedItem as StandingStone;
 
-            // WICHTIG: Erfordert die Methode "CalculateTotalStats" in SkyrimCalculator.cs
             var stats = SkyrimCalculator.CalculateTotalStats(sortedDisplayList, activePerks, stone);
 
-            // 3. UI updaten
             if (TxtTotalArmor != null) TxtTotalArmor.Text = Math.Round(stats.TotalArmor).ToString();
             if (TxtTotalDamage != null) TxtTotalDamage.Text = Math.Round(stats.TotalDamage).ToString();
             if (TxtSneakDamage != null) TxtSneakDamage.Text = stats.TotalSneak.ToString("0");
@@ -461,7 +278,6 @@ namespace Skyrim_Build_Architect
             }
         }
 
-        // --- HIER IST DIE NEUE, KOMPLETTE UPDATE CALCULATIONS METHODE ---
         private void UpdateCalculations()
         {
             if (CmbSelect == null || CmbEnchantment == null || CmbDifficulty == null || CmbSelect.SelectedItem == null) return;
@@ -490,7 +306,6 @@ namespace Skyrim_Build_Architect
                     return;
                 }
 
-                // Waffe berechnen
                 var calcResult = SkyrimCalculator.CalculateWeapon(w, level, active, dMult, selectedEnch);
 
                 TxtWeaponCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
@@ -519,7 +334,6 @@ namespace Skyrim_Build_Architect
                     return;
                 }
 
-                // Rüstung berechnen
                 var calcResult = SkyrimCalculator.CalculateArmor(a, level, active, selectedEnch);
 
                 TxtArmorCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
@@ -621,7 +435,6 @@ namespace Skyrim_Build_Architect
             ApplyItemFilter();
         }
 
-        // --- HIER IST DIE AUFGERÄUMTE SELECTION CHANGED METHODE ---
         private void CmbSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CmbSelect.SelectedItem == null) return;
@@ -634,7 +447,6 @@ namespace Skyrim_Build_Architect
             else if (!isWeaponMode && CmbSelect.SelectedItem is Armor a)
             {
                 CmbEnchantment.IsEnabled = true;
-                // UI-Updates entfernt, passiert jetzt sauber in UpdateCalculations!
             }
 
             UpdateEnchantmentList();
@@ -694,27 +506,6 @@ namespace Skyrim_Build_Architect
 
             CmbEnchantment.ItemsSource = filteredList;
             if (filteredList.Count > 0) CmbEnchantment.SelectedIndex = 0;
-        }
-
-        private void LoadStandingStones()
-        {
-            StandingStoneDatabase.Clear();
-            StandingStoneDatabase.Add(new StandingStone { Name = "None", Description = "No stone selected." });
-
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Mage Stone", Description = "Magic skills advance 20% faster." });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Thief Stone", Description = "Thief skills advance 20% faster." });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Warrior Stone", Description = "Warrior skills advance 20% faster." });
-
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Apprentice Stone", Description = "+100% Magicka Regen, -50% Magic Resistance", MagickaRegenMult = 2.0, BonusMagicResist = -50 });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Atronach Stone", Description = "+50 Magicka, 50% Spell Absorption, -50% Magicka Regen", BonusMagicka = 50, SpellAbsorption = 50, MagickaRegenMult = 0.5 });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Lady Stone", Description = "+25% Health & Stamina Regen", HealthRegenMult = 1.25, StaminaRegenMult = 1.25 });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Lord Stone", Description = "+50 Armor, +25% Magic Resistance", BonusArmor = 50, BonusMagicResist = 25 });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Lover Stone", Description = "All skills advance 15% faster." });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Ritual Stone", Description = "Reanimate all nearby corpses to fight for you once a day." });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Serpent Stone", Description = "Paralyze target for 5s and do 25 poison damage once a day." });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Shadow Stone", Description = "Invisibility for 60s once a day." });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Steed Stone", Description = "+100 Carry Weight, Equipped armor weighs nothing." });
-            StandingStoneDatabase.Add(new StandingStone { Name = "The Tower Stone", Description = "Unlock any Expert level lock or lower once a day." });
         }
 
         private void CmbStandingStone_SelectionChanged(object sender, SelectionChangedEventArgs e)

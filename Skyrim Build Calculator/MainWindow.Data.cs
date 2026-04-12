@@ -118,7 +118,7 @@ namespace Skyrim_Build_Architect
             PerkDatabase.Add(new Perk { Name = "Reflect Blows (10%)", BaseName = "Reflect Blows", Description = "10% chance to reflect melee damage back to the enemy while wearing all Heavy Armor.", RequiredLevel = 100, SkillGroup = "None", Category = "WARRIOR", SubCategory = ha });
 
             // SMITHING
-            
+
             string cCat = "WARRIOR"; // Hier von "CRAFTS" auf "WARRIOR" geändert
             string cSub = "SMITHING";
 
@@ -312,9 +312,9 @@ namespace Skyrim_Build_Architect
             PerkDatabase.Add(new Perk { Name = "Recovery (1/2)", BaseName = "Recovery", Description = "Magicka regenerates 25% faster.", RequiredLevel = 30, Category = "MAGE", SubCategory = re });
             PerkDatabase.Add(new Perk { Name = "Recovery (2/2)", BaseName = "Recovery", Description = "Magicka regenerates 50% faster.", RequiredLevel = 60, Category = "MAGE", SubCategory = re });
             PerkDatabase.Add(new Perk { Name = "Avoid Death", BaseName = "Avoid Death", Description = "Once a day, heals 250 points automatically if you fall below 10% health.", RequiredLevel = 90, Category = "MAGE", SubCategory = re });
-   
+
             // ENCHANTING
-            
+
             string en = "ENCHANTING";
             // WICHTIG: Hier im AddP auch "MAGE" statt "CRAFTS" eintragen
             AddP("Enchanter", "New enchantments are {X}% stronger.", "Enchanting", "MAGE", en, 5, 0.2, 0, 20, 20, 20);
@@ -1396,5 +1396,43 @@ namespace Skyrim_Build_Architect
             SoulGemDatabase.Add(new SoulGem { Name = "Azura's Star", Multiplier = 1.0 });
             SoulGemDatabase.Add(new SoulGem { Name = "The Black Star", Multiplier = 1.0 });
         }
+
+        private void LoadRaceData()
+        {
+            RaceDatabase.Clear();
+            RaceDatabase.Add(new Race { Name = "None", PassiveEffect = "No passive effect selected.", Power = "None", BonusMagicka = 0 });
+            RaceDatabase.Add(new Race { Name = "Altmer (High Elf)", PassiveEffect = "+50 Base Magicka", Power = "Highborn", BonusMagicka = 50 });
+            RaceDatabase.Add(new Race { Name = "Argonian", PassiveEffect = "Waterbreathing, 50% Disease Resist", Power = "Histskin" });
+            RaceDatabase.Add(new Race { Name = "Bosmer (Wood Elf)", PassiveEffect = "50% Poison/Disease Resist", Power = "Command Animal" });
+            RaceDatabase.Add(new Race { Name = "Breton", PassiveEffect = "25% Magic Resistance", Power = "Dragonskin" });
+            RaceDatabase.Add(new Race { Name = "Dunmer (Dark Elf)", PassiveEffect = "50% Fire Resistance", Power = "Ancestor's Wrath" });
+            RaceDatabase.Add(new Race { Name = "Imperial", PassiveEffect = "Find more Gold", Power = "Voice of the Emperor" });
+            RaceDatabase.Add(new Race { Name = "Khajiit", PassiveEffect = "Claw Damage, Night Eye", Power = "Night Eye" });
+            RaceDatabase.Add(new Race { Name = "Nord", PassiveEffect = "50% Frost Resistance", Power = "Battle Cry" });
+            RaceDatabase.Add(new Race { Name = "Orc", PassiveEffect = "None", Power = "Berserker Rage" });
+            RaceDatabase.Add(new Race { Name = "Redguard", PassiveEffect = "50% Poison Resistance", Power = "Adrenaline Rush" });
+        }
+
+        private void LoadStandingStones()
+        {
+            StandingStoneDatabase.Clear();
+            StandingStoneDatabase.Add(new StandingStone { Name = "None", Description = "No stone selected." });
+
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Mage Stone", Description = "Magic skills advance 20% faster." });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Thief Stone", Description = "Thief skills advance 20% faster." });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Warrior Stone", Description = "Warrior skills advance 20% faster." });
+
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Apprentice Stone", Description = "+100% Magicka Regen, -50% Magic Resistance", MagickaRegenMult = 2.0, BonusMagicResist = -50 });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Atronach Stone", Description = "+50 Magicka, 50% Spell Absorption, -50% Magicka Regen", BonusMagicka = 50, SpellAbsorption = 50, MagickaRegenMult = 0.5 });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Lady Stone", Description = "+25% Health & Stamina Regen", HealthRegenMult = 1.25, StaminaRegenMult = 1.25 });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Lord Stone", Description = "+50 Armor, +25% Magic Resistance", BonusArmor = 50, BonusMagicResist = 25 });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Lover Stone", Description = "All skills advance 15% faster." });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Ritual Stone", Description = "Reanimate all nearby corpses to fight for you once a day." });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Serpent Stone", Description = "Paralyze target for 5s and do 25 poison damage once a day." });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Shadow Stone", Description = "Invisibility for 60s once a day." });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Steed Stone", Description = "+100 Carry Weight, Equipped armor weighs nothing." });
+            StandingStoneDatabase.Add(new StandingStone { Name = "The Tower Stone", Description = "Unlock any Expert level lock or lower once a day." });
+        }
+
     }
 }
