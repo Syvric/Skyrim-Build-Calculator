@@ -427,59 +427,32 @@ namespace Skyrim_Build_Architect
             }
         }
 
+        // --- HIER IST DIE SAUBERE UPDATE TOTAL STATS METHODE ---
         private void UpdateTotalBuildStats()
         {
-            double totalArmor = 0;
-            double totalDamage = 0;
-            double totalSneak = 0;
             var sortedDisplayList = new List<EquippedItemDisplay>();
-
-            var activePerks = PerkDatabase.Where(p => p.IsActive).ToList();
             string[] slotOrder = { "Weapon", "Head", "Necklace", "Chest", "Hands", "Ring", "Feet", "Shield" };
 
+            // 1. Ausgerüstete Items in die richtige Reihenfolge bringen
             foreach (var slotName in slotOrder)
             {
                 if (CurrentBuild.ContainsKey(slotName) && CurrentBuild[slotName] != null)
                 {
-                    var item = CurrentBuild[slotName];
-                    sortedDisplayList.Add(item!);
-
-                    if (double.TryParse(item!.Rating, out double val))
-                    {
-                        if (slotName == "Weapon")
-                        {
-                            totalDamage += val;
-
-                            double sMult = 3.0; // Standard
-                            string wName = item.ItemName.ToLower();
-
-                            if (wName.Contains("dagger"))
-                            {
-                                sMult = activePerks.Where(p => p.SkillGroup == "SneakDagger").Select(p => p.Multiplier).DefaultIfEmpty(3.0).Max();
-                            }
-                            else if (wName.Contains("bow") || wName.Contains("crossbow"))
-                            {
-                                sMult = activePerks.Where(p => p.SkillGroup == "SneakBow").Select(p => p.Multiplier).DefaultIfEmpty(2.0).Max();
-                            }
-                            else
-                            {
-                                sMult = activePerks.Where(p => p.SkillGroup == "Sneak1H").Select(p => p.Multiplier).DefaultIfEmpty(3.0).Max();
-                            }
-                            totalSneak += (val * sMult);
-                        }
-                        else
-                        {
-                            totalArmor += val;
-                        }
-                    }
+                    sortedDisplayList.Add(CurrentBuild[slotName]!);
                 }
             }
 
-            double stoneArmor = (CmbStandingStone.SelectedItem as StandingStone)?.BonusArmor ?? 0;
+            // 2. Den Taschenrechner rufen! (Keine Mathematik mehr hier!)
+            var activePerks = PerkDatabase.Where(p => p.IsActive).ToList();
+            var stone = CmbStandingStone.SelectedItem as StandingStone;
 
-            if (TxtTotalArmor != null) TxtTotalArmor.Text = Math.Round(totalArmor + stoneArmor).ToString();
-            if (TxtTotalDamage != null) TxtTotalDamage.Text = Math.Round(totalDamage).ToString();
-            if (TxtSneakDamage != null) TxtSneakDamage.Text = totalSneak.ToString("0");
+            // WICHTIG: Erfordert die Methode "CalculateTotalStats" in SkyrimCalculator.cs
+            var stats = SkyrimCalculator.CalculateTotalStats(sortedDisplayList, activePerks, stone);
+
+            // 3. UI updaten
+            if (TxtTotalArmor != null) TxtTotalArmor.Text = Math.Round(stats.TotalArmor).ToString();
+            if (TxtTotalDamage != null) TxtTotalDamage.Text = Math.Round(stats.TotalDamage).ToString();
+            if (TxtSneakDamage != null) TxtSneakDamage.Text = stats.TotalSneak.ToString("0");
 
             if (LstBuildItems != null)
             {
@@ -488,7 +461,7 @@ namespace Skyrim_Build_Architect
             }
         }
 
-        // --- HIER IST DIE NEUE, SAUBERE UPDATE CALCULATIONS METHODE ---
+        // --- HIER IST DIE NEUE, KOMPLETTE UPDATE CALCULATIONS METHODE ---
         private void UpdateCalculations()
         {
             if (CmbSelect == null || CmbEnchantment == null || CmbDifficulty == null || CmbSelect.SelectedItem == null) return;
@@ -517,10 +490,9 @@ namespace Skyrim_Build_Architect
                     return;
                 }
 
-                // HIER PASSIERT DIE MAGIE: Wir rufen unseren neuen Taschenrechner an!
+                // Waffe berechnen
                 var calcResult = SkyrimCalculator.CalculateWeapon(w, level, active, dMult, selectedEnch);
 
-                // UI Updates
                 TxtWeaponCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
                                          ? w.Category
                                          : $"{w.Category} {calcResult.SmithingTierName}";
@@ -534,6 +506,32 @@ namespace Skyrim_Build_Architect
                 TxtSpeed.Text = w.Speed > 0 ? w.Speed.ToString() : "-";
                 TxtStagger.Text = w.Stagger > 0 ? w.Stagger.ToString() : "-";
                 TxtValue.Text = Math.Round(stats.val).ToString();
+            }
+            else if (!isWeaponMode && CmbSelect.SelectedItem is Armor a)
+            {
+                if (a.Name == "None")
+                {
+                    TxtArmorCategory.Text = "-";
+                    TxtArmorDisplay.Text = "-";
+                    TxtArmorWeight.Text = "-";
+                    TxtArmorValue.Text = "-";
+                    TxtArmorEffect.Text = "None";
+                    return;
+                }
+
+                // Rüstung berechnen
+                var calcResult = SkyrimCalculator.CalculateArmor(a, level, active, selectedEnch);
+
+                TxtArmorCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
+                                         ? a.Slot
+                                         : $"{a.Slot} {calcResult.SmithingTierName}";
+
+                TxtArmorDisplay.Text = Math.Round(calcResult.FinalArmorRating).ToString();
+                TxtArmorEffect.Text = calcResult.FinalEffectText;
+
+                var stats = a.GetStatsForLevel(level);
+                TxtArmorWeight.Text = a.Weight > 0 ? a.Weight.ToString() : "-";
+                TxtArmorValue.Text = Math.Round(stats.val).ToString();
             }
         }
 
@@ -623,6 +621,7 @@ namespace Skyrim_Build_Architect
             ApplyItemFilter();
         }
 
+        // --- HIER IST DIE AUFGERÄUMTE SELECTION CHANGED METHODE ---
         private void CmbSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CmbSelect.SelectedItem == null) return;
@@ -635,11 +634,7 @@ namespace Skyrim_Build_Architect
             else if (!isWeaponMode && CmbSelect.SelectedItem is Armor a)
             {
                 CmbEnchantment.IsEnabled = true;
-
-                if (TxtArmorCategory != null) TxtArmorCategory.Text = a.Slot;
-                if (TxtArmorWeight != null) TxtArmorWeight.Text = a.Weight.ToString();
-                if (TxtArmorValue != null) TxtArmorValue.Text = a.Value.ToString();
-                if (TxtArmorDisplay != null) TxtArmorDisplay.Text = a.ArmorRating.ToString();
+                // UI-Updates entfernt, passiert jetzt sauber in UpdateCalculations!
             }
 
             UpdateEnchantmentList();
