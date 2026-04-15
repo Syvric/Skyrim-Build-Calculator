@@ -175,12 +175,13 @@ namespace Skyrim_Build_Architect
 
                 var race = CmbRace.SelectedItem as Race;
                 var stone = CmbStandingStone.SelectedItem as StandingStone;
+                var activePerks = PerkDatabase?.Where(p => p.IsActive).ToList() ?? new List<Perk>();
 
                 TxtRacePassive.Text = race?.PassiveEffect ?? "-";
                 TxtRacePower.Text = race?.Power ?? "-";
                 TxtStoneDescription.Text = stone?.Description ?? "No stone selected.";
 
-                int perksSpent = PerkDatabase?.Count(p => p.IsActive) ?? 0;
+                int perksSpent = activePerks.Count;
                 int totalAvailablePoints = level - 1;
                 int pointsSpent = investMagicka + investHealth + investStamina + perksSpent;
 
@@ -193,42 +194,72 @@ namespace Skyrim_Build_Architect
                 double totalHealth = 100 + (investHealth * 10);
                 double totalStamina = 100 + (investStamina * 10);
 
-                TxtTotalMagicka.Text = totalMagicka.ToString("0");
-                TxtTotalHealth.Text = totalHealth.ToString("0");
-                TxtTotalStamina.Text = totalStamina.ToString("0");
-
                 // --- REGENERATION BERECHNEN ---
 
-                // 1. Basis-Werte vom Findling (Standing Stone) holen
                 double mRegenMult = stone?.MagickaRegenMult ?? 1.0;
                 double hRegenMult = stone?.HealthRegenMult ?? 1.0;
                 double sRegenMult = stone?.StaminaRegenMult ?? 1.0;
 
-                // 2. MAGICKA: Recovery Perk (Restoration)
-                // Wir nehmen .Max(), weil Recovery 2/2 die 1/2 ersetzt (nicht stapelt)
-                double recoveryBonus = PerkDatabase?
-                    .Where(p => p.IsActive && p.BaseName == "Recovery")
+                // Recovery Perk (Restoration)
+                double recoveryBonus = activePerks
+                    .Where(p => p.BaseName == "Recovery")
                     .Select(p => p.Multiplier - 1.0)
                     .DefaultIfEmpty(0.0)
-                    .Max() ?? 0.0;
+                    .Max();
                 mRegenMult += recoveryBonus;
 
-                // 3. STAMINA: Wind Walker Perk (Light Armor)
-                // Bedingung: Perk aktiv UND mindestens 4 Teile leichte Rüstung (Kopf, Brust, Hände, Füße)
-                bool hasWindWalker = PerkDatabase?.Any(p => p.IsActive && p.Name.Contains("Wind Walker")) ?? false;
+                // Wind Walker Perk (Light Armor)
+                bool hasWindWalker = activePerks.Any(p => p.Name.Contains("Wind Walker"));
                 int lightArmorCount = EquippedItems.Count(i => i.Category.ToLower().Contains("light armor"));
 
                 if (hasWindWalker && lightArmorCount >= 4)
                 {
-                    sRegenMult += 0.5; // +50% Regeneration
+                    sRegenMult += 0.5;
                 }
 
-                // 4. UI AKTUALISIEREN
-                // Formel: (Max-Stat * Basis-Regen-Rate * Multiplikator)
-                // Basis-Raten Skyrim: Magicka 3%, Stamina 5%, Health 0.5% (außerhalb des Kampfes)
+                // --- NEUE GLOBALE STATS BERECHNEN ---
+
+                // 1. TRAGLAST (Carry Weight)
+                // Skyrim Basis 300 + 5 pro investiertem Punkt
+                double totalCarryWeight = 300 + (investStamina * 5);
+                if (activePerks.Any(p => p.Name.Contains("Extra Pockets"))) totalCarryWeight += 100;
+                if (stone?.Name == "The Steed Stone") totalCarryWeight += 100;
+
+                // 2. MAGIERESISTENZ
+                double totalMagicResist = 0;
+                if (race?.Name.Contains("Breton") == true) totalMagicResist += 25;
+                if (stone?.Name == "The Lord Stone") totalMagicResist += 25;
+
+                var mrPerk = activePerks.Where(p => p.BaseName == "Magic Resistance")
+                                        .OrderByDescending(p => p.RequiredLevel).FirstOrDefault();
+                if (mrPerk != null)
+                {
+                    if (mrPerk.Name.Contains("1/3")) totalMagicResist += 10;
+                    else if (mrPerk.Name.Contains("2/3")) totalMagicResist += 20;
+                    else if (mrPerk.Name.Contains("3/3")) totalMagicResist += 30;
+                }
+
+                // 3. SNEAK BONUS (Heimlichkeits-Erschwerung)
+                double stealthBonus = activePerks
+                    .Where(p => p.BaseName == "Stealth")
+                    .Select(p => p.Multiplier - 1.0)
+                    .DefaultIfEmpty(0.0)
+                    .Max();
+
+                // --- UI AKTUALISIEREN ---
+
+                TxtTotalMagicka.Text = totalMagicka.ToString("0");
+                TxtTotalHealth.Text = totalHealth.ToString("0");
+                TxtTotalStamina.Text = totalStamina.ToString("0");
+
                 TxtRegenMagicka.Text = $"(+{(totalMagicka * 0.03 * mRegenMult):0.0} /s)";
                 TxtRegenHealth.Text = $"(+{(totalHealth * 0.005 * hRegenMult):0.0} /s)";
                 TxtRegenStamina.Text = $"(+{(totalStamina * 0.05 * sRegenMult):0.0} /s)";
+
+                // Aktualisierung der neuen Felder
+                TxtTotalCarryWeight.Text = totalCarryWeight.ToString();
+                TxtMagicResist.Text = totalMagicResist.ToString() + "%";
+                TxtStealthDisplay.Text = "+" + (stealthBonus * 100).ToString("0") + "%";
 
                 // --- PERK VERFÜGBARKEIT ---
                 if (PerkDatabase != null)
@@ -246,7 +277,6 @@ namespace Skyrim_Build_Architect
                 }
 
                 // --- EXTRA EFFECT UI TOGGLE ---
-                // Steuert, ob das zweite Verzauberungs-Feld angezeigt wird
                 bool hasExtraEffect = PerkDatabase?.Any(p => p.IsActive && p.Name == "Extra Effect") ?? false;
 
                 if (hasExtraEffect)
@@ -258,7 +288,7 @@ namespace Skyrim_Build_Architect
                 {
                     LblEnchantment2.Visibility = Visibility.Collapsed;
                     CmbEnchantment2.Visibility = Visibility.Collapsed;
-                    CmbEnchantment2.SelectedIndex = 0; // Zurück auf "None" setzen
+                    CmbEnchantment2.SelectedIndex = 0;
                 }
             }
             finally

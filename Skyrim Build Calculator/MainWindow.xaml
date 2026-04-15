@@ -178,16 +178,31 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
+
                                 <TextBlock Text="Total Magicka:" Grid.Row="0" Grid.Column="0" Foreground="#00C0FF" Margin="0,2"/>
                                 <TextBlock x:Name="TxtTotalMagicka" Text="100" Grid.Row="0" Grid.Column="1" Foreground="#00C0FF" FontWeight="Bold" Margin="10,2"/>
                                 <TextBlock x:Name="TxtRegenMagicka" Text="(+3.0 /s)" Grid.Row="0" Grid.Column="2" Foreground="#00C0FF" Opacity="0.7" Margin="0,2"/>
+
                                 <TextBlock Text="Total Health:" Grid.Row="1" Grid.Column="0" Foreground="#FF4444" Margin="0,2"/>
                                 <TextBlock x:Name="TxtTotalHealth" Text="100" Grid.Row="1" Grid.Column="1" Foreground="#FF4444" FontWeight="Bold" Margin="10,2"/>
                                 <TextBlock x:Name="TxtRegenHealth" Text="(+0.5 /s)" Grid.Row="1" Grid.Column="2" Foreground="#FF4444" Opacity="0.7" Margin="0,2"/>
+
                                 <TextBlock Text="Total Stamina:" Grid.Row="2" Grid.Column="0" Foreground="#44FF44" Margin="0,2"/>
                                 <TextBlock x:Name="TxtTotalStamina" Text="100" Grid.Row="2" Grid.Column="1" Foreground="#44FF44" FontWeight="Bold" Margin="10,2"/>
                                 <TextBlock x:Name="TxtRegenStamina" Text="(+5.0 /s)" Grid.Row="2" Grid.Column="2" Foreground="#44FF44" Opacity="0.7" Margin="0,2"/>
+
+                                <TextBlock Text="Carry Weight:" Grid.Row="3" Grid.Column="0" Foreground="#E1B80D" Margin="0,6,0,2"/>
+                                <TextBlock x:Name="TxtTotalCarryWeight" Text="300" Grid.Row="3" Grid.Column="1" Foreground="#E1B80D" FontWeight="Bold" Margin="10,6,0,2"/>
+
+                                <TextBlock Text="Magic Resist:" Grid.Row="4" Grid.Column="0" Foreground="#BF80FF" Margin="0,2"/>
+                                <TextBlock x:Name="TxtMagicResist" Text="0%" Grid.Row="4" Grid.Column="1" Foreground="#BF80FF" FontWeight="Bold" Margin="10,2"/>
+
+                                <TextBlock Text="Sneak Bonus:" Grid.Row="5" Grid.Column="0" Foreground="#20FFD4" Margin="0,2"/>
+                                <TextBlock x:Name="TxtStealthDisplay" Text="+0%" Grid.Row="5" Grid.Column="1" Foreground="#20FFD4" FontWeight="Bold" Margin="10,2"/>
                             </Grid>
                         </Border>
                     </StackPanel>
@@ -260,6 +275,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
