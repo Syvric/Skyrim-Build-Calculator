@@ -181,6 +181,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Text="Total Magicka:" Grid.Row="0" Grid.Column="0" Foreground="#00C0FF" Margin="0,2"/>
@@ -203,6 +204,9 @@
 
                                 <TextBlock Text="Sneak Bonus:" Grid.Row="5" Grid.Column="0" Foreground="#20FFD4" Margin="0,2"/>
                                 <TextBlock x:Name="TxtStealthDisplay" Text="+0%" Grid.Row="5" Grid.Column="1" Foreground="#20FFD4" FontWeight="Bold" Margin="10,2"/>
+
+                                <TextBlock Text="Spell Absorb:" Grid.Row="6" Grid.Column="0" Foreground="#00C0FF" Margin="0,2"/>
+                                <TextBlock x:Name="TxtSpellAbsorb" Text="0%" Grid.Row="6" Grid.Column="1" Foreground="#00C0FF" FontWeight="Bold" Margin="10,2"/>
                             </Grid>
                         </Border>
                     </StackPanel>
@@ -226,6 +230,15 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <TextBlock x:Name="TxtStoneDescription" Text="No stone selected." Foreground="#20FFD4" TextWrapping="Wrap" FontSize="11" FontStyle="Italic" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Active Flesh Spell:" Foreground="#E1B80D" FontWeight="Bold" Margin="0,10,0,2"/>
+                <ComboBox x:Name="CmbFleshSpell" SelectionChanged="CmbFleshSpell_SelectionChanged" Background="#1A1A1A" Margin="0,0,0,15">
+                    <ComboBoxItem Content="None" IsSelected="True"/>
+                    <ComboBoxItem Content="Oakflesh (40 Armor)"/>
+                    <ComboBoxItem Content="Stoneflesh (60 Armor)"/>
+                    <ComboBoxItem Content="Ironflesh (80 Armor)"/>
+                    <ComboBoxItem Content="Ebonyflesh (100 Armor)"/>
+                </ComboBox>
 
                 <TextBlock Text="Search Item:" Foreground="#E1B80D" Margin="0,0,0,2"/>
                 <TextBox x:Name="TxtSearch" TextChanged="TxtSearch_TextChanged" Margin="0,0,0,10" Padding="4" Background="#1A1A1A" Foreground="#E1B80D" BorderBrush="#444"/>

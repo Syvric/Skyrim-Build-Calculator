@@ -246,6 +246,11 @@ namespace Skyrim_Build_Architect
                     .DefaultIfEmpty(0.0)
                     .Max();
 
+                // 4. SPELL ABSORB (Atronach)
+                double spellAbsorb = 0;
+                if (stone?.Name == "The Atronach Stone") spellAbsorb += 50;
+                if (activePerks.Any(p => p.BaseName == "Atronach")) spellAbsorb += 30;
+
                 // --- UI AKTUALISIEREN ---
 
                 TxtTotalMagicka.Text = totalMagicka.ToString("0");
@@ -306,6 +311,13 @@ namespace Skyrim_Build_Architect
         private void BtnEquipOffHand_Click(object sender, RoutedEventArgs e)
         {
             EquipItemLogic("Off-Hand");
+        }
+
+        private void CmbFleshSpell_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Immer wenn der User einen neuen Zauber im Dropdown wählt, 
+            // wird die Rüstung sofort neu berechnet!
+            UpdateTotalBuildStats();
         }
 
         // Die zentrale Logik, die alles steuert
@@ -403,12 +415,14 @@ namespace Skyrim_Build_Architect
             double totalArmor = 0;
             double totalSneakDamage = 0;
 
-            var activePerks = PerkDatabase.Where(p => p.IsActive).ToList();
+            var activePerks = PerkDatabase?.Where(p => p.IsActive).ToList() ?? new List<Perk>();
 
             // --- Fists of Steel Vorbereitung ---
             bool hasFistsOfSteel = activePerks.Any(p => p.Name.Contains("Fists of Steel"));
-            // Wir suchen, ob schwere Handschuhe ausgerüstet sind
-            var heavyGauntlets = EquippedItems.FirstOrDefault(i => i.Slot == "Hands" && i.Category.ToLower().Contains("heavy armor"));
+
+            // Warnungs-Fix: (i.Category ?? "") verhindert Abstürze, falls Kategorie null ist
+            var heavyGauntlets = EquippedItems.FirstOrDefault(i =>
+                i.Slot == "Hands" && (i.Category ?? "").ToLower().Contains("heavy armor"));
 
             foreach (var item in EquippedItems)
             {
@@ -418,10 +432,8 @@ namespace Skyrim_Build_Architect
                     {
                         double finalItemDamage = value;
 
-                        // SPEZIALFALL: Fists of Steel
                         if (item.ItemName == "Fists" && hasFistsOfSteel && heavyGauntlets != null)
                         {
-                            // Wir müssen den BASIS-Wert der Handschuhe aus der Datenbank holen (Skyrim-Regel!)
                             var baseArmorEntry = ArmorDatabase.FirstOrDefault(a => a.Name == heavyGauntlets.ItemName);
                             if (baseArmorEntry != null)
                             {
@@ -431,26 +443,67 @@ namespace Skyrim_Build_Architect
 
                         totalDamage += finalItemDamage;
 
-                        // Sneak Damage Berechnung für das Gesamtergebnis
                         if (double.TryParse(item.SneakRating, out double sValue))
                         {
-                            // Wir passen den Schleichschaden proportional an, falls Fists of Steel den Schaden erhöht hat
                             double ratio = (value > 0) ? sValue / value : 1.0;
                             totalSneakDamage += (finalItemDamage * ratio);
                         }
                     }
                     else
                     {
-                        // Alles was keine Waffe ist, ist Rüstung
                         totalArmor += value;
                     }
                 }
             }
 
-            // UI Aktualisierung
-            TxtTotalDamage.Text = totalDamage.ToString("0");
-            TxtTotalArmor.Text = totalArmor.ToString("0");
-            TxtSneakDamage.Text = totalSneakDamage.ToString("0");
+            // ==========================================
+            // MAGE ARMOR & PASSIVE ARMOR
+            // ==========================================
+
+            var stone = CmbStandingStone?.SelectedItem as StandingStone;
+            if (stone?.Name == "The Lord Stone") totalArmor += 50;
+
+            // Warnungs-Fix: Auch hier (i.Category ?? "") nutzen
+            bool wearsPhysicalArmor = EquippedItems.Any(i =>
+                (i.Category ?? "").ToLower().Contains("light armor") ||
+                (i.Category ?? "").ToLower().Contains("heavy armor"));
+
+            if (CmbFleshSpell?.SelectedItem is ComboBoxItem selectedSpell)
+            {
+                // Warnungs-Fix: Content?.ToString() ?? "" behebt die CS8600 und CS8602 Warnung!
+                string spellName = selectedSpell.Content?.ToString() ?? "";
+                double baseSpellArmor = 0;
+
+                if (spellName.Contains("Oakflesh")) baseSpellArmor = 40;
+                else if (spellName.Contains("Stoneflesh")) baseSpellArmor = 60;
+                else if (spellName.Contains("Ironflesh")) baseSpellArmor = 80;
+                else if (spellName.Contains("Ebonyflesh")) baseSpellArmor = 100;
+
+                if (baseSpellArmor > 0)
+                {
+                    double mageArmorMult = 1.0;
+
+                    if (!wearsPhysicalArmor)
+                    {
+                        var maPerk = activePerks.Where(p => p.BaseName == "Mage Armor")
+                                                .OrderByDescending(p => p.RequiredLevel)
+                                                .FirstOrDefault();
+                        if (maPerk != null)
+                        {
+                            if (maPerk.Name.Contains("1/3")) mageArmorMult = 2.0;
+                            else if (maPerk.Name.Contains("2/3")) mageArmorMult = 2.5;
+                            else if (maPerk.Name.Contains("3/3")) mageArmorMult = 3.0;
+                        }
+                    }
+
+                    totalArmor += (baseSpellArmor * mageArmorMult);
+                }
+            }
+
+            // UI Aktualisierung (mit Null-Checks zur Sicherheit)
+            if (TxtTotalDamage != null) TxtTotalDamage.Text = totalDamage.ToString("0");
+            if (TxtTotalArmor != null) TxtTotalArmor.Text = totalArmor.ToString("0");
+            if (TxtSneakDamage != null) TxtSneakDamage.Text = totalSneakDamage.ToString("0");
         }
 
         private void UpdateCalculations()
@@ -555,6 +608,7 @@ namespace Skyrim_Build_Architect
 
                 TxtArmorValue.Text = Math.Round(stats.val).ToString();
             }
+            UpdateSpeedDisplay();
         }
 
         private void ApplyItemFilter()
@@ -737,6 +791,48 @@ namespace Skyrim_Build_Architect
 
             UpdateEnchantmentList();
             UpdateCalculations();
+        }
+
+        private void UpdateSpeedDisplay()
+        {
+            // Sicherheitscheck: Ist überhaupt eine Waffe ausgewählt?
+            if (CmbSelect.SelectedItem is Weapon w)
+            {
+                double finalSpeed = w.Speed;
+                string cat = (w.Category ?? "").ToLower();
+
+                // 1. Ist es eine Einhandwaffe? (Zweihänder oder Bögen kriegen keinen Buff)
+                bool isOneHanded = cat.Contains("one-handed") || cat.Contains("dagger") || cat.Contains("mace") || cat.Contains("war axe");
+
+                // 2. Trägt der Spieler in BEIDEN Händen eine Einhand-Waffe?
+                bool hasMainHandWeapon = EquippedItems.Any(i => i.Slot == "Main-Hand" && !i.Category.ToLower().Contains("shield") && !i.Category.ToLower().Contains("two-handed") && !i.Category.ToLower().Contains("archery"));
+                bool hasOffHandWeapon = EquippedItems.Any(i => i.Slot == "Off-Hand" && !i.Category.ToLower().Contains("shield"));
+
+                if (isOneHanded && hasMainHandWeapon && hasOffHandWeapon)
+                {
+                    // 3. Welcher Perk ist aktiv?
+                    var flurryPerk = PerkDatabase?.FirstOrDefault(p => p.IsActive && p.BaseName == "Dual Flurry");
+                    if (flurryPerk != null)
+                    {
+                        if (flurryPerk.Name.Contains("1/2")) finalSpeed *= 1.20; // +20% Speed
+                        else if (flurryPerk.Name.Contains("2/2")) finalSpeed *= 1.35; // +35% Speed
+
+                        // Optisches Feedback: Türkis einfärben, damit der User den Buff erkennt!
+                        if (TxtSpeed != null) TxtSpeed.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#20FFD4"));
+                    }
+                    else
+                    {
+                        if (TxtSpeed != null) TxtSpeed.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E1B80D"));
+                    }
+                }
+                else
+                {
+                    if (TxtSpeed != null) TxtSpeed.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E1B80D"));
+                }
+
+                // Wert ins UI schreiben (mit 2 Nachkommastellen, z.B. 1.30 -> 1.76)
+                if (TxtSpeed != null) TxtSpeed.Text = finalSpeed.ToString("0.00");
+            }
         }
 
         private void CmbDifficulty_SelectionChanged(object sender, SelectionChangedEventArgs e)
