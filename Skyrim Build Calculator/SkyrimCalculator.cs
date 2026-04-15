@@ -231,7 +231,7 @@ namespace Skyrim_Build_Architect
 
         // 3. GESAMTZIEHEN (TOTAL STATS)
         public static TotalBuildStatsResult CalculateTotalStats(
-            IEnumerable<EquippedItemDisplay> equippedItems,
+            IEnumerable<EquippedItem> equippedItems,
             List<Perk> activePerks,
             StandingStone? selectedStone)
         {

@@ -138,12 +138,14 @@ namespace Skyrim_Build_Architect
         public int BonusMagicka { get; set; } = 0;
     }
 
-    public class EquippedItemDisplay
+    public class EquippedItem
     {
-        public string Slot { get; set; } = "";
         public string ItemName { get; set; } = "";
-        public string Enchantment { get; set; } = "";
+        public string Slot { get; set; } = "";
         public string Rating { get; set; } = "";
+        public string SneakRating { get; set; } = "0";
+        public string Enchantment { get; set; } = "";
+        public string Category { get; set; } = "";
     }
 
     public class StandingStone

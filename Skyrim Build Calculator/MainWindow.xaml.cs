@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace Skyrim_Build_Architect
 {
@@ -28,12 +29,15 @@ namespace Skyrim_Build_Architect
         public List<StandingStone> StandingStoneDatabase { get; set; } = new List<StandingStone>();
 
         // --- AKTUELLES EQUIPMENT ---
-        public Dictionary<string, EquippedItemDisplay?> CurrentBuild = new Dictionary<string, EquippedItemDisplay?>()
+        public Dictionary<string, EquippedItem?> CurrentBuild = new Dictionary<string, EquippedItem?>()
         {
             { "Weapon", null }, { "Shield", null }, { "Head", null },
             { "Chest", null }, { "Hands", null }, { "Feet", null },
             { "Ring", null }, { "Necklace", null }
         };
+
+        // HIER EINGEFÜGT: Die neue Liste für flexibles Equipment (Dual-Wield Support)
+        public ObservableCollection<EquippedItem> EquippedItems { get; set; } = new ObservableCollection<EquippedItem>();
 
         private bool isWeaponMode = true;
 
@@ -41,12 +45,19 @@ namespace Skyrim_Build_Architect
         {
             InitializeComponent();
 
+            // --- NEU: Die Brücke zwischen Code und UI ---
+            // Damit die Liste der ausgerüsteten Items auch wirklich angezeigt wird:
+            LstBuildItems.ItemsSource = EquippedItems;
+
             LoadData();
             LoadRaceData();
             LoadStandingStones();
+
+            // Verzauberungen initialisieren
             CmbEnchantment2.ItemsSource = EnchantmentDatabase;
             CmbEnchantment2.SelectedIndex = 0;
 
+            // Perk-Liste mit Gruppierung vorbereiten
             var view = (CollectionView)CollectionViewSource.GetDefaultView(PerkDatabase);
             if (view != null)
             {
@@ -56,15 +67,18 @@ namespace Skyrim_Build_Architect
                 LstPerks.ItemsSource = view;
             }
 
+            // Datenbanken an die ComboBoxen binden
             CmbSoulGem.ItemsSource = SoulGemDatabase;
             CmbDifficulty.ItemsSource = DifficultyDatabase;
             CmbRace.ItemsSource = RaceDatabase;
             CmbStandingStone.ItemsSource = StandingStoneDatabase;
 
+            // Standard-Auswahl setzen
             if (CmbDifficulty.Items.Count > 0) CmbDifficulty.SelectedIndex = 2; // Adept
             CmbRace.SelectedIndex = 0;
             CmbStandingStone.SelectedIndex = 0;
 
+            // Initial-Berechnungen durchführen, sobald das Fenster geladen ist
             this.Loaded += (s, e) =>
             {
                 CalculateAttributes();
@@ -237,75 +251,141 @@ namespace Skyrim_Build_Architect
             }
         }
 
+        // Event für den Haupt-Equip-Button
         private void BtnEquip_Click(object sender, RoutedEventArgs e)
         {
-            var selected = CmbSelect.SelectedItem;
-            if (selected == null || selected.ToString() == "None") return;
+            EquipItemLogic("Main-Hand");
+        }
 
-            var newItem = new EquippedItemDisplay();
+        private void BtnEquipOffHand_Click(object sender, RoutedEventArgs e)
+        {
+            EquipItemLogic("Off-Hand");
+        }
 
-            if (isWeaponMode && selected is Weapon w)
+        // Die zentrale Logik, die alles steuert
+        private void EquipItemLogic(string targetSlot)
+        {
+            if (CmbSelect.SelectedItem == null) return;
+
+            var activePerks = PerkDatabase.Where(p => p.IsActive).ToList();
+            int playerLevel = int.TryParse(TxtPlayerLevel.Text, out int lvl) ? lvl : 1;
+
+            // --- NEU: Seelenstein-Multiplikator abrufen ---
+            var currentGem = CmbSoulGem.SelectedItem as SoulGem;
+            double gemMult = (currentGem == null || currentGem.Name == "None") ? 1.0 : currentGem.Multiplier;
+
+            if (CmbSelect.SelectedItem is Weapon w)
             {
-                newItem.Slot = "Weapon";
-                newItem.ItemName = w.Name;
-                newItem.Enchantment = CmbEnchantment.SelectedItem != null ? TxtEffect.Text : "None";
-                newItem.Rating = TxtDamageDisplay.Text;
-                CurrentBuild["Weapon"] = newItem;
-            }
-            else if (!isWeaponMode && selected is Armor a)
-            {
-                if (CurrentBuild.ContainsKey(a.Slot))
+                bool isTwoHanded = (w.Category ?? "").ToLower().Contains("twohanded");
+
+                if (isTwoHanded || targetSlot == "Main-Hand")
                 {
-                    newItem.Slot = a.Slot;
-                    newItem.ItemName = a.Name;
-                    newItem.Enchantment = CmbEnchantment.SelectedItem != null ? TxtArmorEffect.Text : "None";
-                    newItem.Rating = TxtArmorDisplay.Text;
-                    CurrentBuild[a.Slot] = newItem;
+                    RemoveItemBySlot("Off-Hand");
+                    RemoveItemBySlot("Shield");
                 }
+                if (targetSlot == "Off-Hand") RemoveItemBySlot("Shield");
+
+                // FIX: Hier wird jetzt 'gemMult' statt fest '1.0' verwendet
+                var res = SkyrimCalculator.CalculateWeapon(w, playerLevel, activePerks, 1.0,
+                          CmbEnchantment.SelectedItem as Enchantment,
+                          CmbEnchantment2.SelectedItem as Enchantment,
+                          gemMult);
+
+                FinalizeEquip(w.Name, targetSlot, res.FinalDamage, res.SneakDamage, res.FinalEffectText, w.Category ?? "");
+            }
+            else if (CmbSelect.SelectedItem is Armor a)
+            {
+                if (a.Slot == "Shield")
+                {
+                    RemoveItemBySlot("Off-Hand");
+                    var mainHand = EquippedItems.FirstOrDefault(i => i.Slot == "Main-Hand");
+                    if (mainHand != null && (mainHand.Category?.ToLower().Contains("twohanded") ?? false))
+                        RemoveItemBySlot("Main-Hand");
+                }
+
+                // FIX: Auch hier 'gemMult' für die Rüstung nutzen
+                var res = SkyrimCalculator.CalculateArmor(a, playerLevel, activePerks,
+                          CmbEnchantment.SelectedItem as Enchantment,
+                          CmbEnchantment2.SelectedItem as Enchantment,
+                          gemMult);
+
+                FinalizeEquip(a.Name, a.Slot, res.FinalArmorRating, 0, res.FinalEffectText, a.Category ?? "");
             }
 
             UpdateTotalBuildStats();
         }
 
+        private void FinalizeEquip(string name, string slot, double val, double sneakVal, string effect, string cat)
+        {
+            RemoveItemBySlot(slot);
+
+            EquippedItems.Add(new EquippedItem
+            {
+                ItemName = name,
+                Slot = slot,
+                Rating = val.ToString("0"),
+                SneakRating = sneakVal.ToString("0"), // Speichert jetzt den Schleichschaden
+                Enchantment = effect,
+                Category = cat
+            });
+        }
+
+        private void RemoveItemBySlot(string slotName)
+        {
+            var existing = EquippedItems.FirstOrDefault(i => i.Slot == slotName);
+            if (existing != null)
+            {
+                EquippedItems.Remove(existing);
+            }
+        }
+
         private void LstBuildItems_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (LstBuildItems.SelectedItem is EquippedItemDisplay selectedItem)
+            // Item direkt aus der Liste entfernen
+            if (LstBuildItems.SelectedItem is EquippedItem selectedItem)
             {
-                if (CurrentBuild.ContainsKey(selectedItem.Slot))
-                {
-                    CurrentBuild[selectedItem.Slot] = null;
-                    UpdateTotalBuildStats();
-                }
+                EquippedItems.Remove(selectedItem);
+                UpdateTotalBuildStats();
             }
         }
 
         private void UpdateTotalBuildStats()
         {
-            var sortedDisplayList = new List<EquippedItemDisplay>();
-            string[] slotOrder = { "Weapon", "Head", "Necklace", "Chest", "Hands", "Ring", "Feet", "Shield" };
+            if (_isCalculating) return;
 
-            foreach (var slotName in slotOrder)
+            double totalDamage = 0;
+            double totalArmor = 0;
+            double totalSneakDamage = 0;
+
+            var activePerks = PerkDatabase.Where(p => p.IsActive).ToList();
+
+            foreach (var item in EquippedItems)
             {
-                if (CurrentBuild.ContainsKey(slotName) && CurrentBuild[slotName] != null)
+                // 1. Normales Rating (Schaden oder Rüstung) umwandeln
+                if (double.TryParse(item.Rating, out double value))
                 {
-                    sortedDisplayList.Add(CurrentBuild[slotName]!);
+                    if (item.Slot == "Main-Hand" || item.Slot == "Off-Hand")
+                    {
+                        totalDamage += value;
+
+                        // 2. NEU: SneakRating umwandeln und zu totalSneakDamage addieren
+                        // Hier erstellen wir die Variable 'sValue', die vorher gefehlt hat
+                        if (double.TryParse(item.SneakRating, out double sValue))
+                        {
+                            totalSneakDamage += sValue;
+                        }
+                    }
+                    else
+                    {
+                        totalArmor += value;
+                    }
                 }
             }
 
-            var activePerks = PerkDatabase.Where(p => p.IsActive).ToList();
-            var stone = CmbStandingStone.SelectedItem as StandingStone;
-
-            var stats = SkyrimCalculator.CalculateTotalStats(sortedDisplayList, activePerks, stone);
-
-            if (TxtTotalArmor != null) TxtTotalArmor.Text = Math.Round(stats.TotalArmor).ToString();
-            if (TxtTotalDamage != null) TxtTotalDamage.Text = Math.Round(stats.TotalDamage).ToString();
-            if (TxtSneakDamage != null) TxtSneakDamage.Text = stats.TotalSneak.ToString("0");
-
-            if (LstBuildItems != null)
-            {
-                LstBuildItems.ItemsSource = null;
-                LstBuildItems.ItemsSource = sortedDisplayList;
-            }
+            // UI aktualisieren
+            TxtTotalDamage.Text = totalDamage.ToString("0");
+            TxtTotalArmor.Text = totalArmor.ToString("0");
+            TxtSneakDamage.Text = totalSneakDamage.ToString("0");
         }
 
         private void UpdateCalculations()
@@ -328,7 +408,7 @@ namespace Skyrim_Build_Architect
 
             // --- SEELENSTEIN HOLEN ---
             var selectedGem = CmbSoulGem.SelectedItem as SoulGem;
-            double gemMultiplier = selectedGem?.Multiplier ?? 1.0;
+            double gemMultiplier = (selectedGem == null || selectedGem.Name == "None") ? 1.0 : selectedGem.Multiplier;
 
             // --- DOPPEL-CHECK: Skyrim erlaubt nicht 2x denselben Effekt ---
             if (selectedEnch != null && selectedEnch2 != null &&
@@ -545,33 +625,44 @@ namespace Skyrim_Build_Architect
 
             bool enchantable = true;
 
-            // 1. Prüfen, ob das Item verzaubert werden darf
-            if (isWeaponMode && CmbSelect.SelectedItem is Weapon w)
+            // --- NEU: Sichtbarkeit der Buttons steuern ---
+            if (CmbSelect.SelectedItem is Weapon w)
             {
+                // Wir zeigen den Off-Hand Button NUR bei Einhandwaffen
+                string cat = (w.Category ?? "").ToLower();
+                bool isOneHanded = cat.Contains("one-handed") || cat.Contains("dagger") || cat.Contains("mace") || cat.Contains("war axe");
+
+                BtnEquipOffHand.Visibility = isOneHanded ? Visibility.Visible : Visibility.Collapsed;
+
+                // Panels umschalten
+                WeaponPanel.Visibility = Visibility.Visible;
+                ArmorPanel.Visibility = Visibility.Collapsed;
+
                 enchantable = w.IsEnchantable;
             }
-            else if (!isWeaponMode && CmbSelect.SelectedItem is Armor a)
+            else if (CmbSelect.SelectedItem is Armor a)
             {
-                // Bei Rüstung gehen wir aktuell davon aus, dass sie immer verzauberbar ist.
-                // Falls du eine 'IsEnchantable' Eigenschaft bei Armor hast, hier einbauen:
+                // Bei Rüstung/Schild brauchen wir keinen Off-Hand Button
+                BtnEquipOffHand.Visibility = Visibility.Collapsed;
+
+                // Panels umschalten
+                WeaponPanel.Visibility = Visibility.Collapsed;
+                ArmorPanel.Visibility = Visibility.Visible;
+
                 enchantable = true;
             }
 
-            // 2. Beide Boxen (Enchantment 1 & 2) steuern
+            // --- DEINE BESTEHENDE LOGIK (Verzauberungen) ---
             CmbEnchantment.IsEnabled = enchantable;
             CmbEnchantment2.IsEnabled = enchantable;
 
-            // 3. Falls nicht verzauberbar: Beide auf "None" (Index 0) zurücksetzen
             if (!enchantable)
             {
                 CmbEnchantment.SelectedIndex = 0;
                 CmbEnchantment2.SelectedIndex = 0;
             }
 
-            // 4. Die Liste filtern (damit nur passende Effekte für den Slot erscheinen)
             UpdateEnchantmentList();
-
-            // 5. Alles neu berechnen
             UpdateCalculations();
         }
 
