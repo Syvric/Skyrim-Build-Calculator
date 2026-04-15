@@ -387,6 +387,10 @@ namespace Skyrim_Build_Architect
             WeaponDatabase.Add(new Weapon { Name = "Skyforge Steel Sword", Category = "One-Handed", Damage = 11, Value = 70, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
             WeaponDatabase.Add(new Weapon { Name = "Stalhrim Sword (DB)", Category = "One-Handed", Damage = 13, Value = 985, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
             WeaponDatabase.Add(new Weapon { Name = "Steel Sword", Category = "One-Handed", Damage = 8, Value = 45, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Falmer Sword", Category = "One-Handed", Damage = 10, Value = 67, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Honed Falmer Sword", Category = "One-Handed", Damage = 12, Value = 135, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Forsworn Sword", Category = "One-Handed", Damage = 10, Value = 15, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Forsworn Axe", Category = "One-Handed", Damage = 11, Value = 20, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
 
             // ==========================================
             // WAR AXES (One-Handed)
@@ -450,6 +454,9 @@ namespace Skyrim_Build_Architect
             WeaponDatabase.Add(new Weapon { Name = "Skyforge Steel Greatsword", Category = "Two-Handed", Damage = 20, Value = 150, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
             WeaponDatabase.Add(new Weapon { Name = "Stalhrim Greatsword (DB)", Category = "Two-Handed", Damage = 23, Value = 2300, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
             WeaponDatabase.Add(new Weapon { Name = "Steel Greatsword", Category = "Two-Handed", Damage = 17, Value = 90, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Ancient Nord Greatsword", Category = "Two-Handed", Damage = 15, Value = 35, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Honed Ancient Nord Greatsword", Category = "Two-Handed", Damage = 21, Value = 150, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Nordic Greatsword (DB)", Category = "Two-Handed", Damage = 20, Value = 585, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
 
             // ==========================================
             // BATTLEAXES (Two-Handed)
@@ -494,6 +501,8 @@ namespace Skyrim_Build_Architect
             WeaponDatabase.Add(new Weapon { Name = "Orcish Warhammer", Category = "Two-Handed", Damage = 21, Value = 300, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
             WeaponDatabase.Add(new Weapon { Name = "Stalhrim Warhammer (DB)", Category = "Two-Handed", Damage = 26, Value = 2100, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
             WeaponDatabase.Add(new Weapon { Name = "Steel Warhammer", Category = "Two-Handed", Damage = 20, Value = 110, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "The Longhammer", Category = "Two-Handed", Damage = 21, Value = 90, Reach = 1.3, Speed = 0.8, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Warhammer (DB)", Category = "Two-Handed", Damage = 26, Value = 2100, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
 
             // ==========================================
             // BOWS & CROSSBOWS (Archery)
@@ -526,6 +535,20 @@ namespace Skyrim_Build_Architect
             WeaponDatabase.Add(new Weapon { Name = "Enhanced Dwarven Crossbow (DG)", Category = "Archery", Damage = 22, Value = 450, Reach = 0, Speed = 1.0, Stagger = 0.75 });
 
             // ==========================================
+            // AMMUNITION (Arrows & Bolts)
+            // ==========================================
+            WeaponDatabase.Add(new Weapon { Name = "Iron Arrow", Category = "Ammunition", Damage = 8, Value = 1 });
+            WeaponDatabase.Add(new Weapon { Name = "Steel Arrow", Category = "Ammunition", Damage = 10, Value = 2 });
+            WeaponDatabase.Add(new Weapon { Name = "Orcish Arrow", Category = "Ammunition", Damage = 12, Value = 3 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Arrow", Category = "Ammunition", Damage = 14, Value = 4 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven Arrow", Category = "Ammunition", Damage = 16, Value = 5 });
+            WeaponDatabase.Add(new Weapon { Name = "Glass Arrow", Category = "Ammunition", Damage = 18, Value = 6 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Arrow", Category = "Ammunition", Damage = 20, Value = 7 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric Arrow", Category = "Ammunition", Damage = 24, Value = 8 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Arrow (DG)", Category = "Ammunition", Damage = 25, Value = 9 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Bolt (DG)", Category = "Ammunition", Damage = 14, Value = 4 });
+
+            // ==========================================
             // DAGGERS & FACTION WEAPONS
             // ==========================================
             WeaponDatabase.Add(new Weapon { Name = "Amber Dagger (AE)", Category = "One-Handed", Damage = 11, Value = 410, Reach = 0.7, Speed = 1.3, Stagger = 0 });
@@ -538,6 +561,8 @@ namespace Skyrim_Build_Architect
             WeaponDatabase.Add(new Weapon { Name = "Iron Dagger", Category = "One-Handed", Damage = 4, Value = 10, Reach = 0.7, Speed = 1.3, Stagger = 0 });
             WeaponDatabase.Add(new Weapon { Name = "Orcish Dagger", Category = "One-Handed", Damage = 6, Value = 30, Reach = 0.7, Speed = 1.3, Stagger = 0 });
             WeaponDatabase.Add(new Weapon { Name = "Steel Dagger", Category = "One-Handed", Damage = 5, Value = 15, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Nordic Dagger (DB)", Category = "One-Handed", Damage = 10, Value = 165, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Steel Dagger", Category = "One-Handed", Damage = 5, Value = 15, Reach = 0.7, Speed = 1.3, Stagger = 0 });
 
             // FACTION ITEMS
             WeaponDatabase.Add(new Weapon { Name = "Blades Sword", Category = "One-Handed", Damage = 11, Value = 300, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
@@ -547,16 +572,95 @@ namespace Skyrim_Build_Architect
             WeaponDatabase.Add(new Weapon { Name = "Scimitar", Category = "One-Handed", Damage = 11, Value = 5, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
 
             // ==========================================
-            // UNIQUE / ARTIFACTS (IsEnchantable = false!)
+            // TOOLS (Special: Dagger Speed, Sword Perks)
             // ==========================================
+            WeaponDatabase.Add(new Weapon { Name = "Pickaxe", Category = "One-Handed", Damage = 5, Value = 5, Reach = 1.0, Speed = 1.3, Stagger = 0.75, IsEnchantable = true });
+            WeaponDatabase.Add(new Weapon { Name = "Woodcutter's Axe", Category = "One-Handed", Damage = 5, Value = 5, Reach = 1.0, Speed = 1.3, Stagger = 0.75, IsEnchantable = true });
+            
+            // Ancient Nordic Pickaxe (Wichtig für Stalhrim!)
+            WeaponDatabase.Add(new Weapon { Name = "Ancient Nordic Pickaxe (DB)", Category = "One-Handed", Damage = 5, Value = 40, Reach = 1.0, Speed = 1.3, Stagger = 0.75, IsEnchantable = true });
+
+            // The "Dinner" Set (Ja, man kann mit Besteck kämpfen!)
+            WeaponDatabase.Add(new Weapon { Name = "Knife (Weapon)", Category = "One-Handed", Damage = 1, Value = 1, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Fork (Weapon)", Category = "One-Handed", Damage = 1, Value = 1, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+
+            // Shiv (Die Gefängnis-Waffe aus Cidhna Mine)
+            WeaponDatabase.Add(new Weapon { Name = "Shiv", Category = "One-Handed", Damage = 5, Value = 5, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+
+            // ==========================================
+            // UNARMED (Fists)
+            // ==========================================
+            WeaponDatabase.Add(new Weapon { Name = "Fists", Category = "Unarmed", Damage = 4, Value = 0, Reach = 0.7, Speed = 1.0, Stagger = 0.5, IsEnchantable = false });
+
+            // ==========================================
+            // UNIQUE / ARTIFACTS (Most are IsEnchantable = false)
+            // ==========================================
+
+            // Daedric Artifacts
             WeaponDatabase.Add(new Weapon { Name = "Blade of Woe", Category = "One-Handed", Damage = 12, Value = 880, Reach = 0.7, Speed = 1.0, Stagger = 0, Effect = "Absorbs 10 Health.", IsEnchantable = false });
             WeaponDatabase.Add(new Weapon { Name = "Dawnbreaker", Category = "One-Handed", Damage = 12, Value = 740, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Explosion vs Undead.", IsEnchantable = false });
             WeaponDatabase.Add(new Weapon { Name = "Mace of Molag Bal", Category = "One-Handed", Damage = 16, Value = 1257, Reach = 1.0, Speed = 0.8, Stagger = 1.0, Effect = "25 Stamina/Magicka damage. Soul Trap.", IsEnchantable = false });
             WeaponDatabase.Add(new Weapon { Name = "Mehrunes' Razor", Category = "One-Handed", Damage = 11, Value = 860, Reach = 0.7, Speed = 1.3, Stagger = 0, Effect = "1.98% Instant Kill chance.", IsEnchantable = false });
             WeaponDatabase.Add(new Weapon { Name = "Volendrung", Category = "Two-Handed", Damage = 25, Value = 1843, Reach = 1.3, Speed = 0.7, Stagger = 1.25, Effect = "Absorbs 50 Stamina.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Wuuthrad", Category = "Two-Handed", Damage = 25, Value = 2000, Reach = 1.3, Speed = 0.7, Stagger = 1.15, Effect = "1.2x Damage against Elves.", IsEnchantable = false });
 
+            // Quest Rewards & Set Items
+            WeaponDatabase.Add(new Weapon { Name = "Wuuthrad", Category = "Two-Handed", Damage = 25, Value = 2000, Reach = 1.3, Speed = 0.7, Stagger = 1.15, Effect = "1.2x Damage against Elves.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Windshear", Category = "One-Handed", Damage = 11, Value = 40, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Bash has 100% Stagger chance.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Keening", Category = "One-Handed", Damage = 8, Value = 20, Reach = 0.7, Speed = 1.3, Stagger = 0, Effect = "Absorbs Health/Magicka/Stamina", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Ghostblade", Category = "One-Handed", Damage = 8, Value = 300, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "3 extra points of damage, ignores armor.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Valdr's Lucky Dagger", Category = "One-Handed", Damage = 5, Value = 15, Reach = 0.7, Speed = 1.3, Stagger = 0, Effect = "25% Critical Hit chance", IsEnchantable = true });
+
+            // Red Eagle & Ancient Sets
+            WeaponDatabase.Add(new Weapon { Name = "Red Eagle's Fury", Category = "One-Handed", Damage = 8, Value = 45, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Unique named sword.", IsEnchantable = true });
+            WeaponDatabase.Add(new Weapon { Name = "Red Eagle's Bane", Category = "One-Handed", Damage = 11, Value = 1133, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Burns Undead for 10 points and turns them.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Eduj", Category = "One-Handed", Damage = 11, Value = 250, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "10 Frost Damage.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Okin", Category = "One-Handed", Damage = 12, Value = 300, Reach = 1.0, Speed = 0.9, Stagger = 0.85, Effect = "10 Frost Damage.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Bolar's Oathblade", Category = "One-Handed", Damage = 11, Value = 292, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "25 Stamina Dmg, Fear up to Lvl 12.", IsEnchantable = false });
+
+            // DLC Uniques (Dawnguard & Dragonborn)
+            WeaponDatabase.Add(new Weapon { Name = "Harkon's Sword (DG)", Category = "One-Handed", Damage = 8, Value = 1472, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Absorbs Health/Magicka/Stamina if Vampire.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Bloodskal Blade (DB)", Category = "Two-Handed", Damage = 21, Value = 500, Reach = 1.3, Speed = 0.7, Stagger = 1.1, Effect = "Energy blast on power attacks (30 dmg).", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Champion's Cudgel (DB)", Category = "Two-Handed", Damage = 24, Value = 1767, Reach = 1.3, Speed = 0.6, Stagger = 1.25, Effect = "50% chance for Elemental Damage.", IsEnchantable = false });
+
+            // The Longhammer (Einzigartig: Hat die Speed eines Einhandschwerts!)
+            WeaponDatabase.Add(new Weapon { Name = "The Longhammer", Category = "Two-Handed", Damage = 21, Value = 90, Reach = 1.3, Speed = 0.8, Stagger = 1.25, IsEnchantable = true });
+
+            // Aegisbane (Eis-Hammer)
+            WeaponDatabase.Add(new Weapon { Name = "Aegisbane", Category = "Two-Handed", Damage = 18, Value = 60, Reach = 1.3, Speed = 0.6, Stagger = 1.25, Effect = "5 Frost Damage to Health and Stamina.", IsEnchantable = false });
+
+            // Trollsbane (Feuer-Hammer)
+            WeaponDatabase.Add(new Weapon { Name = "Trollsbane", Category = "Two-Handed", Damage = 20, Value = 110, Reach = 1.3, Speed = 0.6, Stagger = 1.25, Effect = "15 Fire Damage to Trolls.", IsEnchantable = false });
+
+            // Ghostly Weapons (Drain-Set aus Labyrinthion)
+            WeaponDatabase.Add(new Weapon { Name = "Drainheart Sword", Category = "One-Handed", Damage = 11, Value = 73, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Absorbs 15 Stamina.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Drainblood Battleaxe", Category = "Two-Handed", Damage = 21, Value = 266, Reach = 1.3, Speed = 0.7, Stagger = 1.15, Effect = "Absorbs 15 Health.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Drainspell Bow", Category = "Archery", Damage = 14, Value = 415, Reach = 0, Speed = 0.625, Stagger = 0, Effect = "Absorbs 15 Magicka.", IsEnchantable = false });
+
+            // Einzigartiges Werkzeug: Notched Pickaxe (Spitzhacke des Gipfelstürmers)
+            WeaponDatabase.Add(new Weapon { Name = "Notched Pickaxe", Category = "One-Handed", Damage = 5, Value = 300, Reach = 1.0, Speed = 1.3, Stagger = 0.75, Effect = "5 Shock damage. Boosts Smithing.", IsEnchantable = false });
+
+            // Poacher's Axe (Einzigartige Holzhackeraxt)
+            WeaponDatabase.Add(new Weapon { Name = "Poacher's Axe", Category = "One-Handed", Damage = 5, Value = 15, Reach = 1.0, Speed = 1.3, Stagger = 0.75, Effect = "3 extra damage to animals.", IsEnchantable = false });
+
+            // Zephyr (Der schnellste Bogen im Spiel)
+            WeaponDatabase.Add(new Weapon { Name = "Zephyr (DG)", Category = "Archery", Damage = 12, Value = 670, Reach = 0, Speed = 1.0, Stagger = 0, Effect = "Fires 30% faster than a standard bow.", IsEnchantable = false });
+
+            // 2. Auriel's Bow
+            WeaponDatabase.Add(new Weapon { Name = "Auriel's Bow (DG)", Category = "Archery", Damage = 13, Value = 1440, Reach = 0, Speed = 1.0, Stagger = 0, Effect = "Sun Damage. Triple damage vs Undead.", IsEnchantable = false });
+
+            // Headsman's Axe
+            WeaponDatabase.Add(new Weapon { Name = "Headsman's Axe", Category = "Two-Handed", Damage = 17, Value = 15, Reach = 1.5, Speed = 0.7, Stagger = 1.15 });
+
+            // Dragon Priest Dagger
+            WeaponDatabase.Add(new Weapon { Name = "Dragon Priest Dagger", Category = "One-Handed", Damage = 6, Value = 9, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+
+            // Horksbane
+            WeaponDatabase.Add(new Weapon { Name = "Horksbane", Category = "One-Handed", Damage = 10, Value = 115, Reach = 1.0, Speed = 0.8, Stagger = 1.0, Effect = "20 extra damage to Horkers.", IsEnchantable = false });
+            // ==========================================
             // LEVELED ITEMS
+            // ==========================================
+
+            // Chillrend (Das Glas-Schwert der Diebesgilde)
             WeaponDatabase.Add(new Weapon
             {
                 Name = "Chillrend",
@@ -566,10 +670,25 @@ namespace Skyrim_Build_Architect
                 Stagger = 0.75,
                 IsEnchantable = false,
                 LevelVariants = new List<LeveledStat> {
-                new LeveledStat { MinLevel = 1, Damage = 10, Value = 542, Effect = "5 Frost, 2s Paralyze" },
-                new LeveledStat { MinLevel = 46, Damage = 15, Value = 1442, Effect = "30 Frost, 2s Paralyze" } }
+        new LeveledStat { MinLevel = 1, Damage = 10, Value = 542, Effect = "5 Frost, 2s Paralyze" },
+        new LeveledStat { MinLevel = 46, Damage = 15, Value = 1442, Effect = "30 Frost, 2s Paralyze" } }
             });
 
+            // Nightingale Blade (Das Gegenstück zum Bogen)
+            WeaponDatabase.Add(new Weapon
+            {
+                Name = "Nightingale Blade",
+                Category = "One-Handed",
+                Reach = 1.0,
+                Speed = 1.0,
+                Stagger = 0.75,
+                IsEnchantable = false,
+                LevelVariants = new List<LeveledStat> {
+        new LeveledStat { MinLevel = 1, Damage = 10, Value = 380, Effect = "Absorbs 5 HP/Stamina" },
+        new LeveledStat { MinLevel = 46, Damage = 14, Value = 1425, Effect = "Absorbs 25 HP/Stamina" } }
+            });
+
+            // Nightingale Bow (Bogen der Nachtigall)
             WeaponDatabase.Add(new Weapon
             {
                 Name = "Nightingale Bow",
@@ -579,12 +698,84 @@ namespace Skyrim_Build_Architect
                 Stagger = 0,
                 IsEnchantable = false,
                 LevelVariants = new List<LeveledStat> {
-                new LeveledStat { MinLevel = 1, Damage = 12, Value = 470, Effect = "10 Frost/5 Shock" },
-                new LeveledStat { MinLevel = 46, Damage = 19, Value = 3700, Effect = "30 Frost/15 Shock" } }
+        new LeveledStat { MinLevel = 1, Damage = 12, Value = 470, Effect = "10 Frost/5 Shock" },
+        new LeveledStat { MinLevel = 46, Damage = 19, Value = 3700, Effect = "30 Frost/15 Shock" } }
+            });
+
+            // Dragonbane (Das Anti-Drachen-Schwert)
+            WeaponDatabase.Add(new Weapon
+            {
+                Name = "Dragonbane",
+                Category = "One-Handed",
+                Reach = 1.0,
+                Speed = 1.0,
+                Stagger = 0.75,
+                IsEnchantable = false,
+                LevelVariants = new List<LeveledStat> {
+        new LeveledStat { MinLevel = 1, Damage = 10, Value = 412, Effect = "20 Lightning, 40 extra dmg vs Dragons" },
+        new LeveledStat { MinLevel = 46, Damage = 14, Value = 1172, Effect = "40 Lightning, 80 extra dmg vs Dragons" } }
+            });
+
+            // Miraak's Sword (Höchste Reichweite!)
+            WeaponDatabase.Add(new Weapon
+            {
+                Name = "Miraak's Sword (DB)",
+                Category = "One-Handed",
+                Reach = 1.2,
+                Speed = 1.0,
+                Stagger = 0.75,
+                IsEnchantable = false,
+                LevelVariants = new List<LeveledStat> {
+        new LeveledStat { MinLevel = 1, Damage = 12, Value = 415, Effect = "Absorbs 15 Stamina" },
+        new LeveledStat { MinLevel = 60, Damage = 16, Value = 1245, Effect = "Absorbs 25 Stamina" } }
+            });
+
+            // The Pale Blade (Frost/Furcht)
+            WeaponDatabase.Add(new Weapon
+            {
+                Name = "The Pale Blade",
+                Category = "One-Handed",
+                Reach = 1.0,
+                Speed = 1.0,
+                Stagger = 0.75,
+                IsEnchantable = false,
+                LevelVariants = new List<LeveledStat> {
+        new LeveledStat { MinLevel = 1, Damage = 8, Value = 129, Effect = "5 Frost, Fear up to Lvl 8" },
+        new LeveledStat { MinLevel = 27, Damage = 13, Value = 753, Effect = "25 Frost, Fear up to Lvl 16" } }
+            });
+
+            // Gauldur Blackblade
+            WeaponDatabase.Add(new Weapon
+            {
+                Name = "Gauldur Blackblade",
+                Category = "One-Handed",
+                Reach = 1.0,
+                Speed = 1.0,
+                Stagger = 0.75,
+                IsEnchantable = false,
+                LevelVariants = new List<LeveledStat> {
+        new LeveledStat { MinLevel = 1, Damage = 8, Value = 265, Effect = "Absorbs 5 Health" },
+        new LeveledStat { MinLevel = 36, Damage = 11, Value = 875, Effect = "Absorbs 25 Health" } }
+            });
+
+            // Gauldur Blackbow
+            WeaponDatabase.Add(new Weapon
+            {
+                Name = "Gauldur Blackbow",
+                Category = "Archery",
+                Reach = 0,
+                Speed = 0.625,
+                Stagger = 0,
+                IsEnchantable = false,
+                LevelVariants = new List<LeveledStat> {
+        new LeveledStat { MinLevel = 1, Damage = 8, Value = 270, Effect = "Absorbs 10 Magicka" },
+        new LeveledStat { MinLevel = 36, Damage = 14, Value = 1000, Effect = "Absorbs 30 Magicka" } }
             });
 
             // SPELL WEAPONS (Bound)
             WeaponDatabase.Add(new Weapon { Name = "Bound Sword (Spell)", Category = "One-Handed", Damage = 9, Value = 0, Reach = 1.0, Speed = 1.0, Stagger = 0.75, IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Bound Dagger (Spell)", Category = "One-Handed", Damage = 6, Value = 0, Reach = 0.7, Speed = 1.3, Stagger = 0, IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Bound Battleaxe (Spell)", Category = "Two-Handed", Damage = 17, Value = 0, Reach = 1.3, Speed = 0.7, Stagger = 1.15, IsEnchantable = false });
             WeaponDatabase.Add(new Weapon { Name = "Bound Bow (Spell)", Category = "Archery", Damage = 18, Value = 0, Reach = 0, Speed = 0.875, Stagger = 0, IsEnchantable = false });
 
             // SORTIERUNG AM ENDE
