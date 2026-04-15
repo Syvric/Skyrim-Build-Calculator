@@ -198,18 +198,34 @@ namespace Skyrim_Build_Architect
                 TxtTotalStamina.Text = totalStamina.ToString("0");
 
                 // --- REGENERATION BERECHNEN ---
+
+                // 1. Basis-Werte vom Findling (Standing Stone) holen
                 double mRegenMult = stone?.MagickaRegenMult ?? 1.0;
                 double hRegenMult = stone?.HealthRegenMult ?? 1.0;
                 double sRegenMult = stone?.StaminaRegenMult ?? 1.0;
 
+                // 2. MAGICKA: Recovery Perk (Restoration)
+                // Wir nehmen .Max(), weil Recovery 2/2 die 1/2 ersetzt (nicht stapelt)
                 double recoveryBonus = PerkDatabase?
-                    .Where(p => p.IsActive && p.Name.Contains("Recovery"))
+                    .Where(p => p.IsActive && p.BaseName == "Recovery")
                     .Select(p => p.Multiplier - 1.0)
                     .DefaultIfEmpty(0.0)
                     .Max() ?? 0.0;
-
                 mRegenMult += recoveryBonus;
 
+                // 3. STAMINA: Wind Walker Perk (Light Armor)
+                // Bedingung: Perk aktiv UND mindestens 4 Teile leichte Rüstung (Kopf, Brust, Hände, Füße)
+                bool hasWindWalker = PerkDatabase?.Any(p => p.IsActive && p.Name.Contains("Wind Walker")) ?? false;
+                int lightArmorCount = EquippedItems.Count(i => i.Category.ToLower().Contains("light armor"));
+
+                if (hasWindWalker && lightArmorCount >= 4)
+                {
+                    sRegenMult += 0.5; // +50% Regeneration
+                }
+
+                // 4. UI AKTUALISIEREN
+                // Formel: (Max-Stat * Basis-Regen-Rate * Multiplikator)
+                // Basis-Raten Skyrim: Magicka 3%, Stamina 5%, Health 0.5% (außerhalb des Kampfes)
                 TxtRegenMagicka.Text = $"(+{(totalMagicka * 0.03 * mRegenMult):0.0} /s)";
                 TxtRegenHealth.Text = $"(+{(totalHealth * 0.005 * hRegenMult):0.0} /s)";
                 TxtRegenStamina.Text = $"(+{(totalStamina * 0.05 * sRegenMult):0.0} /s)";
@@ -359,30 +375,49 @@ namespace Skyrim_Build_Architect
 
             var activePerks = PerkDatabase.Where(p => p.IsActive).ToList();
 
+            // --- Fists of Steel Vorbereitung ---
+            bool hasFistsOfSteel = activePerks.Any(p => p.Name.Contains("Fists of Steel"));
+            // Wir suchen, ob schwere Handschuhe ausgerüstet sind
+            var heavyGauntlets = EquippedItems.FirstOrDefault(i => i.Slot == "Hands" && i.Category.ToLower().Contains("heavy armor"));
+
             foreach (var item in EquippedItems)
             {
-                // 1. Normales Rating (Schaden oder Rüstung) umwandeln
                 if (double.TryParse(item.Rating, out double value))
                 {
                     if (item.Slot == "Main-Hand" || item.Slot == "Off-Hand")
                     {
-                        totalDamage += value;
+                        double finalItemDamage = value;
 
-                        // 2. NEU: SneakRating umwandeln und zu totalSneakDamage addieren
-                        // Hier erstellen wir die Variable 'sValue', die vorher gefehlt hat
+                        // SPEZIALFALL: Fists of Steel
+                        if (item.ItemName == "Fists" && hasFistsOfSteel && heavyGauntlets != null)
+                        {
+                            // Wir müssen den BASIS-Wert der Handschuhe aus der Datenbank holen (Skyrim-Regel!)
+                            var baseArmorEntry = ArmorDatabase.FirstOrDefault(a => a.Name == heavyGauntlets.ItemName);
+                            if (baseArmorEntry != null)
+                            {
+                                finalItemDamage += baseArmorEntry.ArmorRating;
+                            }
+                        }
+
+                        totalDamage += finalItemDamage;
+
+                        // Sneak Damage Berechnung für das Gesamtergebnis
                         if (double.TryParse(item.SneakRating, out double sValue))
                         {
-                            totalSneakDamage += sValue;
+                            // Wir passen den Schleichschaden proportional an, falls Fists of Steel den Schaden erhöht hat
+                            double ratio = (value > 0) ? sValue / value : 1.0;
+                            totalSneakDamage += (finalItemDamage * ratio);
                         }
                     }
                     else
                     {
+                        // Alles was keine Waffe ist, ist Rüstung
                         totalArmor += value;
                     }
                 }
             }
 
-            // UI aktualisieren
+            // UI Aktualisierung
             TxtTotalDamage.Text = totalDamage.ToString("0");
             TxtTotalArmor.Text = totalArmor.ToString("0");
             TxtSneakDamage.Text = totalSneakDamage.ToString("0");
@@ -468,18 +503,26 @@ namespace Skyrim_Build_Architect
                     return;
                 }
 
-                // Aufruf des Rechners mit beiden Verzauberungen UND dem gemMultiplier
+                // 1. Aufruf des Rechners (hast du schon)
                 var calcResult = SkyrimCalculator.CalculateArmor(a, level, active, selectedEnch, selectedEnch2, gemMultiplier);
 
+                // 2. Kategorie mit Schmiede-Grad setzen
                 TxtArmorCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
                                          ? a.Slot
                                          : $"{a.Slot} {calcResult.SmithingTierName}";
 
+                // 3. Rüstungswert und Effekt-Text setzen
                 TxtArmorDisplay.Text = Math.Round(calcResult.FinalArmorRating).ToString();
                 TxtArmorEffect.Text = calcResult.FinalEffectText;
 
+                // 4. HIER SIND DIE ÄNDERUNGEN: Gewicht und Wert
                 var stats = a.GetStatsForLevel(level);
-                TxtArmorWeight.Text = a.Weight > 0 ? a.Weight.ToString() : "-";
+
+                // FIX: Jetzt wird das berechnete Gewicht genutzt (springt auf 0 bei Perks)
+                TxtArmorWeight.Text = calcResult.FinalWeight > 0
+                    ? calcResult.FinalWeight.ToString("0.#")
+                    : "0 (Weightless)";
+
                 TxtArmorValue.Text = Math.Round(stats.val).ToString();
             }
         }
