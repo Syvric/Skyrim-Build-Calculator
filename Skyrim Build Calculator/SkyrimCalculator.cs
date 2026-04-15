@@ -10,8 +10,11 @@ namespace Skyrim_Build_Architect
     {
         public double FinalDamage { get; set; }
         public double SneakDamage { get; set; }
+        public string FinalEffectText { get; set; } = "";
         public string SmithingTierName { get; set; } = "";
-        public string FinalEffectText { get; set; } = "None";
+
+        // DIESE ZEILE FEHLT:
+        public double FinalStagger { get; set; }
     }
 
     public class TotalBuildStatsResult
@@ -40,7 +43,7 @@ namespace Skyrim_Build_Architect
     double difficultyMult,
     Enchantment? ench1,
     Enchantment? ench2,
-    double gemMult) // NEU: Seelenstein-Multiplikator wird hier übernommen
+    double gemMult)
         {
             var result = new WeaponCalculationResult();
             var stats = w.GetStatsForLevel(level);
@@ -48,7 +51,7 @@ namespace Skyrim_Build_Architect
             string wName = w.Name.ToLower();
             string wCategory = (w.Category ?? "").ToLower();
 
-            // 1. Schmiede-Bonus
+            // 1. SCHMIEDE-BONUS
             double smithingBonus = 0;
             bool hasSmithingPerk = activePerks.Any(p =>
                 p.SkillGroup == "Smithing" &&
@@ -64,7 +67,7 @@ namespace Skyrim_Build_Architect
                 else { smithingBonus = 2; result.SmithingTierName = "(Fine)"; }
             }
 
-            // 2. Waffen-Perks (Einhand, Zweihand, Schießen)
+            // 2. WAFFEN-PERKS (Einhand, Zweihand, Schießen)
             double wMult = 1.0;
             var matchingPerks = activePerks.Where(p => {
                 string pGroup = (p.SkillGroup ?? "").ToLower();
@@ -76,7 +79,7 @@ namespace Skyrim_Build_Architect
 
             if (matchingPerks.Any()) wMult = matchingPerks.Max(p => p.Multiplier);
 
-            // 3. Finaler Schaden & Sneak Damage
+            // 3. FINALER SCHADEN & SNEAK DAMAGE
             result.FinalDamage = (stats.dmg + smithingBonus) * wMult * difficultyMult;
             double roundedDamage = Math.Round(result.FinalDamage);
 
@@ -90,40 +93,49 @@ namespace Skyrim_Build_Architect
 
             result.SneakDamage = roundedDamage * sMult;
 
-            // 4. Verzauberungen berechnen
+            // --- In CalculateWeapon ---
+
+            // 1. Basis-Stagger aus der Datenbank (Bogen = 0, Armbrust = 0.75)
+            result.FinalStagger = w.Stagger;
+
+            // 2. Wuchtschuss (Power Shot) Logik
+            bool hasPowerShot = activePerks.Any(p => p.Name == "Power Shot" || p.Name == "Wuchtschuss");
+
+            if (hasPowerShot && wCategory.Contains("archery"))
+            {
+                // Logik: Ein Bogen (Stagger 0) bekommt die 0.25 vom Perk.
+                // Eine Armbrust (Stagger 0.75) behält ihren höheren Wert, 
+                // da 0.75 bereits stärker ist als der Perk-Effekt.
+                result.FinalStagger = Math.Max(result.FinalStagger, 0.25);
+            }
+
+            // 4. VERZAUBERUNGEN BERECHNEN
             List<string> effectTexts = new List<string>();
 
-            // Bestehenden Waffen-Effekt hinzufügen (falls vorhanden)
             if (!string.IsNullOrEmpty(stats.eff) && stats.eff != "None")
                 effectTexts.Add(stats.eff);
 
-            // Interne Helfer-Funktion (jetzt mit gemMult)
             string ProcessEnch(Enchantment? ench)
             {
                 if (ench == null || ench.Name == "None") return "";
 
                 string eName = ench.Name.ToLower();
-                // Basis-Enchanter Perks (1/5 bis 5/5)
                 double eMult = activePerks.Where(p => p.SkillGroup == "Enchanting").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
 
-                // Elementar-Perks anwenden (Spezial-Perks)
                 if (activePerks.Any(p => p.Name.Contains("Fire Enchanter")) && (eName.Contains("fire") || eName.Contains("burn"))) eMult *= 1.25;
                 if (activePerks.Any(p => p.Name.Contains("Frost Enchanter")) && eName.Contains("frost")) eMult *= 1.25;
                 if (activePerks.Any(p => p.Name.Contains("Storm Enchanter")) && (eName.Contains("shock") || eName.Contains("lightning"))) eMult *= 1.25;
 
-                // BERECHNUNG: Basiswert * Perk-Bonus * Seelenstein-Multiplikator
                 double mag = ench.AddedValue * eMult * gemMult;
                 return string.Format(ench.Description, Math.Round(mag));
             }
 
-            // Beide Slots berechnen
             string res1 = ProcessEnch(ench1);
             if (!string.IsNullOrEmpty(res1)) effectTexts.Add(res1);
 
             string res2 = ProcessEnch(ench2);
             if (!string.IsNullOrEmpty(res2)) effectTexts.Add(res2);
 
-            // Texte zusammenfügen
             result.FinalEffectText = effectTexts.Count > 0 ? string.Join(" + ", effectTexts) : "None";
 
             return result;

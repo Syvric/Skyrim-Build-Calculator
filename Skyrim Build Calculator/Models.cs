@@ -71,6 +71,15 @@ namespace Skyrim_Build_Architect
             }
         }
 
+        public class WeaponCalculationResult
+        {
+            public double FinalDamage { get; set; }
+            public double SneakDamage { get; set; }
+            public string FinalEffectText { get; set; } = "";
+            public string SmithingTierName { get; set; } = "";
+            public double FinalStagger { get; set; } // NEU: Damit der Wert zur UI kommt
+        }
+
         public bool IsAvailable
         {
             get => _isAvailable;

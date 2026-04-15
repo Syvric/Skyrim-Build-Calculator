@@ -373,7 +373,7 @@ namespace Skyrim_Build_Architect
                 var stats = w.GetStatsForLevel(level);
                 TxtReach.Text = w.Reach > 0 ? w.Reach.ToString() : "-";
                 TxtSpeed.Text = w.Speed > 0 ? w.Speed.ToString() : "-";
-                TxtStagger.Text = w.Stagger > 0 ? w.Stagger.ToString() : "-";
+                TxtStagger.Text = calcResult.FinalStagger > 0 ? calcResult.FinalStagger.ToString("0.00") : "-";
                 TxtValue.Text = Math.Round(stats.val).ToString();
             }
             else if (!isWeaponMode && CmbSelect.SelectedItem is Armor a)
