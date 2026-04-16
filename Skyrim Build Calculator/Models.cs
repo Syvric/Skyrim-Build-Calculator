@@ -126,6 +126,7 @@ namespace Skyrim_Build_Architect
     {
         public string Name { get; set; } = "";
         public double AddedValue { get; set; }
+        public double BaseMagnitude { get; set; } // <--- Diese Zeile fehlt ihm gerade!
         public string SkillGroup { get; set; } = "Enchanting";
         public string Description { get; set; } = "";
         public List<string> CompatibleSlots { get; set; } = new List<string>();

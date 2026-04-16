@@ -339,14 +339,14 @@ namespace Skyrim_Build_Architect
             // ==========================================
             // 2. ENCHANTMENT HELPER LISTS
             // ==========================================
-            var combatSlots = new List<string> { "Gloves", "Boots", "Ring", "Amulet" };
+            var combatSlots = new List<string> { "Hands", "Boots", "Ring", "Amulet" };
             var magicSlots = new List<string> { "Head", "Chest", "Ring", "Amulet" };
             var resistSlots = new List<string> { "Boots", "Shield", "Ring", "Amulet" };
 
             // ==========================================
             // 3. ENCHANTMENTS
             // ==========================================
-            EnchantmentDatabase.Add(new Enchantment { Name = "None", Description = "", AddedValue = 0, CompatibleSlots = new List<string> { "Weapon", "Chest", "Boots", "Gloves", "Head", "Shield", "Ring", "Amulet" } });
+            EnchantmentDatabase.Add(new Enchantment { Name = "None", Description = "", AddedValue = 0, CompatibleSlots = new List<string> { "Weapon", "Chest", "Boots", "Hands", "Head", "Shield", "Ring", "Amulet" } });
 
             // Waffen
             EnchantmentDatabase.Add(new Enchantment { Name = "Fire Damage", Description = "Burns for {0} points.", AddedValue = 10, CompatibleSlots = new List<string> { "Weapon" } });
@@ -1048,14 +1048,38 @@ namespace Skyrim_Build_Architect
             // ==========================================
             // HEAVY ARMOR - BRAWLER'S GAUNTLETS (AE - Fearsome Fists)
             // ==========================================
+
+            // Eisen
             ArmorDatabase.Add(new Armor { Name = "Brawler's Iron Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 10, Weight = 5.0, Value = 175, Effect = "Unarmed strikes do 10 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Iron Gauntlets (Crafted)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 10, Weight = 5.0, Value = 175, Effect = "None" });
+
+            // Stahl
             ArmorDatabase.Add(new Armor { Name = "Brawler's Steel Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 12, Weight = 4.0, Value = 250, Effect = "Unarmed strikes do 12 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Steel Gauntlets (Crafted)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 12, Weight = 4.0, Value = 250, Effect = "None" });
+
+            // Zwergen
             ArmorDatabase.Add(new Armor { Name = "Brawler's Dwarven Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 13, Weight = 8.0, Value = 375, Effect = "Unarmed strikes do 14 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Dwarven Gauntlets (Crafted)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 13, Weight = 8.0, Value = 375, Effect = "None" });
+
+            // Ork
             ArmorDatabase.Add(new Armor { Name = "Brawler's Orcish Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 15, Weight = 7.0, Value = 550, Effect = "Unarmed strikes do 15 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Orcish Gauntlets (Crafted)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 15, Weight = 7.0, Value = 550, Effect = "None" });
+
+            // Ebenerz
             ArmorDatabase.Add(new Armor { Name = "Brawler's Ebony Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 16, Weight = 7.0, Value = 1200, Effect = "Unarmed strikes do 16 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Ebony Gauntlets (Crafted)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 16, Weight = 7.0, Value = 1200, Effect = "None" });
+
+            // Daedrisch
             ArmorDatabase.Add(new Armor { Name = "Brawler's Daedric Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 18, Weight = 6.0, Value = 2200, Effect = "Unarmed strikes do 18 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Daedric Gauntlets (Crafted)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 18, Weight = 6.0, Value = 2200, Effect = "None" });
+
+            // Drachenplatte
             ArmorDatabase.Add(new Armor { Name = "Brawler's Dragonplate Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 17, Weight = 8.0, Value = 2100, Effect = "Unarmed strikes do 20 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Dragonplate Gauntlets (Crafted)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 17, Weight = 8.0, Value = 2100, Effect = "None" });
+
+            // Wahnsinn (Madness)
             ArmorDatabase.Add(new Armor { Name = "Brawler's Madness Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 18, Weight = 6.0, Value = 2500, Effect = "Unarmed strikes do 22 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Madness Gauntlets (Crafted)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 18, Weight = 6.0, Value = 2500, Effect = "None" });
 
             // ==========================================
             // HEAVY ARMOR - CIVIL WAR CHAMPIONS (AE)
@@ -1589,13 +1613,34 @@ namespace Skyrim_Build_Architect
             // ==========================================
             // LIGHT ARMOR - BRAWLER'S GAUNTLETS (AE - Fearsome Fists)
             // ==========================================
+
+            // Pelz (Fur)
             ArmorDatabase.Add(new Armor { Name = "Brawler's Fur Gloves (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 6, Weight = 2.0, Value = 125, Effect = "Unarmed strikes do 8 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Fur Gloves (Crafted)", Slot = "Hands", Category = "Light Armor", ArmorRating = 6, Weight = 2.0, Value = 125, Effect = "None" });
+
+            // Fell (Hide)
             ArmorDatabase.Add(new Armor { Name = "Brawler's Hide Bracers (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 5, Weight = 1.0, Value = 125, Effect = "Unarmed strikes do 8 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Hide Bracers (Crafted)", Slot = "Hands", Category = "Light Armor", ArmorRating = 5, Weight = 1.0, Value = 125, Effect = "None" });
+
+            // Leder
             ArmorDatabase.Add(new Armor { Name = "Brawler's Leather Bracers (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 9, Weight = 2.0, Value = 225, Effect = "Unarmed strikes do 10 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Leather Bracers (Crafted)", Slot = "Hands", Category = "Light Armor", ArmorRating = 9, Weight = 2.0, Value = 225, Effect = "None" });
+
+            // Elfen
             ArmorDatabase.Add(new Armor { Name = "Brawler's Elven Bracers (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 350, Effect = "Unarmed strikes do 12 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Elven Bracers (Crafted)", Slot = "Hands", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 350, Effect = "None" });
+
+            // Glas
             ArmorDatabase.Add(new Armor { Name = "Brawler's Glass Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 750, Effect = "Unarmed strikes do 14 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Glass Gauntlets (Crafted)", Slot = "Hands", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 750, Effect = "None" });
+
+            // Drachenschuppen
             ArmorDatabase.Add(new Armor { Name = "Brawler's Dragonscale Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 14, Weight = 3.0, Value = 1400, Effect = "Unarmed strikes do 16 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Dragonscale Gauntlets (Crafted)", Slot = "Hands", Category = "Light Armor", ArmorRating = 14, Weight = 3.0, Value = 1400, Effect = "None" });
+
+            // Bernstein (Amber)
             ArmorDatabase.Add(new Armor { Name = "Brawler's Amber Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 14, Weight = 2.0, Value = 1350, Effect = "Unarmed strikes do 18 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Amber Gauntlets (Crafted)", Slot = "Hands", Category = "Light Armor", ArmorRating = 14, Weight = 2.0, Value = 1350, Effect = "None" });
 
             // ==========================================================================================
             // 11. JEWELRY - RINGS, AMULETS, CIRCLETS & ARTIFACTS

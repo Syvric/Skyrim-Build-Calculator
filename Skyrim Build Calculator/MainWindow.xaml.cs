@@ -290,7 +290,7 @@ namespace Skyrim_Build_Architect
                     {
                         bool shouldBeAvailable = level >= perk.RequiredLevel;
                         if (perk.IsAvailable != shouldBeAvailable) perk.IsAvailable = shouldBeAvailable;
-                        if (!perk.IsAvailable && perk.IsActive) perk.IsActive = false;
+                        //if (!perk.IsAvailable && perk.IsActive) perk.IsActive = false;
                     }
 
                     if (TxtWarriorCount != null) TxtWarriorCount.Text = $"Warrior: {PerkDatabase.Count(p => p.IsActive && p.Category == "WARRIOR")}";
@@ -340,11 +340,15 @@ namespace Skyrim_Build_Architect
             {
                 newItem = new EquippedItem
                 {
-                    Slot = slotName, // z.B. "Main-Hand" oder "Off-Hand"
+                    Slot = slotName,
                     ItemName = w.Name,
                     Category = w.Category,
-                    Rating = TxtDamageDisplay.Text,      // Aktueller Wert aus der UI
-                    OriginalObject = w                   // DAS WICHTIGSTE: Die ganze Waffe mitschicken!
+                    Rating = TxtDamageDisplay.Text,
+
+                    // --- DIESE ZEILE HINZUFÜGEN ---
+                    Enchantment = TxtEffect.Text,
+
+                    OriginalObject = w
                 };
             }
             // Fall 2: Es ist eine RÜSTUNG
@@ -352,11 +356,15 @@ namespace Skyrim_Build_Architect
             {
                 newItem = new EquippedItem
                 {
-                    Slot = a.Slot,                       // Nutzt den Slot aus der Datenbank (Head, Chest, etc.)
+                    Slot = a.Slot,
                     ItemName = a.Name,
                     Category = a.Category,
-                    Rating = TxtArmorDisplay.Text,      // Aktueller Wert aus der UI
-                    OriginalObject = a                   // DAS WICHTIGSTE: Die ganze Rüstung mitschicken!
+                    Rating = TxtArmorDisplay.Text,
+
+                    // --- DIESE ZEILE HINZUFÜGEN ---
+                    Enchantment = TxtArmorEffect.Text,
+
+                    OriginalObject = a
                 };
             }
 
@@ -667,9 +675,55 @@ namespace Skyrim_Build_Architect
                     TxtArmorCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
                                              ? a.Slot
                                              : $"{a.Slot} {calcResult.SmithingTierName}";
-
                     TxtArmorDisplay.Text = Math.Round(calcResult.FinalArmorRating).ToString();
-                    TxtArmorEffect.Text = calcResult.FinalEffectText;
+
+                    // --- 1. TEXT VOM CALCULATOR HOLEN ---
+                    string displayEffect = calcResult.FinalEffectText;
+
+                    // --- 2. BASIS-EFFEKT DER RÜSTUNG RETTEN (für Brawler's etc.) ---
+                    if (displayEffect == "None" || string.IsNullOrWhiteSpace(displayEffect))
+                    {
+                        displayEffect = a.Effect; // Holt den Text aus deiner Datenbank!
+                    }
+
+                    // --- 3. EIGENE VERZAUBERUNGEN BERECHNEN (inkl. Perks & Seelenstein) ---
+                    // Wenn die Rüstung keinen eigenen Effekt hat und eine Verzauberung gewählt ist:
+                    if ((displayEffect == "None" || string.IsNullOrEmpty(displayEffect)) && selectedEnch != null && selectedEnch.Name != "None")
+                    {
+                        // Basis-Enchanter-Perk-Multiplikator (1.0 bis 2.0)
+                        double basePerkMult = active.Where(p => p.BaseName == "Enchanter").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
+
+                        // Hilfs-Funktion für die speziellen Perks (Corpus, Insightful, Fire, etc.)
+                        double GetEnchMult(Enchantment ench)
+                        {
+                            double m = basePerkMult;
+                            if (active.Any(p => p.Name.Contains("Corpus Enchanter")) && (ench.Name.Contains("Health") || ench.Name.Contains("Magicka") || ench.Name.Contains("Stamina"))) m *= 1.25;
+                            if (active.Any(p => p.Name.Contains("Insightful Enchanter")) && ench.Name.Contains("Fortify") && !ench.Name.Contains("Health") && !ench.Name.Contains("Magicka") && !ench.Name.Contains("Stamina")) m *= 1.25;
+                            if (active.Any(p => p.Name.Contains("Fire Enchanter")) && ench.Name.Contains("Fire")) m *= 1.25;
+                            if (active.Any(p => p.Name.Contains("Frost Enchanter")) && ench.Name.Contains("Frost")) m *= 1.25;
+                            if (active.Any(p => p.Name.Contains("Storm Enchanter")) && (ench.Name.Contains("Shock") || ench.Name.Contains("Storm"))) m *= 1.25;
+                            return m;
+                        }
+
+                        // Stärke ermitteln (inklusive Perks und Seelenstein!)
+                        double mag1 = selectedEnch.BaseMagnitude > 0 ? selectedEnch.BaseMagnitude : selectedEnch.AddedValue;
+                        mag1 = Math.Round(mag1 * gemMultiplier * GetEnchMult(selectedEnch));
+
+                        displayEffect = selectedEnch.Description.Replace("{0}", mag1.ToString());
+
+                        // Falls eine zweite Verzauberung (Extra Effect) aktiv ist:
+                        if (selectedEnch2 != null && selectedEnch2.Name != "None")
+                        {
+                            double mag2 = selectedEnch2.BaseMagnitude > 0 ? selectedEnch2.BaseMagnitude : selectedEnch2.AddedValue;
+                            mag2 = Math.Round(mag2 * gemMultiplier * GetEnchMult(selectedEnch2));
+
+                            displayEffect += "\n" + selectedEnch2.Description.Replace("{0}", mag2.ToString());
+                        }
+                    }
+
+                    // --- 4. TEXT IN DIE OBERFLÄCHE SCHREIBEN ---
+                    TxtArmorEffect.Text = displayEffect;
+                    // --------------------------
 
                     var stats = a.GetStatsForLevel(level);
                     TxtArmorWeight.Text = calcResult.FinalWeight > 0
@@ -900,8 +954,8 @@ namespace Skyrim_Build_Architect
                 WeaponPanel.Visibility = Visibility.Collapsed;
                 ArmorPanel.Visibility = Visibility.Visible;
 
-                // Rüstung ist nur verzauberbar, wenn das Effect-Feld komplett leer ist.
-                enchantable = string.IsNullOrEmpty(a.Effect);
+                // RICHTIG: Erlaubt das Verzaubern, wenn das Feld leer ist ODER "None" heißt.
+                enchantable = string.IsNullOrEmpty(a.Effect) || a.Effect == "None";
             }
 
             // --- Verzauberungs-UI aktualisieren ---
