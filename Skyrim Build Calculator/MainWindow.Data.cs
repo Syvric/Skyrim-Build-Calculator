@@ -592,6 +592,24 @@ namespace Skyrim_Build_Architect
             WeaponDatabase.Add(new Weapon { Name = "Exploding Steel Bolt of Fire (DG)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 15 });
             WeaponDatabase.Add(new Weapon { Name = "Exploding Dwarven Bolt of Fire (DG)", Category = "Ammunition", Damage = 14, Weight = 0, Value = 30 });
 
+            // ==================================================================================
+            // Staves
+            // ==================================================================================
+
+            // --- Destruction Staves ---
+            WeaponDatabase.Add(new Weapon { Name = "Staff of Fireballs", Category = "Staff", Damage = 40, Element = "Fire", MagicSchool = "Destruction", MaxCharges = 500, Weight = 8, Value = 1358, Effect = "Creates an explosion for 40 fire damage." });
+            WeaponDatabase.Add(new Weapon { Name = "Staff of Ice Storms", Category = "Staff", Damage = 40, Element = "Frost", MagicSchool = "Destruction", MaxCharges = 500, Weight = 8, Value = 1422, Effect = "A freezing whirlwind that does 40 frost damage per second." });
+            WeaponDatabase.Add(new Weapon { Name = "Staff of Chain Lightning", Category = "Staff", Damage = 40, Element = "Shock", MagicSchool = "Destruction", MaxCharges = 500, Weight = 8, Value = 1530, Effect = "Shock damage that jumps to multiple targets." });
+
+            // --- Conjuration Staves ---
+            WeaponDatabase.Add(new Weapon { Name = "Sanguine Rose", Category = "Staff", Damage = 0, MagicSchool = "Conjuration", MaxCharges = 3000, Weight = 10, Value = 2087, Effect = "Summons a Dremora Lord for 60 seconds." });
+            WeaponDatabase.Add(new Weapon { Name = "Staff of the Storm Atronach", Category = "Staff", Damage = 0, MagicSchool = "Conjuration", MaxCharges = 1600, Weight = 8, Value = 1450, Effect = "Summons a Storm Atronach where the caster is pointing." });
+
+            // --- Unique & Artifact Staves ---
+            WeaponDatabase.Add(new Weapon { Name = "Staff of Magnus", Category = "Staff", Damage = 20, MagicSchool = "Restoration", MaxCharges = 5000, Weight = 8, Value = 3450, Effect = "Absorbs 20 Magicka/Health per second." });
+            WeaponDatabase.Add(new Weapon { Name = "Wabbajack", Category = "Staff", Damage = 50, MagicSchool = "Illusion", MaxCharges = 3000, Weight = 10, Value = 1455, Effect = "Casts a completely unpredictable effect." });
+            WeaponDatabase.Add(new Weapon { Name = "Skull of Corruption", Category = "Staff", Damage = 20, MagicSchool = "Illusion", MaxCharges = 3000, Weight = 10, Value = 1550, Effect = "Collects dreams to increase damage to 50." });
+
             // ==========================================
             // DAGGERS & FACTION WEAPONS
             // ==========================================
@@ -1241,6 +1259,18 @@ namespace Skyrim_Build_Architect
                 new LeveledStat { MinLevel = 60, ArmorRating = 27, Value = 603, Effect = "+70 Magicka" }
                 }
             });
+
+            // ==========================================================================================
+            // 1. Backback
+            // ==========================================================================================
+
+            ArmorDatabase.AddRange([
+                new() { Name = "Mage Backpack", Slot = "Backpack", Category = "Backpack", ArmorRating = 0, Weight = 1, Effect = "Carrying capacity is increased by 75. Magicka is increased by 20 points." },
+                new() { Name = "Adventurer Backpack", Slot = "Backpack", Category = "Backpack", ArmorRating = 0, Weight = 1, Effect = "Carrying capacity is increased by 75. Stamina is increased by 20 points." },
+                new() { Name = "Hunter Backpack", Slot = "Backpack", Category = "Backpack", ArmorRating = 0, Weight = 1, Effect = "Carrying capacity is increased by 75. Bows do 10% more damage." },
+                new() { Name = "Thief Backpack", Slot = "Backpack", Category = "Backpack", ArmorRating = 0, Weight = 1, Effect = "Carrying capacity is increased by 75. Lockpicking is 15% easier." },
+                new() { Name = "Leather Backpack", Slot = "Backpack", Category = "Backpack", ArmorRating = 0, Weight = 1, Effect = "Carrying capacity is increased by 75." }
+            ]);
 
             // ==========================================================================================
             // 1. LIGHT ARMOR - BASIC CRAFTING MATERIALS

@@ -204,7 +204,7 @@
                                 <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Margin="10,6,0,2">
                                     <TextBlock x:Name="TxtCurrentWeight" Text="0" Foreground="#E1B80D" FontWeight="Bold"/>
                                     <TextBlock Text=" / " Foreground="#E1B80D" FontWeight="Bold"/>
-                                    <TextBlock x:Name="TxtTotalCarryWeight" Text="300" Foreground="#E1B80D" FontWeight="Bold"/>
+                                    <TextBlock x:Name="TxtTotalCarryWeight" Text="{Binding MaxCarryWeight, FallbackValue=300}" Foreground="#E1B80D" FontWeight="Bold"/>
                                 </StackPanel>
 
                                 <TextBlock Text="Magic Resist:" Grid.Row="4" Grid.Column="0" Foreground="#BF80FF" Margin="0,2"/>
@@ -221,13 +221,10 @@
                 </Border>
 
                 <TextBlock Text="Difficulty:" Foreground="#E1B80D" Margin="0,0,0,2"/>
-                <ComboBox x:Name="CmbDifficulty" SelectionChanged="CmbDifficulty_SelectionChanged" Margin="0,0,0,10">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" Foreground="#E1B80D" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                <ComboBox x:Name="CmbDifficulty" 
+                          ItemsSource="{Binding DifficultyDatabase}"
+                          SelectedItem="{Binding SelectedDifficulty, RelativeSource={RelativeSource AncestorType=Window}}"
+                          Margin="0,0,0,10" />
 
                 <TextBlock Text="Standing Stone:" Foreground="#E1B80D" FontWeight="Bold" Margin="0,0,0,2"/>
                 <ComboBox x:Name="CmbStandingStone" SelectionChanged="CmbStandingStone_SelectionChanged" Background="#1A1A1A">
@@ -268,6 +265,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+
                 <TextBlock Text="Enchantment 1:" Foreground="#E1B80D" Margin="0,0,0,2"/>
                 <ComboBox x:Name="CmbEnchantment" SelectionChanged="CmbEnchantment_SelectionChanged" Margin="0,0,0,10">
                     <ComboBox.ItemTemplate>
@@ -300,7 +298,6 @@
                         <Border BorderBrush="#E1B80D" BorderThickness="1" Margin="5" Padding="10" CornerRadius="2">
                             <StackPanel>
                                 <TextBlock Text="Weapon Stats" Foreground="#E1B80D" FontWeight="Bold" Margin="0,0,0,10"/>
-
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" MinWidth="100"/>
@@ -316,40 +313,28 @@
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
-
                                     <TextBlock Text="Category:" Grid.Row="0" Grid.Column="0" Foreground="#E1B80D" VerticalAlignment="Top" Margin="0,2"/>
                                     <TextBlock x:Name="TxtWeaponCategory" Grid.Row="0" Grid.Column="1" 
-                                               Text="-" Foreground="#E1B80D" 
-                                               TextWrapping="Wrap" VerticalAlignment="Top" Margin="5,2,0,2"/>
-
+                                               Text="{Binding DisplayCategory, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                               Foreground="#E1B80D" TextWrapping="Wrap" VerticalAlignment="Top" Margin="5,2,0,2"/>
                                     <TextBlock Text="Damage:" Grid.Row="1" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
-                                    <TextBlock x:Name="TxtDamageDisplay" Grid.Row="1" Grid.Column="1" 
-                                               Text="0" Foreground="Red" FontWeight="Bold" Margin="5,5,0,2"/>
-
+                                    <TextBlock x:Name="TxtDamageDisplay" Grid.Row="1" Grid.Column="1" Text="0" Foreground="Red" FontWeight="Bold" Margin="5,5,0,2"/>
                                     <TextBlock Text="Sneak Dmg:" Grid.Row="2" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
-                                    <TextBlock x:Name="TxtSneakDisplay" Grid.Row="2" Grid.Column="1" 
-                                               Text="0" Foreground="LightGreen" FontWeight="Bold" Margin="5,5,0,2"/>
-
+                                    <TextBlock x:Name="TxtSneakDisplay" Grid.Row="2" Grid.Column="1" Text="0" Foreground="LightGreen" FontWeight="Bold" Margin="5,5,0,2"/>
                                     <TextBlock Text="Reach:" Grid.Row="3" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
                                     <TextBlock x:Name="TxtReach" Grid.Row="3" Grid.Column="1" Text="-" Foreground="#E1B80D" Margin="5,5,0,2"/>
-
                                     <TextBlock Text="Speed:" Grid.Row="4" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
                                     <TextBlock x:Name="TxtSpeed" Grid.Row="4" Grid.Column="1" Text="-" Foreground="#E1B80D" Margin="5,5,0,2"/>
-
                                     <TextBlock Text="Stagger:" Grid.Row="5" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
                                     <TextBlock x:Name="TxtStagger" Grid.Row="5" Grid.Column="1" Text="-" Foreground="#E1B80D" Margin="5,5,0,2"/>
-
                                     <TextBlock Text="Value (Gold):" Grid.Row="6" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
                                     <TextBlock x:Name="TxtValue" Grid.Row="6" Grid.Column="1" Text="-" Foreground="#E1B80D" Margin="5,5,0,2"/>
-
                                     <TextBlock Text="Effect:" Grid.Row="7" Grid.Column="0" Foreground="#E1B80D" Margin="0,10,0,0"/>
-                                    <TextBlock x:Name="TxtEffect" Grid.Row="7" Grid.Column="1" Text="None" Foreground="#BF80FF" 
-                                               TextWrapping="Wrap" Margin="5,10,0,0" FontStyle="Italic"/>
+                                    <TextBlock x:Name="TxtEffect" Grid.Row="7" Grid.Column="1" Text="None" Foreground="#BF80FF" TextWrapping="Wrap" Margin="5,10,0,0" FontStyle="Italic"/>
                                 </Grid>
                             </StackPanel>
                         </Border>
                     </StackPanel>
-
                     <StackPanel x:Name="ArmorPanel" Visibility="Collapsed" Background="#1A1A1A">
                         <Border BorderBrush="#E1B80D" BorderThickness="1" Padding="15" CornerRadius="2">
                             <Grid>
@@ -378,7 +363,9 @@
                                 <TextBlock Text="Effect:" Grid.Row="5" Grid.Column="0" Foreground="#E1B80D" Margin="0,10,0,0"/>
                                 <TextBlock x:Name="TxtArmorEffect" Text="None" Grid.Row="5" Grid.Column="1" Foreground="#BF80FF" TextWrapping="Wrap" Margin="0,10,0,0" FontStyle="Italic"/>
                                 <TextBlock Text="Incoming Damage:" Grid.Row="6" Grid.Column="0" Foreground="#E1B80D" Margin="0,10,0,0"/>
-                                <TextBlock x:Name="TxtIncomingDamage" Text="100%" Grid.Row="6" Grid.Column="1" Foreground="#FF4444" FontWeight="Bold" Margin="0,10,0,0"/>
+                                <TextBlock x:Name="TxtIncomingDamage" 
+                                           Text="{Binding IncomingDamageDisplay, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                           Grid.Row="6" Grid.Column="1" Foreground="#FF4444" FontWeight="Bold" Margin="0,10,0,0"/>
                             </Grid>
                         </Border>
                     </StackPanel>
@@ -388,38 +375,28 @@
                     <Button x:Name="BtnEquip" 
                             Content="Equip Main-Hand" 
                             Click="BtnEquip_Click" 
-                            Margin="0,0,2,0" 
-                            Padding="10" 
-                            Background="#E1B80D" 
-                            Foreground="#121212" 
-                            FontWeight="Bold" 
-                            BorderThickness="0"/>
+                            Margin="0,0,2,0" Padding="10" 
+                            Background="#E1B80D" Foreground="#121212" FontWeight="Bold" BorderThickness="0"/>
 
                     <Button x:Name="BtnEquipOffHand" 
                             Content="Equip Off-Hand" 
                             Click="BtnEquipOffHand_Click" 
-                            Margin="2,0,0,0" 
-                            Padding="10" 
-                            Background="#CBA40C" 
-                            Foreground="#121212" 
-                            FontWeight="Bold" 
-                            BorderThickness="0" 
+                            Margin="2,0,0,0" Padding="10" 
+                            Background="#CBA40C" Foreground="#121212" FontWeight="Bold" BorderThickness="0" 
                             Visibility="Collapsed"/>
                 </UniformGrid>
 
                 <Border Margin="0,20,0,15" BorderBrush="#444" BorderThickness="0,1,0,0" Padding="0,15,0,0">
                     <StackPanel>
                         <TextBlock Text="Total Build Stats" Foreground="#E1B80D" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
-
                         <Grid Margin="0,0,0,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Total Weapon Damage:" Foreground="#FF4444"/>
+                            <TextBlock x:Name="LblWeaponDamageTitle" Text="Total Weapon Damage:" Foreground="#FF4444"/>
                             <TextBlock x:Name="TxtTotalDamage" Text="0" Grid.Column="1" Foreground="#FF4444" FontWeight="Bold"/>
                         </Grid>
-
                         <Grid Margin="0,0,0,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -428,7 +405,6 @@
                             <TextBlock Text="Total Sneak Damage:" Foreground="#44FF44"/>
                             <TextBlock x:Name="TxtSneakDamage" Text="0" Grid.Column="1" Foreground="#44FF44" FontWeight="Bold"/>
                         </Grid>
-
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -437,6 +413,7 @@
                             <TextBlock Text="Total Armor Rating:" Foreground="#00C0FF"/>
                             <TextBlock x:Name="TxtTotalArmor" Text="0" Grid.Column="1" Foreground="#00C0FF" FontWeight="Bold"/>
                         </Grid>
+
                         <TextBlock Text="Equipped Items:" Foreground="#E1B80D" Margin="0,5,0,5" FontSize="12" FontWeight="Bold"/>
                         <ListBox x:Name="LstBuildItems" MouseDoubleClick="LstBuildItems_MouseDoubleClick" ToolTip="Double-click to unequip item" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListBox.ItemTemplate>

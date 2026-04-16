@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -9,11 +11,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using System.Collections.ObjectModel;
 
 namespace Skyrim_Build_Architect
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         // --- SPERRE ---
         private bool _isCalculating = false;
@@ -41,17 +42,133 @@ namespace Skyrim_Build_Architect
 
         private bool isWeaponMode = true;
 
+        // --- RUCKSACK LOGIK & BINDING ---
+        private EquippedItem? _equippedBackpack;
+        public EquippedItem? EquippedBackpack
+        {
+            get => _equippedBackpack;
+            set
+            {
+                _equippedBackpack = value;
+
+                // Wir rufen jetzt die NEU BENANNTE Methode auf:
+                NotifyPropertyChanged("MaxCarryWeight");
+
+                UpdateTotalBuildStats();
+                CalculateAttributes();
+            }
+        }
+
+        public double MaxCarryWeight
+        {
+            get
+            {
+                // Check, ob das Feld im XAML TxtInvestStamina oder TxtStaminaInvest heißt!
+                int investStamina = int.TryParse(TxtInvestStamina.Text, out int s) ? s : 0;
+                double baseCarry = 300 + (investStamina * 5);
+
+                return baseCarry + CalculateBackpackBonus("capacity");
+            }
+        }
+
+        // --- NEU: SCHWIERIGKEITSGRAD-LOGIK ---
+        private Difficulty _selectedDifficulty = new Difficulty { Name = "Adept", DamageDealtMultiplier = 1.0, DamageTakenMultiplier = 1.0 };
+        public Difficulty SelectedDifficulty
+        {
+            get => _selectedDifficulty;
+            set
+            {
+                _selectedDifficulty = value;
+
+                // 1. UI über die Änderung informieren
+                NotifyPropertyChanged(nameof(SelectedDifficulty));
+                NotifyPropertyChanged(nameof(TotalWeaponDamage));
+                NotifyPropertyChanged(nameof(PreviewDamage)); // Für das gelbe Fenster
+                NotifyPropertyChanged(nameof(IncomingDamageDisplay));
+
+                // 2. Synchronisation: Beide Logik-Pfade triggern
+                // UpdateCalculations berechnet die gelbe Preview-Box
+                UpdateCalculations();
+
+                // UpdateTotalBuildStats berechnet die unteren Gesamt-Werte
+                UpdateTotalBuildStats();
+            }
+        }
+
+        // Hilfs-Properties für das Binding, damit das nameof() Ziel findet
+        public string PreviewDamage => TxtDamageDisplay?.Text ?? "0";
+        public string TotalWeaponDamage => TxtTotalDamage?.Text ?? "0";
+
+        // Hilfs-Property für das gelbe Label
+        public string IncomingDamageDisplay => $"{(_selectedDifficulty?.DamageTakenMultiplier ?? 1.0) * 100}%";
+        public string TotalSneakDamage => TxtSneakDamage?.Text ?? "0";
+
+        public string DisplayCategory
+        {
+
+            get
+            {
+                // Wir holen uns die aktuelle Perk-Liste für den Check
+                var activePerks = PerkDatabase?.Where(p => p.IsActive).ToList() ?? new List<Perk>();
+
+                if (CmbSelect.SelectedItem is Weapon w)
+                {
+                    // Logik: Ist ein Effekt da, aber der Perk fehlt?
+                    bool needsArcane = !string.IsNullOrEmpty(w.Effect) && w.Effect != "None" &&
+                                       !activePerks.Any(p => p.Name == "Arcane Blacksmith");
+
+                    return needsArcane ? $"{w.Category} (Needs Arcane Blacksmith)" : w.Category;
+                }
+
+                if (CmbSelect.SelectedItem is Armor a)
+                {
+                    bool needsArcane = !string.IsNullOrEmpty(a.Effect) && a.Effect != "None" &&
+                                       !activePerks.Any(p => p.Name == "Arcane Blacksmith");
+
+                    return needsArcane ? $"{a.Category} (Needs Arcane Blacksmith)" : a.Category;
+                }
+
+                return "Unarmed";
+            }
+        }
+
+        private double CalculateBackpackBonus(string keyword)
+        {
+            var bp = EquippedItems.FirstOrDefault(i => i.Slot == "Backpack");
+            if (bp == null) return 0;
+
+            string text = (bp.Enchantment ?? "") + " " + (bp.OriginalObject as Armor)?.Effect;
+            if (text.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+            {
+                var match = System.Text.RegularExpressions.Regex.Match(text, @"(?:increased by\s+)?(\d+)");
+                if (match.Success)
+                {
+                    return double.Parse(match.Groups[1].Value);
+                }
+            }
+            return 0;
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
-            // --- NEU: Die Brücke zwischen Code und UI ---
-            // Damit die Liste der ausgerüsteten Items auch wirklich angezeigt wird:
-            LstBuildItems.ItemsSource = EquippedItems;
-
+            // 1. ZUERST ALLE DATEN LADEN
+            // Ohne das hier sind die Listen leer und wir können nichts auswählen!
             LoadData();
             LoadRaceData();
             LoadStandingStones();
+
+            // 2. DEN STANDARD-SCHWIERIGKEITSGRAD ÜBER DIE PROPERTY SETZEN
+            // Das ersetzt das alte 'CmbDifficulty.SelectedIndex = 2'
+            if (DifficultyDatabase != null && DifficultyDatabase.Count > 0)
+            {
+                // Wir suchen "Adept", falls nicht gefunden, nehmen wir den ersten Eintrag
+                SelectedDifficulty = DifficultyDatabase.FirstOrDefault(d => d.Name == "Adept") ?? DifficultyDatabase[0];
+            }
+
+            // 3. UI-BINDUNGEN UND LISTEN INITIALISIEREN
+            LstBuildItems.ItemsSource = EquippedItems;
 
             // Verzauberungen initialisieren
             CmbEnchantment2.ItemsSource = EnchantmentDatabase;
@@ -73,12 +190,11 @@ namespace Skyrim_Build_Architect
             CmbRace.ItemsSource = RaceDatabase;
             CmbStandingStone.ItemsSource = StandingStoneDatabase;
 
-            // Standard-Auswahl setzen
-            if (CmbDifficulty.Items.Count > 0) CmbDifficulty.SelectedIndex = 2; // Adept
+            // Weitere Standard-Auswahl setzen
             CmbRace.SelectedIndex = 0;
             CmbStandingStone.SelectedIndex = 0;
 
-            // Initial-Berechnungen durchführen, sobald das Fenster geladen ist
+            // 4. INITIAL-BERECHNUNGEN (Sobald das Fenster bereit ist)
             this.Loaded += (s, e) =>
             {
                 CalculateAttributes();
@@ -86,6 +202,8 @@ namespace Skyrim_Build_Architect
                 BtnShowWeapons_Click(this, new RoutedEventArgs());
                 if (view != null) view.Refresh();
             };
+
+            // Einmaliger Aufruf zur Sicherheit
             UpdateTotalBuildStats();
         }
 
@@ -161,7 +279,7 @@ namespace Skyrim_Build_Architect
 
         private void CalculateAttributes()
         {
-            // 1. Erweiterter Sicherheitscheck (inkl. dem neuen Perk-Label)
+            // 1. Erweiterter Sicherheitscheck
             if (_isCalculating || !IsLoaded || TxtPlayerLevel == null || CmbRace == null ||
                 CmbStandingStone == null || LblSoulGem == null || LblEnchantment2 == null ||
                 CmbEnchantment2 == null || LblAvailablePerkPoints == null) return;
@@ -190,32 +308,62 @@ namespace Skyrim_Build_Architect
                 // ============================================================
                 // 4. DIE PUNKTETRENNUNG (SKYRIM-STYLE)
                 // ============================================================
-                int totalEarnedPoints = level - 1; // Level 1 = 0 Punkte, Level 100 = 99 Punkte
+                int totalEarnedPoints = level - 1;
                 SolidColorBrush goldBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E1B80D"));
 
-                // --- Attribute (Magicka, Health, Stamina) ---
                 int statsSpent = investMagicka + investHealth + investStamina;
                 LblAvailablePoints.Text = $"Attribute Points: {statsSpent} / {totalEarnedPoints}";
                 LblAvailablePoints.Foreground = (statsSpent > totalEarnedPoints) ? Brushes.Red : goldBrush;
 
-                // --- Perks ---
                 int perksSpent = activePerks.Count;
                 LblAvailablePerkPoints.Text = $"Perk Points: {perksSpent} / {totalEarnedPoints}";
                 LblAvailablePerkPoints.Foreground = (perksSpent > totalEarnedPoints) ? Brushes.Red : goldBrush;
 
                 // ============================================================
-                // 5. ATTRIBUT-WERTE BERECHNEN
+                // 5. ATTRIBUT-WERTE BERECHNEN (INKL. SMART BACKPACK)
                 // ============================================================
-                double totalMagicka = 100 + (race?.BonusMagicka ?? 0) + (investMagicka * 10) + (stone?.BonusMagicka ?? 0);
+                double bpMagicka = 0;
+                double bpStamina = 0;
+                double bpCarryWeight = 0;
+
+                var equippedBackpack = EquippedItems?.FirstOrDefault(i => i.Slot == "Backpack");
+                if (equippedBackpack != null)
+                {
+                    // Wir schauen in den Effekt-Text (Enchantment oder Original-Effekt)
+                    string effectText = equippedBackpack.Enchantment ?? "";
+                    if (string.IsNullOrEmpty(effectText) && equippedBackpack.OriginalObject is Armor a)
+                        effectText = a.Effect ?? "";
+
+                    // Regex-Suche nach Zahlen im Text
+                    if (effectText.Contains("capacity", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var match = System.Text.RegularExpressions.Regex.Match(effectText, @"\d+");
+                        if (match.Success) bpCarryWeight = double.Parse(match.Value);
+                    }
+
+                    if (effectText.Contains("Magicka", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var match = System.Text.RegularExpressions.Regex.Match(effectText, @"\d+");
+                        if (match.Success) bpMagicka = double.Parse(match.Value);
+                    }
+
+                    if (effectText.Contains("Stamina", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var match = System.Text.RegularExpressions.Regex.Match(effectText, @"\d+");
+                        if (match.Success) bpStamina = double.Parse(match.Value);
+                    }
+                }
+
+                // Berechnung der Haupt-Attribute inklusive Rucksack-Boni
+                double totalMagicka = 100 + (race?.BonusMagicka ?? 0) + (investMagicka * 10) + (stone?.BonusMagicka ?? 0) + bpMagicka;
                 double totalHealth = 100 + (investHealth * 10);
-                double totalStamina = 100 + (investStamina * 10);
+                double totalStamina = 100 + (investStamina * 10) + bpStamina;
 
                 // --- REGENERATION BERECHNEN ---
                 double mRegenMult = stone?.MagickaRegenMult ?? 1.0;
                 double hRegenMult = stone?.HealthRegenMult ?? 1.0;
                 double sRegenMult = stone?.StaminaRegenMult ?? 1.0;
 
-                // Recovery Perk (Restoration)
                 double recoveryBonus = activePerks
                     .Where(p => p.BaseName == "Recovery")
                     .Select(p => p.Multiplier - 1.0)
@@ -223,9 +371,8 @@ namespace Skyrim_Build_Architect
                     .Max();
                 mRegenMult += recoveryBonus;
 
-                // Wind Walker Perk (Light Armor)
                 bool hasWindWalker = activePerks.Any(p => p.Name.Contains("Wind Walker"));
-                int lightArmorCount = EquippedItems.Count(i => (i.Category ?? "").ToLower().Contains("light armor"));
+                int lightArmorCount = EquippedItems?.Count(i => (i.Category ?? "").ToLower().Contains("light armor")) ?? 0;
 
                 if (hasWindWalker && lightArmorCount >= 4)
                 {
@@ -236,10 +383,13 @@ namespace Skyrim_Build_Architect
                 // 6. GLOBALE STATS BERECHNEN
                 // ============================================================
 
-                // 1. Traglast (Skyrim Basis 300 + 5 pro Stamina-Punkt)
-                double totalCarryWeight = 300 + (investStamina * 5);
-                if (activePerks.Any(p => p.Name.Contains("Extra Pockets"))) totalCarryWeight += 100;
-                if (stone?.Name == "The Steed Stone") totalCarryWeight += 100;
+                // 1. Traglast (Skyrim Basis 300 + 5 pro Stamina-Punkt + Rucksack-Bonus)
+                double maxCarryWeight = 300 + (investStamina * 5) + bpCarryWeight;
+                if (activePerks.Any(p => p.Name.Contains("Extra Pockets"))) maxCarryWeight += 100;
+                if (stone?.Name == "The Steed Stone") maxCarryWeight += 100;
+
+                // UI-Update für die maximale Traglast
+                TxtTotalCarryWeight.Text = maxCarryWeight.ToString();
 
                 // 2. Magieresistenz
                 double totalMagicResist = 0;
@@ -278,7 +428,6 @@ namespace Skyrim_Build_Architect
                 TxtRegenHealth.Text = $"(+{(totalHealth * 0.005 * hRegenMult):0.0} /s)";
                 TxtRegenStamina.Text = $"(+{(totalStamina * 0.05 * sRegenMult):0.0} /s)";
 
-                TxtTotalCarryWeight.Text = totalCarryWeight.ToString();
                 TxtMagicResist.Text = totalMagicResist.ToString() + "%";
                 TxtStealthDisplay.Text = "+" + (stealthBonus * 100).ToString("0") + "%";
                 if (TxtSpellAbsorb != null) TxtSpellAbsorb.Text = spellAbsorb.ToString() + "%";
@@ -290,7 +439,6 @@ namespace Skyrim_Build_Architect
                     {
                         bool shouldBeAvailable = level >= perk.RequiredLevel;
                         if (perk.IsAvailable != shouldBeAvailable) perk.IsAvailable = shouldBeAvailable;
-                        //if (!perk.IsAvailable && perk.IsActive) perk.IsActive = false;
                     }
 
                     if (TxtWarriorCount != null) TxtWarriorCount.Text = $"Warrior: {PerkDatabase.Count(p => p.IsActive && p.Category == "WARRIOR")}";
@@ -310,15 +458,241 @@ namespace Skyrim_Build_Architect
             }
         }
 
+        // ==========================================
+        // 1. ZENTRALE BERECHNUNG (Single Source of Truth)
+        // ==========================================
+        public double CalculateTotalUnarmedDamage()
+        {
+            double unarmedDamage = 4; // Vanilla Standard
+
+            // --- DER FIX: Den echten Namen aus dem Rassen-Objekt holen! ---
+            string currentRace = (CmbRace.SelectedItem as Race)?.Name ?? "";
+
+            if (currentRace == "Khajiit")
+            {
+                unarmedDamage = 22;
+            }
+            else if (currentRace == "Argonian")
+            {
+                unarmedDamage = 10;
+            }
+
+            if (EquippedItems == null) return unarmedDamage;
+
+            var equippedHands = EquippedItems.FirstOrDefault(i => i.Slot == "Hands");
+            var equippedRing = EquippedItems.FirstOrDefault(i => i.Slot == "Ring");
+
+            if (equippedHands != null)
+            {
+                string effectText = "";
+                if (equippedHands.OriginalObject is Armor a && !string.IsNullOrEmpty(a.Effect))
+                    effectText += a.Effect + " ";
+
+                if (!string.IsNullOrEmpty(equippedHands.Enchantment))
+                    effectText += equippedHands.Enchantment + " ";
+
+                // Der perfekte Regex, der im Log geglänzt hat
+                if (effectText.Contains("Unarmed", StringComparison.OrdinalIgnoreCase))
+                {
+                    var match = System.Text.RegularExpressions.Regex.Match(effectText, @"\d+");
+                    if (match.Success)
+                    {
+                        unarmedDamage += double.Parse(match.Value);
+                    }
+                }
+
+                // Perk: Fists of Steel
+                bool hasFistsOfSteel = PerkDatabase.Any(p => p.Name == "Fists of Steel" && p.IsActive);
+                if (hasFistsOfSteel && equippedHands.Category == "Heavy Armor" && equippedHands.OriginalObject is Armor armor)
+                {
+                    unarmedDamage += armor.ArmorRating;
+                }
+            }
+
+            if (equippedRing != null && equippedRing.ItemName.Contains("Ring of the Beast"))
+            {
+                unarmedDamage += 20;
+            }
+
+            return unarmedDamage;
+        }
+
+        // ==========================================
+        // 2. UI UPDATE METHODE
+        // ==========================================
+        private void UpdateWeaponOrUnarmedDamage()
+        {
+            if (EquippedItems == null) return;
+
+            bool isWeaponEquipped = EquippedItems.Any(i =>
+                i.Category == "Weapon" || i.Category.Contains("Sword") || i.Category.Contains("Axe"));
+
+            // --- FALL 1: EINE WAFFE IST AUSGERÜSTET ---
+            if (isWeaponEquipped)
+            {
+                LblWeaponDamageTitle.Text = "Total Weapon Damage:";
+                return;
+            }
+
+            // --- FALL 2: WAFFENLOS ---
+            LblWeaponDamageTitle.Text = "Unarmed Damage:";
+
+            // Wert ECHTE 40 berechnen lassen
+            double totalUnarmed = CalculateTotalUnarmedDamage();
+
+            // Unten im Total-Stats UI eintragen
+            if (TxtTotalDamage != null) TxtTotalDamage.Text = totalUnarmed.ToString();
+
+            // --- DUMMY ITEM UPDATE ---
+            var mainHandItem = EquippedItems.FirstOrDefault(i => i.Slot == "Main-Hand");
+
+            if (mainHandItem != null)
+            {
+                mainHandItem.ItemName = "Unarmed (Fists)";
+                mainHandItem.Rating = totalUnarmed.ToString(); // HIER KRIEGT DAS ITEM DIE 40!
+                mainHandItem.Enchantment = "";
+            }
+            else
+            {
+                EquippedItems.Insert(0, new EquippedItem
+                {
+                    Slot = "Main-Hand",
+                    ItemName = "Unarmed (Fists)",
+                    Category = "Unarmed",
+                    Rating = totalUnarmed.ToString(), // ODER HIER!
+                    Enchantment = ""
+                });
+            }
+
+            // ZWINGENDES UI-UPDATE (Äquivalent zu OnPropertyChanged in deinem aktuellen Setup)
+            if (LstBuildItems != null)
+            {
+                LstBuildItems.Items.Refresh();
+            }
+        }
+
+
         // Event für den Haupt-Equip-Button
         private void BtnEquip_Click(object sender, RoutedEventArgs e)
         {
-            EquipItemLogic("Main-Hand");
+            if (CmbSelect.SelectedItem == null) return;
+
+            EquippedItem? newItem = null;
+
+            // ==========================================
+            // 1. FALL: WAFFE (Inklusive Stäbe)
+            // ==========================================
+            if (CmbSelect.SelectedItem is Weapon w)
+            {
+                if (w.Name == "None") return;
+
+                // Slot bestimmen (Zweihänder belegen beide Hände)
+                string slot = (w.Category == "Two-Handed" || w.Category == "Bow" || w.Category == "Crossbow") ? "Both Hands" : "Main-Hand";
+
+                newItem = new EquippedItem
+                {
+                    Slot = slot,
+                    ItemName = w.Name,
+                    Category = w.Category,
+                    // Holt Schaden und Stab-Ladungen direkt aus der UI-Anzeige
+                    Rating = TxtDamageDisplay.Text,
+                    Enchantment = TxtEffect.Text,
+                    OriginalObject = w
+                };
+            }
+            // ==========================================
+            // 2. FALL: RÜSTUNG
+            // ==========================================
+            else if (CmbSelect.SelectedItem is Armor a)
+            {
+                if (a.Name == "None") return;
+
+                newItem = new EquippedItem
+                {
+                    Slot = a.Slot,
+                    ItemName = a.Name,
+                    Category = a.Category,
+                    Rating = TxtArmorDisplay.Text,
+                    Enchantment = TxtArmorEffect.Text,
+                    OriginalObject = a
+                };
+            }
+
+            // ==========================================
+            // 3. GEGENSTAND AUSRÜSTEN & SLOT-REINIGUNG
+            // ==========================================
+            if (newItem != null)
+            {
+                // FIX für ObservableCollection: Wir suchen alle Items, die im gleichen Slot liegen oder blockiert werden
+                var toRemove = EquippedItems.Where(i =>
+                    i.Slot == newItem.Slot ||
+                    (newItem.Slot == "Both Hands" && (i.Slot == "Main-Hand" || i.Slot == "Off-Hand")) ||
+                    ((newItem.Slot == "Main-Hand" || newItem.Slot == "Off-Hand") && i.Slot == "Both Hands")
+                ).ToList();
+
+                // Jedes gefundene Item einzeln aus der Liste entfernen
+                foreach (var r in toRemove)
+                {
+                    EquippedItems.Remove(r);
+                }
+
+                // Neues Item hinzufügen
+                EquippedItems.Add(newItem);
+
+                // Alles neu berechnen
+                UpdateTotalBuildStats();
+
+                // UI-Benachrichtigung (optional, falls PropertyChanged implementiert ist)
+                NotifyPropertyChanged("TotalWeaponDamage");
+                NotifyPropertyChanged("TotalArmorRating");
+            }
         }
 
         private void BtnEquipOffHand_Click(object sender, RoutedEventArgs e)
         {
-            EquipItemLogic("Off-Hand");
+            // Sicherheits-Check: Nur weitermachen, wenn eine Waffe ausgewählt ist
+            if (!(CmbSelect.SelectedItem is Weapon w)) return;
+            if (w.Name == "None") return;
+
+            string cat = (w.Category ?? "").ToLower();
+
+            // 1. Validierung: Zweihand-Waffen blockieren
+            if (cat.Contains("two-handed") || cat.Contains("bow") || cat.Contains("crossbow"))
+            {
+                MessageBox.Show($"{w.Category} weapons require both hands and cannot be equipped in the Off-Hand!", "Equipment Error");
+                return;
+            }
+
+            // 2. Neues EquippedItem erstellen
+            var newItem = new EquippedItem
+            {
+                Slot = "Off-Hand",
+                ItemName = w.Name ?? "",      // Sicherstellen, dass Name nicht null ist
+                Category = w.Category ?? "",  // Sicherstellen, dass Category nicht null ist
+
+                // UI-Texte können manchmal als null gewertet werden, daher ?? ""
+                Rating = TxtDamageDisplay.Text ?? "0",
+                Enchantment = TxtEffect.Text ?? "None",
+
+                OriginalObject = w
+            };
+
+            // 3. Slot-Bereinigung für ObservableCollection
+            // Wir suchen alle Items, die den Slot belegen oder blockieren (Off-Hand oder Zweihänder)
+            var toRemove = EquippedItems.Where(i => i.Slot == "Off-Hand" || i.Slot == "Both Hands").ToList();
+
+            foreach (var itemToRemove in toRemove)
+            {
+                EquippedItems.Remove(itemToRemove);
+            }
+
+            // 4. Hinzufügen und Statistiken aktualisieren
+            EquippedItems.Add(newItem);
+
+            UpdateTotalBuildStats();
+
+            // Optional: UI über Änderung informieren (falls für Bindings nötig)
+            NotifyPropertyChanged("TotalWeaponDamage");
         }
 
         private void CmbFleshSpell_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -369,17 +743,38 @@ namespace Skyrim_Build_Architect
             }
 
             if (newItem != null)
-            {
-                // Alten Gegenstand im selben Slot entfernen
-                var existing = EquippedItems.FirstOrDefault(i => i.Slot == newItem.Slot);
-                if (existing != null) EquippedItems.Remove(existing);
+{
+    // 1. Alten Gegenstand im selben Slot suchen
+    var existing = EquippedItems.FirstOrDefault(i => i.Slot == newItem.Slot);
+    
+    if (existing != null) 
+    {
+        // --- DER FIX FÜR DAS ABLEGEN ---
+        // Wenn das alte Item ein Rucksack war, setzen wir die Logik auf null
+        if (existing.Slot == "Backpack")
+        {
+            this.EquippedBackpack = null;
+        }
+        
+        EquippedItems.Remove(existing);
+    }
 
-                // Neu hinzufügen
-                EquippedItems.Add(newItem);
+    // 2. Neu hinzufügen
+    EquippedItems.Add(newItem);
 
-                // Stats sofort aktualisieren
-                UpdateTotalBuildStats();
-            }
+    // --- DER FIX FÜR DAS NEU ANLEGEN ---
+    // Wenn das neue Item ein Rucksack ist, aktivieren wir die Logik
+    if (newItem.Slot == "Backpack")
+    {
+        this.EquippedBackpack = newItem;
+    }
+
+    // ZWINGENDES UPDATE ALLER ZAHLEN:
+    UpdateTotalBuildStats();
+
+    // ZWINGENDES UPDATE FÜR DAS PREVIEW UND DUMMY-ITEM:
+    UpdateWeaponOrUnarmedDamage();
+}
         }
 
         private void FinalizeEquip(string name, string slot, double val, double sneakVal, string effect, string cat)
@@ -413,6 +808,7 @@ namespace Skyrim_Build_Architect
             {
                 EquippedItems.Remove(selectedItem);
                 UpdateTotalBuildStats();
+                UpdateWeaponOrUnarmedDamage(); // <--- GENAU HIER!
             }
         }
 
@@ -427,38 +823,44 @@ namespace Skyrim_Build_Architect
 
             int playerLevel = int.TryParse(TxtPlayerLevel.Text, out int l) ? l : 1;
             var activePerks = PerkDatabase?.Where(p => p.IsActive).ToList() ?? new List<Perk>();
-            var selectedRace = CmbRace?.SelectedItem as Race; // NEU: Rasse holen für Unarmed
 
+            // 1. Schwierigkeits-Multiplikator holen
+            double diffMult = SelectedDifficulty?.DamageDealtMultiplier ?? 1.0;
+
+            // Gewichts-Perks prüfen
             bool hasConditioning = activePerks.Any(p => p.Name.Contains("Conditioning"));
             bool hasUnhindered = activePerks.Any(p => p.Name.Contains("Unhindered"));
 
-            // Schwere Handschuhe für Fists of Steel suchen
-            var heavyGauntletsItem = EquippedItems.FirstOrDefault(i => i.Slot == "Hands" && (i.Category ?? "").ToLower().Contains("heavy armor"));
-            Armor? heavyGauntlets = heavyGauntletsItem?.OriginalObject as Armor;
-
             // ============================================================
-            // 1. SCHLEIFE ÜBER ALLE ITEMS (LIVE-NEUBERECHNUNG)
+            // 2. HAUPTSCHLEIFE ÜBER AUSRÜSTUNG
             // ============================================================
             foreach (var item in EquippedItems)
             {
+                // --- RÜSTUNG BERECHNEN ---
                 if (item.OriginalObject is Armor armor)
                 {
+                    // Rüstung skaliert nicht mit Schwierigkeit (eingehender Schaden wird separat angezeigt)
                     var res = SkyrimCalculator.CalculateArmor(armor, playerLevel, activePerks, null, null, 1.0);
+
                     item.Rating = Math.Round(res.FinalArmorRating).ToString();
                     totalArmor += res.FinalArmorRating;
 
+                    // Gewichtsberechnung (Perk-Check)
                     bool isHeavy = (armor.Category ?? "").ToLower().Contains("heavy");
                     bool isLight = (armor.Category ?? "").ToLower().Contains("light");
 
                     if ((isHeavy && hasConditioning) || (isLight && hasUnhindered))
-                        currentWeight += 0;
+                        currentWeight += 0; // Wiegt nichts durch Perk
                     else
                         currentWeight += armor.Weight;
                 }
+
+                // --- WAFFEN & STÄBE BERECHNEN ---
                 else if (item.OriginalObject is Weapon weapon && weapon.Name != "None")
                 {
-                    // Waffe live neu berechnen
-                    var diffMult = DifficultyDatabase.FirstOrDefault(d => d.Name == (CmbDifficulty.SelectedItem as ComboBoxItem)?.Content.ToString())?.DamageDealtMultiplier ?? 1.0;
+                    // Wir übergeben diffMult direkt. Der Calculator erkennt intern:
+                    // - Bei Stäben: Augmented Perks + diffMult
+                    // - Bei Waffen: Skill Perks + Smithing + diffMult
                     var res = SkyrimCalculator.CalculateWeapon(weapon, playerLevel, activePerks, diffMult, null, null, 1.0);
 
                     item.Rating = Math.Round(res.FinalDamage).ToString();
@@ -466,24 +868,26 @@ namespace Skyrim_Build_Architect
                     totalSneakDamage += res.SneakDamage;
                     currentWeight += weapon.Weight;
                 }
-                else if (item.ItemName == "None" || item.ItemName == "Fists") // HIER IST DER FIX!
-                {
-                    // Wenn "None" ausgerüstet ist, nutze unseren intelligenten Unarmed-Calculator
-                    double fistDmg = SkyrimCalculator.CalculateUnarmedDamage(selectedRace, activePerks, heavyGauntlets, 0);
-                    item.Rating = fistDmg.ToString();
-                    totalDamage += fistDmg;
 
-                    // Faustkampf macht bei Schleichangriffen 2x Schaden
-                    totalSneakDamage += (fistDmg * 2.0);
+                // --- FÄUSTE / UNBEWAFFNET BERECHNEN ---
+                else if (item.ItemName == "None" || item.ItemName == "Fists" || item.ItemName.Contains("Unarmed"))
+                {
+                    double fistDmg = CalculateTotalUnarmedDamage() * diffMult;
+                    item.Rating = Math.Round(fistDmg).ToString();
+                    totalDamage += fistDmg;
+                    totalSneakDamage += (fistDmg * 2.0); // Standard-Sneak für Fäuste
                 }
             }
 
-            // ==========================================
-            // 2. BONI: STEINE & FLESH SPELLS
-            // ==========================================
+            // ============================================================
+            // 3. EXTERNE BONI (Steine & Zauber)
+            // ============================================================
+
+            // Lord Stone Bonus (+50 Armor)
             var stone = CmbStandingStone?.SelectedItem as StandingStone;
             if (stone?.Name != null && stone.Name.Contains("Lord")) totalArmor += 50;
 
+            // Mage Armor Perk Logik (Flesh Spells)
             bool wearsPhysicalArmor = EquippedItems.Any(i =>
                 (i.Category ?? "").ToLower().Contains("light armor") ||
                 (i.Category ?? "").ToLower().Contains("heavy armor"));
@@ -501,7 +905,7 @@ namespace Skyrim_Build_Architect
                 if (baseSpellArmor > 0)
                 {
                     double mageArmorMult = 1.0;
-                    if (!wearsPhysicalArmor)
+                    if (!wearsPhysicalArmor) // Perk wirkt nur ohne Rüstung
                     {
                         var maPerk = activePerks.Where(p => p.BaseName == "Mage Armor")
                                                 .OrderByDescending(p => p.RequiredLevel)
@@ -517,51 +921,56 @@ namespace Skyrim_Build_Architect
                 }
             }
 
-            // ==========================================
-            // 3. UI AKTUALISIERUNG
-            // ==========================================
+            // ============================================================
+            // 4. UI AKTUALISIERUNG
+            // ============================================================
+
+            // Hauptwerte setzen
             if (TxtTotalDamage != null) TxtTotalDamage.Text = totalDamage.ToString("0");
             if (TxtTotalArmor != null) TxtTotalArmor.Text = totalArmor.ToString("0");
             if (TxtSneakDamage != null) TxtSneakDamage.Text = totalSneakDamage.ToString("0");
 
+            // Tooltip zur Info über Schwierigkeits-Einfluss
+            if (diffMult != 1.0 && TxtTotalDamage != null)
+                TxtTotalDamage.ToolTip = $"Damage modified by difficulty ({SelectedDifficulty?.Name}): {diffMult * 100}%";
+
+            // Eingehender Schaden Anzeige (Vorschau auf die Gefahr)
+            if (TxtIncomingDamage != null)
+            {
+                double incoming = SelectedDifficulty?.DamageTakenMultiplier ?? 1.0;
+                TxtIncomingDamage.Text = (incoming * 100).ToString("0") + "%";
+                TxtIncomingDamage.Foreground = incoming > 1.0 ? Brushes.Red : (incoming < 1.0 ? Brushes.LightGreen : new SolidColorBrush(Color.FromRgb(225, 184, 13)));
+            }
+
+            // Gewicht & Traglast-Warnung
             if (TxtCurrentWeight != null)
             {
                 TxtCurrentWeight.Text = currentWeight.ToString("0.#");
                 double maxCarry = double.TryParse(TxtTotalCarryWeight?.Text, out double m) ? m : 300;
-                TxtCurrentWeight.Foreground = (currentWeight > maxCarry)
-                    ? Brushes.Red
-                    : new SolidColorBrush(Color.FromRgb(225, 184, 13));
+                TxtCurrentWeight.Foreground = (currentWeight > maxCarry) ? Brushes.Red : new SolidColorBrush(Color.FromRgb(225, 184, 13));
             }
 
-            // Zum Schluss: Liste aktualisieren, falls "None" jetzt "16" als Rating hat
-            if (LstBuildItems != null)
-            {
-                LstBuildItems.Items.Refresh();
-            }
-
+            // Liste und Perks validieren
+            if (LstBuildItems != null) LstBuildItems.Items.Refresh();
             ValidateArmorPerks();
         }
 
         private void UpdateCalculations()
         {
-            // --- 1. SCHRITT: GLOBALE STATS IMMER BERECHNEN ---
             CalculateAttributes();
 
-            // --- 2. SCHRITT: DER TÜRSTEHER (Sicherheitscheck) ---
             if (CmbSelect == null || CmbEnchantment == null || CmbEnchantment2 == null ||
-                CmbSoulGem == null || CmbDifficulty == null || CmbAmmo == null ||
-                CmbSelect.SelectedItem == null) return;
+                CmbSoulGem == null || CmbDifficulty == null || CmbSelect.SelectedItem == null) return;
 
-            // --- 3. SCHRITT: BASIS-DATEN VORBEREITEN ---
             int level = int.TryParse(TxtPlayerLevel.Text, out int l) ? l : 1;
             var active = PerkDatabase.Where(p => p.IsActive).ToList();
 
             var selectedEnch = CmbEnchantment.SelectedItem as Enchantment;
             var selectedEnch2 = CmbEnchantment2.SelectedItem as Enchantment;
-
             var selectedGem = CmbSoulGem.SelectedItem as SoulGem;
             double gemMultiplier = (selectedGem == null || selectedGem.Name == "None") ? 1.0 : selectedGem.Multiplier;
 
+            // Doppelte Verzauberung verhindern
             if (selectedEnch != null && selectedEnch2 != null &&
                 selectedEnch.Name != "None" && selectedEnch.Name == selectedEnch2.Name)
             {
@@ -571,170 +980,106 @@ namespace Skyrim_Build_Architect
                 selectedEnch2 = CmbEnchantment2.SelectedItem as Enchantment;
             }
 
-            var diff = CmbDifficulty.SelectedItem as Difficulty;
-            double dMult = diff?.DamageDealtMultiplier ?? 1.0;
+            double dMult = SelectedDifficulty?.DamageDealtMultiplier ?? 1.0;
 
             // ==========================================
-            // 4. WAFFEN-BERECHNUNG (Inkl. Munition & Faust)
+            // WAFFEN-BERECHNUNG (Inklusive Stäbe)
             // ==========================================
             if (isWeaponMode && CmbSelect.SelectedItem is Weapon w)
             {
-                if (w.Name == "None")
+                if (w.Name == "None") return;
+
+                bool isStaff = w.Category.ToLower().Contains("staff");
+
+                double ammoDamage = 0;
+                if (CmbAmmo != null && CmbAmmo.Visibility == Visibility.Visible && CmbAmmo.SelectedItem is Weapon ammo)
                 {
-                    // --- NEU: HIER KOMMT DIE FAUST-LOGIK REIN ---
-                    var race = CmbRace.SelectedItem as Race;
-                    // Wir suchen die aktuell ausgerüsteten Handschuhe in der Liste der bereits angelegten Items
-                    var currentGauntlets = EquippedItems.FirstOrDefault(i => i.Slot == "Hands")?.OriginalObject as Armor;
+                    ammoDamage = ammo.Damage;
+                }
 
-                    // Falls du spezifische "Fortify Unarmed" Verzauberungen auf Ringen/Handschuhen hast, 
-                    // müssten die hier addiert werden (aktuell 0)
-                    double unarmedEnch = 0;
+                // Neues Waffen-Objekt für den Calculator bauen (inkl. Stab-Daten)
+                Weapon calcWeapon = new Weapon
+                {
+                    Name = w.Name,
+                    Category = w.Category,
+                    Damage = w.Damage + ammoDamage,
+                    Speed = w.Speed,
+                    Reach = w.Reach,
+                    Stagger = w.Stagger,
+                    IsEnchantable = w.IsEnchantable,
+                    MaxCharges = w.MaxCharges,
+                    Element = w.Element,
+                    MagicSchool = w.MagicSchool,
+                    Effect = w.Effect, // <--- DIESE ZEILE HAT GEFEHLT!
+                    LevelVariants = w.LevelVariants // Auch die Varianten mitgeben, falls vorhanden
+                };
 
-                    double finalFistDamage = SkyrimCalculator.CalculateUnarmedDamage(race, active, currentGauntlets, unarmedEnch);
+                var calcResult = SkyrimCalculator.CalculateWeapon(calcWeapon, level, active, dMult, selectedEnch, selectedEnch2, gemMultiplier);
 
-                    // UI für Fäuste füllen
-                    TxtWeaponCategory.Text = "Unarmed";
-                    TxtDamageDisplay.Text = Math.Round(finalFistDamage).ToString();
-                    TxtSneakDisplay.Text = Math.Round(finalFistDamage * 2.0).ToString(); // Standard 2x für Sneak-Fists
+                // --- Kategorie & Arcane Blacksmith Warnung ---
+                TxtWeaponCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
+                                         ? w.Category
+                                         : $"{w.Category} {calcResult.SmithingTierName}";
 
-                    TxtReach.Text = "0.7"; // Fäuste haben eine kurze Reichweite
-                    TxtSpeed.Text = "1.0";
-                    TxtStagger.Text = "0.00";
-                    TxtValue.Text = "-";
-                    TxtEffect.Text = (currentGauntlets != null && currentGauntlets.Name.Contains("Brawler")) ? "Brawler's Bonus active" : "None";
-
-                    // Wichtig: Hier kein return mehr, damit die Abschluss-Updates unten noch laufen!
+                if (calcResult.SmithingTierName.Contains("Arcane"))
+                {
+                    TxtWeaponCategory.Text = w.Category + "\n(Needs Arcane Blacksmith)";
+                    TxtWeaponCategory.Foreground = Brushes.Red;
                 }
                 else
                 {
-                    // --- Normale Waffenberechnung (Bogen, Schwert etc.) ---
-                    double ammoDamage = 0;
-                    if (CmbAmmo.Visibility == Visibility.Visible && CmbAmmo.SelectedItem is Weapon ammo)
-                    {
-                        ammoDamage = ammo.Damage;
-                    }
-
-                    Weapon calcWeapon = new Weapon
-                    {
-                        Name = w.Name,
-                        Category = w.Category,
-                        Damage = w.Damage + ammoDamage,
-                        Speed = w.Speed,
-                        Reach = w.Reach,
-                        Stagger = w.Stagger,
-                        IsEnchantable = w.IsEnchantable
-                    };
-
-                    var calcResult = SkyrimCalculator.CalculateWeapon(calcWeapon, level, active, dMult, selectedEnch, selectedEnch2, gemMultiplier);
-
-                    // Suche diese Stelle:
-                    TxtWeaponCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
-                                             ? w.Category
-                                             : $"{w.Category} {calcResult.SmithingTierName}";
-
-                    if (calcResult.SmithingTierName.Contains("Arcane"))
-                    {
-                        // Wir machen einen Zeilenumbruch (\n), damit "Needs Arcane..." unter der Kategorie steht
-                        TxtWeaponCategory.Text = w.Category + "\n(Needs Arcane Blacksmith)";
-                        TxtWeaponCategory.Foreground = Brushes.Red;
-                    }
-                    else
-                    {
-                        TxtWeaponCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
-                                                 ? w.Category
-                                                 : $"{w.Category} {calcResult.SmithingTierName}";
-                        TxtWeaponCategory.Foreground = new SolidColorBrush(Color.FromRgb(225, 184, 13));
-                    }
-
-                    TxtDamageDisplay.Text = Math.Round(calcResult.FinalDamage).ToString();
-                    TxtSneakDisplay.Text = Math.Round(calcResult.SneakDamage).ToString();
-                    TxtEffect.Text = calcResult.FinalEffectText;
-
-                    var stats = w.GetStatsForLevel(level);
-                    TxtReach.Text = w.Reach > 0 ? w.Reach.ToString() : "-";
-                    TxtSpeed.Text = w.Speed > 0 ? w.Speed.ToString() : "-";
-                    TxtStagger.Text = calcResult.FinalStagger > 0 ? calcResult.FinalStagger.ToString("0.00") : "-";
-                    TxtValue.Text = Math.Round(stats.val).ToString();
+                    TxtWeaponCategory.Foreground = new SolidColorBrush(Color.FromRgb(225, 184, 13));
                 }
+
+                // --- Schaden-Anzeige ---
+                TxtDamageDisplay.Text = Math.Round(calcResult.FinalDamage).ToString();
+                TxtSneakDisplay.Text = Math.Round(calcResult.SneakDamage).ToString();
+
+                // --- SPEZIELLE STAB-LOGIK FÜR DIE UI-FELDER ---
+                if (isStaff)
+                {
+                    TxtReach.Text = "N/A";
+                    TxtSpeed.Text = "N/A";
+                    TxtStagger.Text = "N/A";
+
+                    // Bei Stäben zeigen wir die Ladungen im Effekt-Feld mit an
+                    TxtEffect.Text = $"Max Charges: {w.MaxCharges}\n{calcResult.FinalEffectText}";
+                }
+                else
+                {
+                    TxtReach.Text = w.Reach > 0 ? w.Reach.ToString("0.0") : "-";
+                    TxtSpeed.Text = w.Speed > 0 ? w.Speed.ToString("0.0") : "-";
+                    TxtStagger.Text = calcResult.FinalStagger > 0 ? calcResult.FinalStagger.ToString("0.00") : "-";
+                    TxtEffect.Text = calcResult.FinalEffectText;
+                }
+
+                var stats = w.GetStatsForLevel(level);
+                TxtValue.Text = Math.Round(stats.val).ToString();
             }
             // ==========================================
-            // 5. RÜSTUNGS-BERECHNUNG
+            // RÜSTUNGS-BERECHNUNG (Bleibt wie gehabt)
             // ==========================================
             else if (!isWeaponMode && CmbSelect.SelectedItem is Armor a)
             {
-                if (a.Name == "None")
-                {
-                    TxtArmorCategory.Text = "-"; TxtArmorDisplay.Text = "-";
-                    TxtArmorWeight.Text = "-"; TxtArmorValue.Text = "-";
-                    TxtArmorEffect.Text = "None";
-                }
-                else
-                {
-                    var calcResult = SkyrimCalculator.CalculateArmor(a, level, active, selectedEnch, selectedEnch2, gemMultiplier);
+                if (a.Name == "None") return;
 
-                    TxtArmorCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
-                                             ? a.Slot
-                                             : $"{a.Slot} {calcResult.SmithingTierName}";
-                    TxtArmorDisplay.Text = Math.Round(calcResult.FinalArmorRating).ToString();
+                var calcResult = SkyrimCalculator.CalculateArmor(a, level, active, selectedEnch, selectedEnch2, gemMultiplier);
 
-                    // --- 1. TEXT VOM CALCULATOR HOLEN ---
-                    string displayEffect = calcResult.FinalEffectText;
+                TxtArmorCategory.Text = string.IsNullOrEmpty(calcResult.SmithingTierName)
+                                         ? a.Slot
+                                         : $"{a.Slot} {calcResult.SmithingTierName}";
+                TxtArmorDisplay.Text = Math.Round(calcResult.FinalArmorRating).ToString();
 
-                    // --- 2. BASIS-EFFEKT DER RÜSTUNG RETTEN (für Brawler's etc.) ---
-                    if (displayEffect == "None" || string.IsNullOrWhiteSpace(displayEffect))
-                    {
-                        displayEffect = a.Effect; // Holt den Text aus deiner Datenbank!
-                    }
+                // Effekt-Logik für Rüstung (gekürzt zur Übersicht)
+                string displayEffect = calcResult.FinalEffectText;
+                if (displayEffect == "None" || string.IsNullOrWhiteSpace(displayEffect)) displayEffect = a.Effect;
 
-                    // --- 3. EIGENE VERZAUBERUNGEN BERECHNEN (inkl. Perks & Seelenstein) ---
-                    // Wenn die Rüstung keinen eigenen Effekt hat und eine Verzauberung gewählt ist:
-                    if ((displayEffect == "None" || string.IsNullOrEmpty(displayEffect)) && selectedEnch != null && selectedEnch.Name != "None")
-                    {
-                        // Basis-Enchanter-Perk-Multiplikator (1.0 bis 2.0)
-                        double basePerkMult = active.Where(p => p.BaseName == "Enchanter").Select(p => p.Multiplier).DefaultIfEmpty(1.0).Max();
-
-                        // Hilfs-Funktion für die speziellen Perks (Corpus, Insightful, Fire, etc.)
-                        double GetEnchMult(Enchantment ench)
-                        {
-                            double m = basePerkMult;
-                            if (active.Any(p => p.Name.Contains("Corpus Enchanter")) && (ench.Name.Contains("Health") || ench.Name.Contains("Magicka") || ench.Name.Contains("Stamina"))) m *= 1.25;
-                            if (active.Any(p => p.Name.Contains("Insightful Enchanter")) && ench.Name.Contains("Fortify") && !ench.Name.Contains("Health") && !ench.Name.Contains("Magicka") && !ench.Name.Contains("Stamina")) m *= 1.25;
-                            if (active.Any(p => p.Name.Contains("Fire Enchanter")) && ench.Name.Contains("Fire")) m *= 1.25;
-                            if (active.Any(p => p.Name.Contains("Frost Enchanter")) && ench.Name.Contains("Frost")) m *= 1.25;
-                            if (active.Any(p => p.Name.Contains("Storm Enchanter")) && (ench.Name.Contains("Shock") || ench.Name.Contains("Storm"))) m *= 1.25;
-                            return m;
-                        }
-
-                        // Stärke ermitteln (inklusive Perks und Seelenstein!)
-                        double mag1 = selectedEnch.BaseMagnitude > 0 ? selectedEnch.BaseMagnitude : selectedEnch.AddedValue;
-                        mag1 = Math.Round(mag1 * gemMultiplier * GetEnchMult(selectedEnch));
-
-                        displayEffect = selectedEnch.Description.Replace("{0}", mag1.ToString());
-
-                        // Falls eine zweite Verzauberung (Extra Effect) aktiv ist:
-                        if (selectedEnch2 != null && selectedEnch2.Name != "None")
-                        {
-                            double mag2 = selectedEnch2.BaseMagnitude > 0 ? selectedEnch2.BaseMagnitude : selectedEnch2.AddedValue;
-                            mag2 = Math.Round(mag2 * gemMultiplier * GetEnchMult(selectedEnch2));
-
-                            displayEffect += "\n" + selectedEnch2.Description.Replace("{0}", mag2.ToString());
-                        }
-                    }
-
-                    // --- 4. TEXT IN DIE OBERFLÄCHE SCHREIBEN ---
-                    TxtArmorEffect.Text = displayEffect;
-                    // --------------------------
-
-                    var stats = a.GetStatsForLevel(level);
-                    TxtArmorWeight.Text = calcResult.FinalWeight > 0
-                        ? calcResult.FinalWeight.ToString("0.#")
-                        : "0 (Weightless)";
-
-                    TxtArmorValue.Text = Math.Round(stats.val).ToString();
-                }
+                TxtArmorEffect.Text = displayEffect;
+                var stats = a.GetStatsForLevel(level);
+                TxtArmorWeight.Text = calcResult.FinalWeight > 0 ? calcResult.FinalWeight.ToString("0.#") : "0 (Weightless)";
+                TxtArmorValue.Text = Math.Round(stats.val).ToString();
             }
 
-            // --- 6. ABSCHLUSS-UPDATES ---
             UpdateSpeedDisplay();
             ValidateArmorPerks();
         }
@@ -899,78 +1244,98 @@ namespace Skyrim_Build_Architect
 
         private void CmbSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CmbSelect.SelectedItem == null) return;
+            // --- FALL 1: NICHTS AUSGEWÄHLT (Oder "None") -> UNBEWAFFNET ANZEIGEN ---
+            if (CmbSelect.SelectedItem == null || CmbSelect.SelectedItem.ToString() == "None" ||
+                (CmbSelect.SelectedItem is Weapon wNone && wNone.Name == "None") ||
+                (CmbSelect.SelectedItem is Armor aNone && aNone.Name == "None"))
+            {
+                WeaponPanel.Visibility = Visibility.Visible;
+                ArmorPanel.Visibility = Visibility.Collapsed;
+
+                TxtWeaponCategory.Text = "Unarmed";
+                TxtDamageDisplay.Text = CalculateTotalUnarmedDamage().ToString();
+                TxtSneakDisplay.Text = (CalculateTotalUnarmedDamage() * 2).ToString();
+                TxtReach.Text = "-"; TxtSpeed.Text = "-"; TxtStagger.Text = "-"; TxtValue.Text = "0"; TxtEffect.Text = "None";
+
+                BtnEquip.Content = "Equip Main-Hand";
+                BtnEquip.Visibility = Visibility.Visible;
+                BtnEquipOffHand.Visibility = Visibility.Collapsed;
+
+                LblAmmo.Visibility = Visibility.Collapsed;
+                CmbAmmo.Visibility = Visibility.Collapsed;
+
+                CmbEnchantment.SelectedIndex = 0; CmbEnchantment2.SelectedIndex = 0;
+                CmbEnchantment.IsEnabled = false; CmbEnchantment2.IsEnabled = false;
+
+                UpdateCalculations();
+                return;
+            }
 
             bool enchantable = true;
 
-            // --- FALL 1: WAFFE ---
+            // --- FALL 2: WAFFE (Inklusive Stäbe) ---
             if (CmbSelect.SelectedItem is Weapon w)
             {
                 string cat = (w.Category ?? "").ToLower();
                 string name = (w.Name ?? "").ToLower();
 
+                // 1. Fernkampf-Logik
                 bool isBow = cat.Contains("bow") || name.Contains("bow");
                 bool isCrossbow = cat.Contains("crossbow") || name.Contains("crossbow");
                 bool isRanged = isBow || isCrossbow;
 
                 LblAmmo.Visibility = isRanged ? Visibility.Visible : Visibility.Collapsed;
                 CmbAmmo.Visibility = isRanged ? Visibility.Visible : Visibility.Collapsed;
+                if (isRanged) ApplyAmmoFilter(isCrossbow);
 
-                if (isRanged)
+                // 2. Button-Steuerung (Snippet-Logik integriert)
+                bool isOneHanded = cat.Contains("one-handed") || cat.Contains("dagger") || cat.Contains("staff");
+                bool isTwoHanded = cat.Contains("two-handed") || isRanged;
+
+                if (isOneHanded)
                 {
-                    // Wir übergeben jetzt, ob es eine Armbrust ist
-                    ApplyAmmoFilter(isCrossbow);
+                    BtnEquip.Content = "Equip Main-Hand";
+                    BtnEquipOffHand.Visibility = Visibility.Visible; // Jetzt auch für Stäbe sichtbar!
                 }
-
-                // --- Bestehende Logik: Einhand & Off-Hand ---
-                bool isOneHanded = cat.Contains("one-handed");
-                BtnEquipOffHand.Visibility = isOneHanded ? Visibility.Visible : Visibility.Collapsed;
-
-                // Panels umschalten
-                WeaponPanel.Visibility = Visibility.Visible;
-                ArmorPanel.Visibility = Visibility.Collapsed;
-
-                // Ist die Waffe verzauberbar?
-                enchantable = w.IsEnchantable;
-            }
-            // --- FALL 2: RÜSTUNG ---
-            else if (CmbSelect.SelectedItem is Armor a)
-            {
-                // Fernkampf-UI immer ausblenden bei Rüstung
-                LblAmmo.Visibility = Visibility.Collapsed;
-                CmbAmmo.Visibility = Visibility.Collapsed;
-
-                // Bei normaler Rüstung keinen Off-Hand Button, AUSSER es ist ein Schild!
-                if (a.Category == "Shield")
+                else if (isTwoHanded)
                 {
-                    BtnEquipOffHand.Visibility = Visibility.Visible;
-                }
-                else
-                {
+                    BtnEquip.Content = "Equip Both Hands";
                     BtnEquipOffHand.Visibility = Visibility.Collapsed;
                 }
 
-                // Panels umschalten
+                WeaponPanel.Visibility = Visibility.Visible;
+                ArmorPanel.Visibility = Visibility.Collapsed;
+                enchantable = w.IsEnchantable;
+            }
+            // --- FALL 3: RÜSTUNG (Inklusive Schilde) ---
+            else if (CmbSelect.SelectedItem is Armor a)
+            {
+                string aCat = (a.Category ?? "").ToLower();
+                LblAmmo.Visibility = Visibility.Collapsed;
+                CmbAmmo.Visibility = Visibility.Collapsed;
+
+                // Schilde erlauben Off-Hand
+                BtnEquipOffHand.Visibility = aCat.Contains("shield") ? Visibility.Visible : Visibility.Collapsed;
+
+                BtnEquip.Content = "Equip Armor";
                 WeaponPanel.Visibility = Visibility.Collapsed;
                 ArmorPanel.Visibility = Visibility.Visible;
 
-                // RICHTIG: Erlaubt das Verzaubern, wenn das Feld leer ist ODER "None" heißt.
                 enchantable = string.IsNullOrEmpty(a.Effect) || a.Effect == "None";
             }
 
-            // --- Verzauberungs-UI aktualisieren ---
+            // --- VERZAUBERUNGS-LOGIK ---
             CmbEnchantment.IsEnabled = enchantable;
             CmbEnchantment2.IsEnabled = enchantable;
-
             if (!enchantable)
             {
                 CmbEnchantment.SelectedIndex = 0;
                 CmbEnchantment2.SelectedIndex = 0;
             }
 
-            // Listen-Filter und Berechnungen triggern
             UpdateEnchantmentList();
             UpdateCalculations();
+            NotifyPropertyChanged(nameof(DisplayCategory));
         }
 
         // Neues Event für die Ammo-Box: Wenn der Pfeil gewechselt wird, sofort neu rechnen
@@ -1093,24 +1458,50 @@ namespace Skyrim_Build_Architect
 
         private void BtnSaveBuild_Click(object sender, RoutedEventArgs e)
         {
-            var build = new SavedBuild
+            var saveData = new BuildSaveData
             {
+                BuildName = "Mein Skyrim Build",
+                Level = TxtPlayerLevel.Text,
                 SelectedRace = (CmbRace.SelectedItem as Race)?.Name ?? "None",
-                Level = int.TryParse(TxtPlayerLevel.Text, out int l) ? l : 1,
-                InvestMagicka = int.TryParse(TxtInvestMagicka.Text, out int im) ? im : 0,
-                InvestHealth = int.TryParse(TxtInvestHealth.Text, out int ih) ? ih : 0,
-                InvestStamina = int.TryParse(TxtInvestStamina.Text, out int ist) ? ist : 0,
+                SelectedDifficulty = SelectedDifficulty?.Name ?? "Adept",
                 SelectedStandingStone = (CmbStandingStone.SelectedItem as StandingStone)?.Name ?? "None",
-                SelectedFleshSpell = (CmbFleshSpell.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "None",
-                ActivePerkNames = PerkDatabase.Where(p => p.IsActive).Select(p => p.Name).ToList()
+                SelectedFleshSpell = (CmbFleshSpell.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "None",
+
+                InvestMagicka = TxtInvestMagicka.Text,
+                InvestHealth = TxtInvestHealth.Text,
+                InvestStamina = TxtInvestStamina.Text,
+
+                ActivePerkNames = PerkDatabase?.Where(p => p.IsActive).Select(p => p.Name).ToList() ?? new List<string>(),
+
+                EquippedItems = EquippedItems.Select(i => new EquippedItemSaveData
+                {
+                    Slot = i.Slot ?? "",
+                    ItemName = i.ItemName ?? "",
+                    Category = i.Category ?? "",
+                    Rating = i.Rating ?? "0",
+                    Enchantment = i.Enchantment ?? ""
+                }).ToList()
             };
 
-            var dialog = new Microsoft.Win32.SaveFileDialog { Filter = "Skyrim Build (*.json)|*.json" };
+            var dialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = "Skyrim Build (*.json)|*.json",
+                FileName = "MySkyrimBuild.json"
+            };
+
             if (dialog.ShowDialog() == true)
             {
-                string json = System.Text.Json.JsonSerializer.Serialize(build, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-                System.IO.File.WriteAllText(dialog.FileName, json);
-                MessageBox.Show("Build erfolgreich in den Archiven von Winterfeste gespeichert!");
+                try
+                {
+                    var options = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
+                    string json = System.Text.Json.JsonSerializer.Serialize(saveData, options);
+                    System.IO.File.WriteAllText(dialog.FileName, json);
+                    MessageBox.Show("Build erfolgreich in den Archiven von Winterfeste gespeichert! 📜✨", "Speichern erfolgreich");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Speichern: {ex.Message}", "Fehler");
+                }
             }
         }
 
@@ -1123,29 +1514,34 @@ namespace Skyrim_Build_Architect
                 try
                 {
                     string json = System.IO.File.ReadAllText(dialog.FileName);
-                    var loadData = System.Text.Json.JsonSerializer.Deserialize<SavedBuild>(json);
+
+                    // Wir laden es in unsere neue BuildSaveData Struktur
+                    var loadData = System.Text.Json.JsonSerializer.Deserialize<BuildSaveData>(json);
 
                     if (loadData == null) return;
 
-                    // 1. RECHEN-STOPP: Wir schalten die Live-Berechnung kurz aus,
-                    // damit das Programm nicht bei jedem einzelnen Feld flackert.
+                    // 1. RECHEN-STOPP (Damit UI-Updates nicht querfeuern)
                     _isCalculating = true;
 
-                    // 2. BASIS-DATEN SETZEN
-                    TxtPlayerLevel.Text = loadData.Level.ToString();
-                    TxtInvestMagicka.Text = loadData.InvestMagicka.ToString();
-                    TxtInvestHealth.Text = loadData.InvestHealth.ToString();
-                    TxtInvestStamina.Text = loadData.InvestStamina.ToString();
+                    // --- SCHWIERIGKEIT LADEN ---
+                    if (!string.IsNullOrEmpty(loadData.SelectedDifficulty))
+                    {
+                        SelectedDifficulty = DifficultyDatabase.FirstOrDefault(d => d.Name == loadData.SelectedDifficulty)
+                     ?? DifficultyDatabase.FirstOrDefault(d => d.Name == "Adept")
+                     ?? (DifficultyDatabase.Count > 0 ? DifficultyDatabase[0] : new Difficulty { Name = "Adept", DamageDealtMultiplier = 1.0, DamageTakenMultiplier = 1.0 });
+                    }
 
-                    // 3. RASSE SUCHEN & AUSWÄHLEN
-                    // Wir suchen in der RaceDatabase nach dem Namen aus der Datei
+                    // 2. BASIS-DATEN SETZEN (Da es jetzt Strings sind, entfällt .ToString())
+                    TxtPlayerLevel.Text = loadData.Level ?? "1";
+                    TxtInvestMagicka.Text = loadData.InvestMagicka ?? "0";
+                    TxtInvestHealth.Text = loadData.InvestHealth ?? "0";
+                    TxtInvestStamina.Text = loadData.InvestStamina ?? "0";
+
+                    // 3. RASSE & STEIN
                     CmbRace.SelectedItem = RaceDatabase.FirstOrDefault(r => r.Name == loadData.SelectedRace);
-
-                    // 4. STEIN SUCHEN & AUSWÄHLEN
                     CmbStandingStone.SelectedItem = StandingStoneDatabase.FirstOrDefault(s => s.Name == loadData.SelectedStandingStone);
 
-                    // 5. FLESH SPELL (ZAUBER) SUCHEN
-                    // Da dies einfache ComboBoxItems sind, suchen wir nach dem Content-Text
+                    // 4. FLESH SPELL
                     foreach (ComboBoxItem item in CmbFleshSpell.Items)
                     {
                         if (item.Content.ToString() == loadData.SelectedFleshSpell)
@@ -1155,113 +1551,155 @@ namespace Skyrim_Build_Architect
                         }
                     }
 
-                    // 6. PERKS WIEDERHERSTELLEN
-                    // Erst alle Perks ausschalten, dann nur die aus der Datei aktivieren
+                    // 5. PERKS WIEDERHERSTELLEN
                     foreach (var perk in PerkDatabase)
                     {
-                        perk.IsActive = loadData.ActivePerkNames.Contains(perk.Name);
+                        perk.IsActive = loadData.ActivePerkNames != null && loadData.ActivePerkNames.Contains(perk.Name);
+                    }
+
+                    // 6. AUSRÜSTUNG WIEDERHERSTELLEN (WICHTIG!)
+                    EquippedItems.Clear(); // Alte Liste leeren
+                    if (loadData.EquippedItems != null)
+                    {
+                        foreach (var savedItem in loadData.EquippedItems)
+                        {
+                            object? original = null;
+                            string cat = (savedItem.Category ?? "").ToLower();
+
+                            // Prüfen, wo wir das Item suchen müssen (Rüstungs-Datenbank oder Waffen-Datenbank)
+                            if (cat.Contains("armor") || cat.Contains("shield") || cat.Contains("clothing") || cat.Contains("jewelry") || cat.Contains("amulet") || cat.Contains("ring"))
+                            {
+                                original = ArmorDatabase.FirstOrDefault(a => a.Name == savedItem.ItemName);
+                            }
+                            else
+                            {
+                                // Wenn es keine Rüstung ist, muss es eine Waffe (oder ein Stab) sein
+                                original = WeaponDatabase.FirstOrDefault(w => w.Name == savedItem.ItemName);
+                            }
+
+                            // Das UI-Element neu aufbauen und der Liste hinzufügen
+                            EquippedItems.Add(new EquippedItem
+                            {
+                                Slot = savedItem.Slot ?? "",
+                                ItemName = savedItem.ItemName ?? "",
+                                Category = savedItem.Category ?? "",
+                                Rating = savedItem.Rating ?? "",
+                                Enchantment = savedItem.Enchantment ?? "",
+                                OriginalObject = original // <--- Das Re-Linking für den Calculator!
+                            });
+                        }
                     }
 
                     // 7. FINALE BERECHNUNG
-                    // Jetzt schalten wir den Rechner wieder ein und rufen alles einmal auf
                     _isCalculating = false;
 
+                    // Jetzt triggern wir die Updates, die alles (inklusive Items) neu berechnen
                     UpdateCalculations();
                     UpdateTotalBuildStats();
 
-                    MessageBox.Show($"Build '{loadData.BuildName}' wurde erfolgreich geladen!", "Winterfeste Archive");
+                    string displayBuildName = string.IsNullOrEmpty(loadData.BuildName) ? "Unbekannt" : loadData.BuildName;
+                    MessageBox.Show($"Build '{displayBuildName}' wurde erfolgreich geladen! 📜✨", "Winterfeste Archive");
                 }
                 catch (Exception ex)
                 {
                     _isCalculating = false;
-                    MessageBox.Show("Fehler beim Laden: " + ex.Message);
+                    MessageBox.Show("Der Erzmagier meldet einen Fehler beim Laden: " + ex.Message, "Fehler");
                 }
             }
         }
 
         private void BtnExportText_Click(object sender, RoutedEventArgs e)
         {
-            // 1. Ask for the build name
-            string buildName = ShowInputDialog("Build Name", "What should your build be named?", "Dovahkiin Build");
-
-            // If the user cancels or enters nothing, we stop
-            if (string.IsNullOrEmpty(buildName)) return;
-
-            var race = CmbRace.SelectedItem as Race;
-            var stone = CmbStandingStone.SelectedItem as StandingStone;
-            var fleshSpell = (CmbFleshSpell.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "None";
-
-            var sb = new System.Text.StringBuilder();
-
-            // --- Header ---
-            sb.AppendLine("===============================================");
-            sb.AppendLine("          SKYRIM BUILD ARCHITECT               ");
-            sb.AppendLine("===============================================");
-            sb.AppendLine($"BUILD NAME: {buildName.ToUpper()}");
-            sb.AppendLine($"Level: {TxtPlayerLevel.Text} | Race: {race?.Name ?? "None"}");
-            sb.AppendLine($"Stone: {stone?.Name ?? "None"}");
-            sb.AppendLine($"Active Spell: {fleshSpell}");
-            sb.AppendLine();
-
-            // --- Core Stats ---
-            sb.AppendLine("--- CHARACTER ATTRIBUTES ---");
-            sb.AppendLine($"Magicka: {TxtTotalMagicka.Text} {TxtRegenMagicka.Text}");
-            sb.AppendLine($"Health:  {TxtTotalHealth.Text} {TxtRegenHealth.Text}");
-            sb.AppendLine($"Stamina: {TxtTotalStamina.Text} {TxtRegenStamina.Text}");
-            sb.AppendLine();
-
-            // --- Advanced Stats ---
-            sb.AppendLine("--- ADVANCED DEFENSES ---");
-            sb.AppendLine($"Armor Rating:   {TxtTotalArmor.Text}");
-            sb.AppendLine($"Carry Weight:   {TxtTotalCarryWeight.Text}");
-            sb.AppendLine($"Magic Resist:   {TxtMagicResist.Text}");
-            sb.AppendLine($"Spell Absorb:   {TxtSpellAbsorb.Text}");
-            sb.AppendLine($"Sneak Bonus:    {TxtStealthDisplay.Text}");
-            sb.AppendLine();
-
-            // --- Equipment ---
-            sb.AppendLine("--- EQUIPPED ITEMS ---");
-            if (EquippedItems.Count == 0) sb.AppendLine("- No items equipped");
-            foreach (var item in EquippedItems)
+            try
             {
-                sb.AppendLine($"- [{item.Slot}] {item.ItemName} (Rating: {item.Rating})");
-                if (!string.IsNullOrEmpty(item.Enchantment) && item.Enchantment != "None")
-                    sb.AppendLine($"  * Enchantment: {item.Enchantment}");
-            }
-            sb.AppendLine();
+                var sb = new System.Text.StringBuilder();
 
-            // --- Perks ---
-            sb.AppendLine("--- INVESTED PERKS ---");
-            var activePerks = PerkDatabase.Where(p => p.IsActive).ToList();
-            if (activePerks.Count == 0) sb.AppendLine("- No perks selected");
-            else
-            {
-                foreach (var p in activePerks.OrderBy(p => p.Category))
+                // --- HEADER ---
+                sb.AppendLine("===============================================");
+                sb.AppendLine("           SKYRIM BUILD ARCHITECT              ");
+                sb.AppendLine("===============================================");
+                sb.AppendLine($"BUILD EXPORT - LEVEL {TxtPlayerLevel.Text}");
+                sb.AppendLine($"Race: {(CmbRace.SelectedItem as Race)?.Name ?? "None"}");
+                sb.AppendLine($"Difficulty: {SelectedDifficulty?.Name ?? "Adept"}");
+                sb.AppendLine("-----------------------------------------------");
+
+                // --- ATTRIBUTE & STATS ---
+                sb.AppendLine("--- CHARACTER STATS ---");
+                sb.AppendLine($"Magicka: {TxtTotalMagicka.Text} {TxtRegenMagicka.Text}");
+                sb.AppendLine($"Health:  {TxtTotalHealth.Text} {TxtRegenHealth.Text}");
+                sb.AppendLine($"Stamina: {TxtTotalStamina.Text} {TxtRegenStamina.Text}");
+                sb.AppendLine();
+                sb.AppendLine($"Total Damage: {TxtTotalDamage.Text}");
+                sb.AppendLine($"Armor Rating: {TxtTotalArmor.Text}");
+                sb.AppendLine("-----------------------------------------------");
+
+                // --- AUSRÜSTUNG (Angepasst an neue Felder) ---
+                sb.AppendLine("--- EQUIPPED ITEMS ---");
+                if (EquippedItems.Count == 0)
                 {
-                    sb.AppendLine($"- [{p.Category}] {p.Name}");
+                    sb.AppendLine("- No items equipped");
                 }
-            }
-            sb.AppendLine("===============================================");
+                else
+                {
+                    foreach (var item in EquippedItems)
+                    {
+                        // Hauptzeile: Slot, Name und das Rating (Schaden/Rüstung/Charges)
+                        sb.AppendLine($"{item.Slot}: {item.ItemName} ({item.Rating})");
 
-            // --- File Save Dialog ---
-            var saveDialog = new Microsoft.Win32.SaveFileDialog
-            {
-                Filter = "Text File (*.txt)|*.txt",
-                FileName = $"{buildName.Replace(" ", "_")}.txt",
-                Title = "Save Build as Text File"
-            };
+                        // Falls ein Effekt/Enchantment da ist (und nicht "None"), rücken wir ihn ein
+                        if (!string.IsNullOrEmpty(item.Enchantment) && item.Enchantment != "None")
+                        {
+                            // Wir säubern den String ein wenig für den Export
+                            string cleanEffect = item.Enchantment.Replace("\r", "").Replace("\n", " ");
+                            sb.AppendLine($"   -> {cleanEffect}");
+                        }
+                    }
+                }
+                sb.AppendLine();
 
-            if (saveDialog.ShowDialog() == true)
-            {
-                try
+                // --- PERKS ---
+                sb.AppendLine("--- ACTIVE PERKS ---");
+                var activePerks = PerkDatabase?.Where(p => p.IsActive).ToList() ?? new List<Perk>();
+                if (activePerks.Count == 0)
+                {
+                    sb.AppendLine("- No perks selected");
+                }
+                else
+                {
+                    foreach (var p in activePerks.OrderBy(p => p.Category))
+                    {
+                        sb.AppendLine($"- [{p.Category}] {p.Name}");
+                    }
+                }
+                sb.AppendLine("===============================================");
+
+                // --- AKTIONEN: Zwischenablage & Datei ---
+
+                // 1. In die Zwischenablage kopieren (wie im Snippet gewünscht)
+                Clipboard.SetText(sb.ToString());
+
+                // 2. Speicher-Dialog für die Datei
+                var saveDialog = new Microsoft.Win32.SaveFileDialog
+                {
+                    Filter = "Textdatei (*.txt)|*.txt",
+                    FileName = $"Skyrim_Build_Lvl{TxtPlayerLevel.Text}.txt",
+                    Title = "Build als Textdatei speichern"
+                };
+
+                if (saveDialog.ShowDialog() == true)
                 {
                     System.IO.File.WriteAllText(saveDialog.FileName, sb.ToString());
-                    MessageBox.Show($"File '{saveDialog.SafeFileName}' was created successfully!", "Export Successful");
+                    MessageBox.Show("Build wurde in die Zwischenablage kopiert UND als Datei gespeichert! 📜⚔️", "Export erfolgreich");
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Error creating file: " + ex.Message);
+                    // Falls der User den Dateidialog abbricht, sagen wir ihm, dass es trotzdem im Clipboard ist
+                    MessageBox.Show("Export als Datei abgebrochen, aber der Build liegt in deiner Zwischenablage! 📋", "Info");
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler beim Exportieren: " + ex.Message, "Fehler");
             }
         }
 
@@ -1406,6 +1844,15 @@ namespace Skyrim_Build_Architect
             }
         }
 
+        // Das hier gehört ganz unten in die Klasse MainWindow
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
+
 
 }
