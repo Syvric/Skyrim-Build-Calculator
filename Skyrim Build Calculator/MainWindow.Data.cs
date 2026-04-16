@@ -368,380 +368,426 @@ namespace Skyrim_Build_Architect
             // ==========================================
             // SWORDS (One-Handed)
             // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Amber Sword (AE)", Category = "One-Handed", Damage = 15, Value = 1030, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Dark Sword (AE)", Category = "One-Handed", Damage = 12, Value = 900, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Daedric Sword", Category = "One-Handed", Damage = 14, Value = 1250, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Sword (DG)", Category = "One-Handed", Damage = 15, Value = 1500, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven Sword", Category = "One-Handed", Damage = 10, Value = 135, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony Sword", Category = "One-Handed", Damage = 13, Value = 720, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony Scimitar (AE)", Category = "One-Handed", Damage = 15, Value = 1100, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Elven Sword", Category = "One-Handed", Damage = 11, Value = 235, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Glass Sword", Category = "One-Handed", Damage = 12, Value = 410, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Golden Sword (AE)", Category = "One-Handed", Damage = 11, Value = 1000, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Iron Sword", Category = "One-Handed", Damage = 7, Value = 25, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Madness Sword (AE)", Category = "One-Handed", Damage = 16, Value = 1450, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Sword", Category = "One-Handed", Damage = 11, Value = 250, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Nordic Sword (DB)", Category = "One-Handed", Damage = 11, Value = 290, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Orcish Sword", Category = "One-Handed", Damage = 9, Value = 75, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Remnant Scimitar (AE)", Category = "One-Handed", Damage = 12, Value = 1200, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Skyforge Steel Sword", Category = "One-Handed", Damage = 11, Value = 70, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Sword (DB)", Category = "One-Handed", Damage = 13, Value = 985, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Steel Sword", Category = "One-Handed", Damage = 8, Value = 45, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Falmer Sword", Category = "One-Handed", Damage = 10, Value = 67, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Honed Falmer Sword", Category = "One-Handed", Damage = 12, Value = 135, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Forsworn Sword", Category = "One-Handed", Damage = 10, Value = 15, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Forsworn Axe", Category = "One-Handed", Damage = 11, Value = 20, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Amber Sword (AE)", Category = "One-Handed", Damage = 15, Weight = 14.0, Value = 1030, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Dark Sword (AE)", Category = "One-Handed", Damage = 12, Weight = 11.0, Value = 900, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric Sword", Category = "One-Handed", Damage = 14, Weight = 16.0, Value = 1250, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Sword (DG)", Category = "One-Handed", Damage = 15, Weight = 19.0, Value = 1500, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Sword", Category = "One-Handed", Damage = 10, Weight = 12.0, Value = 135, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Sword", Category = "One-Handed", Damage = 13, Weight = 15.0, Value = 720, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Scimitar (AE)", Category = "One-Handed", Damage = 15, Weight = 13.0, Value = 1100, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven Sword", Category = "One-Handed", Damage = 11, Weight = 10.0, Value = 235, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Glass Sword", Category = "One-Handed", Damage = 12, Weight = 12.0, Value = 410, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Golden Sword (AE)", Category = "One-Handed", Damage = 11, Weight = 12.0, Value = 1000, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Iron Sword", Category = "One-Handed", Damage = 7, Weight = 9.0, Value = 25, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Madness Sword (AE)", Category = "One-Handed", Damage = 16, Weight = 21.0, Value = 1450, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Sword", Category = "One-Handed", Damage = 11, Weight = 9.0, Value = 250, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Nordic Sword (DB)", Category = "One-Handed", Damage = 11, Weight = 12.0, Value = 290, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Orcish Sword", Category = "One-Handed", Damage = 9, Weight = 11.0, Value = 75, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Remnant Scimitar (AE)", Category = "One-Handed", Damage = 12, Weight = 14.0, Value = 1200, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Skyforge Steel Sword", Category = "One-Handed", Damage = 11, Weight = 10.0, Value = 70, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Sword (DB)", Category = "One-Handed", Damage = 13, Weight = 14.0, Value = 985, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Steel Sword", Category = "One-Handed", Damage = 8, Weight = 10.0, Value = 45, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Falmer Sword", Category = "One-Handed", Damage = 10, Weight = 15.0, Value = 67, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Honed Falmer Sword", Category = "One-Handed", Damage = 12, Weight = 18.0, Value = 135, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Forsworn Sword", Category = "One-Handed", Damage = 10, Weight = 13.0, Value = 15, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Forsworn Axe", Category = "One-Handed", Damage = 11, Weight = 13.0, Value = 20, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
 
             // ==========================================
             // WAR AXES (One-Handed)
             // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Amber War Axe (AE)", Category = "One-Handed", Damage = 16, Value = 2200, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Dark War Axe (AE)", Category = "One-Handed", Damage = 13, Value = 1000, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Daedric War Axe", Category = "One-Handed", Damage = 15, Value = 2300, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Dragonbone War Axe (DG)", Category = "One-Handed", Damage = 16, Value = 3000, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven War Axe", Category = "One-Handed", Damage = 11, Value = 230, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony War Axe", Category = "One-Handed", Damage = 14, Value = 1500, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Elven War Axe", Category = "One-Handed", Damage = 12, Value = 465, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Glass War Axe", Category = "One-Handed", Damage = 13, Value = 820, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Golden War Axe (AE)", Category = "One-Handed", Damage = 12, Value = 1200, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Iron War Axe", Category = "One-Handed", Damage = 8, Value = 30, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Irkngthand War Axe (AE)", Category = "One-Handed", Damage = 13, Value = 135, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Madness War Axe (AE)", Category = "One-Handed", Damage = 17, Value = 3100, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Nord Hero War Axe", Category = "One-Handed", Damage = 12, Value = 300, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Nordic War Axe (DB)", Category = "One-Handed", Damage = 12, Value = 425, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Orcish War Axe", Category = "One-Handed", Damage = 10, Value = 150, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Skyforge Steel War Axe", Category = "One-Handed", Damage = 12, Value = 150, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Stalhrim War Axe (DB)", Category = "One-Handed", Damage = 15, Value = 1750, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Steel War Axe", Category = "One-Handed", Damage = 9, Value = 55, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Amber War Axe (AE)", Category = "One-Handed", Damage = 16, Weight = 15.0, Value = 2200, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Dark War Axe (AE)", Category = "One-Handed", Damage = 13, Weight = 12.0, Value = 1000, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric War Axe", Category = "One-Handed", Damage = 15, Weight = 18.0, Value = 2300, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone War Axe (DG)", Category = "One-Handed", Damage = 16, Weight = 21.0, Value = 3000, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven War Axe", Category = "One-Handed", Damage = 11, Weight = 14.0, Value = 230, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony War Axe", Category = "One-Handed", Damage = 14, Weight = 17.0, Value = 1500, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven War Axe", Category = "One-Handed", Damage = 12, Weight = 12.0, Value = 465, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Glass War Axe", Category = "One-Handed", Damage = 13, Weight = 14.0, Value = 820, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Golden War Axe (AE)", Category = "One-Handed", Damage = 12, Weight = 13.0, Value = 1200, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Iron War Axe", Category = "One-Handed", Damage = 8, Weight = 11.0, Value = 30, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Irkngthand War Axe (AE)", Category = "One-Handed", Damage = 13, Weight = 14.0, Value = 135, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Madness War Axe (AE)", Category = "One-Handed", Damage = 17, Weight = 23.0, Value = 3100, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Nord Hero War Axe", Category = "One-Handed", Damage = 12, Weight = 11.0, Value = 300, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Nordic War Axe (DB)", Category = "One-Handed", Damage = 12, Weight = 14.0, Value = 425, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Orcish War Axe", Category = "One-Handed", Damage = 10, Weight = 13.0, Value = 150, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Skyforge Steel War Axe", Category = "One-Handed", Damage = 12, Weight = 11.0, Value = 150, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Stalhrim War Axe (DB)", Category = "One-Handed", Damage = 15, Weight = 16.0, Value = 1750, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Steel War Axe", Category = "One-Handed", Damage = 9, Weight = 11.0, Value = 55, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
 
             // ==========================================
             // MACES (One-Handed)
             // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Amber Mace (AE)", Category = "One-Handed", Damage = 17, Value = 2500, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Dark Mace (AE)", Category = "One-Handed", Damage = 14, Value = 1300, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Daedric Mace", Category = "One-Handed", Damage = 16, Value = 2750, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Mace (DG)", Category = "One-Handed", Damage = 17, Value = 3500, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven Mace", Category = "One-Handed", Damage = 12, Value = 275, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony Mace", Category = "One-Handed", Damage = 15, Value = 1750, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Elven Mace", Category = "One-Handed", Damage = 13, Value = 550, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Glass Mace", Category = "One-Handed", Damage = 14, Value = 950, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Golden Mace (AE)", Category = "One-Handed", Damage = 13, Value = 1500, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Iron Mace", Category = "One-Handed", Damage = 9, Value = 35, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Madness Mace (AE)", Category = "One-Handed", Damage = 18, Value = 3600, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Mace (AE)", Category = "One-Handed", Damage = 13, Value = 350, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Nordic Mace (DB)", Category = "One-Handed", Damage = 13, Value = 475, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Orcish Mace", Category = "One-Handed", Damage = 11, Value = 190, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Mace (DB)", Category = "One-Handed", Damage = 16, Value = 2100, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
-            WeaponDatabase.Add(new Weapon { Name = "Steel Mace", Category = "One-Handed", Damage = 10, Value = 65, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Amber Mace (AE)", Category = "One-Handed", Damage = 17, Weight = 15.0, Value = 2500, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Dark Mace (AE)", Category = "One-Handed", Damage = 14, Weight = 13.0, Value = 1300, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric Mace", Category = "One-Handed", Damage = 16, Weight = 18.0, Value = 2750, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Mace (DG)", Category = "One-Handed", Damage = 17, Weight = 22.0, Value = 3500, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Mace", Category = "One-Handed", Damage = 12, Weight = 16.0, Value = 275, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Mace", Category = "One-Handed", Damage = 15, Weight = 19.0, Value = 1750, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven Mace", Category = "One-Handed", Damage = 13, Weight = 13.0, Value = 550, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Glass Mace", Category = "One-Handed", Damage = 14, Weight = 16.0, Value = 950, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Golden Mace (AE)", Category = "One-Handed", Damage = 13, Weight = 14.0, Value = 1500, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Iron Mace", Category = "One-Handed", Damage = 9, Weight = 13.0, Value = 35, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Madness Mace (AE)", Category = "One-Handed", Damage = 18, Weight = 25.0, Value = 3600, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Mace (AE)", Category = "One-Handed", Damage = 13, Weight = 12.0, Value = 350, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Nordic Mace (DB)", Category = "One-Handed", Damage = 13, Weight = 18.0, Value = 475, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Orcish Mace", Category = "One-Handed", Damage = 11, Weight = 17.0, Value = 190, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Mace (DB)", Category = "One-Handed", Damage = 16, Weight = 18.0, Value = 2100, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
+            WeaponDatabase.Add(new Weapon { Name = "Steel Mace", Category = "One-Handed", Damage = 10, Weight = 14.0, Value = 65, Reach = 1.0, Speed = 0.8, Stagger = 1.0 });
 
             // ==========================================
             // GREATSWORDS (Two-Handed)
             // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Amber Greatsword (AE)", Category = "Two-Handed", Damage = 25, Value = 2100, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Dark Greatsword (AE)", Category = "Two-Handed", Damage = 20, Value = 1400, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Daedric Greatsword", Category = "Two-Handed", Damage = 24, Value = 2500, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Greatsword (DG)", Category = "Two-Handed", Damage = 25, Value = 2725, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven Greatsword", Category = "Two-Handed", Damage = 19, Value = 370, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony Greatsword", Category = "Two-Handed", Damage = 22, Value = 1850, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Elven Greatsword", Category = "Two-Handed", Damage = 20, Value = 600, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Glass Greatsword", Category = "Two-Handed", Damage = 21, Value = 900, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Golden Greatsword (AE)", Category = "Two-Handed", Damage = 21, Value = 2100, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Iron Greatsword", Category = "Two-Handed", Damage = 15, Value = 50, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Madness Greatsword (AE)", Category = "Two-Handed", Damage = 26, Value = 3000, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Greatsword", Category = "Two-Handed", Damage = 20, Value = 450, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Nordic Greatsword (DB)", Category = "Two-Handed", Damage = 20, Value = 585, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Orcish Greatsword", Category = "Two-Handed", Damage = 18, Value = 250, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Skyforge Steel Greatsword", Category = "Two-Handed", Damage = 20, Value = 150, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Greatsword (DB)", Category = "Two-Handed", Damage = 23, Value = 2300, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Steel Greatsword", Category = "Two-Handed", Damage = 17, Value = 90, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Ancient Nord Greatsword", Category = "Two-Handed", Damage = 15, Value = 35, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Honed Ancient Nord Greatsword", Category = "Two-Handed", Damage = 21, Value = 150, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-            WeaponDatabase.Add(new Weapon { Name = "Nordic Greatsword (DB)", Category = "Two-Handed", Damage = 20, Value = 585, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
-
-            // ==========================================
-            // BATTLEAXES (Two-Handed)
-            // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Amber Battleaxe (AE)", Category = "Two-Handed", Damage = 26, Value = 2300, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Dark Battleaxe (AE)", Category = "Two-Handed", Damage = 21, Value = 1600, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Daedric Battleaxe", Category = "Two-Handed", Damage = 25, Value = 2750, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Battleaxe (DG)", Category = "Two-Handed", Damage = 26, Value = 3000, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven Battleaxe", Category = "Two-Handed", Damage = 20, Value = 400, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony Battleaxe", Category = "Two-Handed", Damage = 23, Value = 1585, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Elven Battleaxe", Category = "Two-Handed", Damage = 21, Value = 650, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Glass Battleaxe", Category = "Two-Handed", Damage = 22, Value = 980, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Golden Battleaxe (AE)", Category = "Two-Handed", Damage = 22, Value = 2500, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Iron Battleaxe", Category = "Two-Handed", Damage = 16, Value = 55, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Madness Battleaxe (AE)", Category = "Two-Handed", Damage = 27, Value = 3300, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Battleaxe", Category = "Two-Handed", Damage = 21, Value = 500, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Nordic Battleaxe (DB)", Category = "Two-Handed", Damage = 21, Value = 550, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Orcish Battleaxe", Category = "Two-Handed", Damage = 19, Value = 265, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Skyforge Steel Battleaxe", Category = "Two-Handed", Damage = 21, Value = 150, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Battleaxe (DB)", Category = "Two-Handed", Damage = 24, Value = 1950, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
-            WeaponDatabase.Add(new Weapon { Name = "Steel Battleaxe", Category = "Two-Handed", Damage = 18, Value = 100, Reach = 1.3, Speed = 0.7, Stagger = 1.15 });
+            WeaponDatabase.Add(new Weapon { Name = "Amber Greatsword (AE)", Category = "Two-Handed", Damage = 25, Weight = 20.0, Value = 2100, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Dark Greatsword (AE)", Category = "Two-Handed", Damage = 20, Weight = 17.0, Value = 1400, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric Greatsword", Category = "Two-Handed", Damage = 24, Weight = 23.0, Value = 2500, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Greatsword (DG)", Category = "Two-Handed", Damage = 25, Weight = 27.0, Value = 2725, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Greatsword", Category = "Two-Handed", Damage = 19, Weight = 19.0, Value = 370, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Greatsword", Category = "Two-Handed", Damage = 22, Weight = 22.0, Value = 1850, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven Greatsword", Category = "Two-Handed", Damage = 20, Weight = 16.0, Value = 600, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Glass Greatsword", Category = "Two-Handed", Damage = 21, Weight = 18.0, Value = 900, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Golden Greatsword (AE)", Category = "Two-Handed", Damage = 21, Weight = 19.0, Value = 2100, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Iron Greatsword", Category = "Two-Handed", Damage = 15, Weight = 16.0, Value = 50, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Madness Greatsword (AE)", Category = "Two-Handed", Damage = 26, Weight = 31.0, Value = 3000, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Greatsword", Category = "Two-Handed", Damage = 20, Weight = 14.0, Value = 450, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Nordic Greatsword (DB)", Category = "Two-Handed", Damage = 20, Weight = 21.0, Value = 585, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Orcish Greatsword", Category = "Two-Handed", Damage = 18, Weight = 18.0, Value = 250, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Skyforge Steel Greatsword", Category = "Two-Handed", Damage = 20, Weight = 15.0, Value = 150, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Greatsword (DB)", Category = "Two-Handed", Damage = 23, Weight = 21.0, Value = 2300, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Steel Greatsword", Category = "Two-Handed", Damage = 17, Weight = 17.0, Value = 90, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Ancient Nord Greatsword", Category = "Two-Handed", Damage = 15, Weight = 18.0, Value = 35, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
+            WeaponDatabase.Add(new Weapon { Name = "Honed Ancient Nord Greatsword", Category = "Two-Handed", Damage = 21, Weight = 21.0, Value = 150, Reach = 1.3, Speed = 0.7, Stagger = 1.1 });
 
             // ==========================================
             // WARHAMMERS (Two-Handed)
             // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Amber Warhammer (AE)", Category = "Two-Handed", Damage = 28, Value = 2600, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Ancient Nord Warhammer (AE)", Category = "Two-Handed", Damage = 20, Value = 35, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Dark Warhammer (AE)", Category = "Two-Handed", Damage = 23, Value = 1800, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Daedric Warhammer", Category = "Two-Handed", Damage = 27, Value = 4000, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Warhammer (DG)", Category = "Two-Handed", Damage = 28, Value = 4275, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven Warhammer", Category = "Two-Handed", Damage = 22, Value = 450, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Dawnguard Warhammer (DG)", Category = "Two-Handed", Damage = 22, Value = 500, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony Warhammer", Category = "Two-Handed", Damage = 25, Value = 1725, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Elven Warhammer", Category = "Two-Handed", Damage = 23, Value = 735, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Glass Warhammer", Category = "Two-Handed", Damage = 24, Value = 1100, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Golden Warhammer (AE)", Category = "Two-Handed", Damage = 24, Value = 2800, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Honed Ancient Nord Warhammer (AE)", Category = "Two-Handed", Damage = 23, Value = 50, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Iron Warhammer", Category = "Two-Handed", Damage = 18, Value = 60, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Madness Warhammer (AE)", Category = "Two-Handed", Damage = 29, Value = 4500, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Warhammer (AE)", Category = "Two-Handed", Damage = 23, Value = 550, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Nordic Warhammer (DB)", Category = "Two-Handed", Damage = 23, Value = 625, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Orcish Warhammer", Category = "Two-Handed", Damage = 21, Value = 300, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Warhammer (DB)", Category = "Two-Handed", Damage = 26, Value = 2100, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Steel Warhammer", Category = "Two-Handed", Damage = 20, Value = 110, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "The Longhammer", Category = "Two-Handed", Damage = 21, Value = 90, Reach = 1.3, Speed = 0.8, Stagger = 1.25 });
-            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Warhammer (DB)", Category = "Two-Handed", Damage = 26, Value = 2100, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Amber Warhammer (AE)", Category = "Two-Handed", Damage = 28, Weight = 25.0, Value = 2600, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Ancient Nord Warhammer (AE)", Category = "Two-Handed", Damage = 20, Weight = 18.0, Value = 35, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Dark Warhammer (AE)", Category = "Two-Handed", Damage = 23, Weight = 21.0, Value = 1800, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric Warhammer", Category = "Two-Handed", Damage = 27, Weight = 31.0, Value = 4000, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Warhammer (DG)", Category = "Two-Handed", Damage = 28, Weight = 33.0, Value = 4275, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Warhammer", Category = "Two-Handed", Damage = 22, Weight = 27.0, Value = 450, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Dawnguard Warhammer (DG)", Category = "Two-Handed", Damage = 22, Weight = 15.0, Value = 500, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Warhammer", Category = "Two-Handed", Damage = 25, Weight = 30.0, Value = 1725, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven Warhammer", Category = "Two-Handed", Damage = 23, Weight = 24.0, Value = 735, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Glass Warhammer", Category = "Two-Handed", Damage = 24, Weight = 22.0, Value = 1100, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Golden Warhammer (AE)", Category = "Two-Handed", Damage = 24, Weight = 21.0, Value = 2800, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Honed Ancient Nord Warhammer (AE)", Category = "Two-Handed", Damage = 23, Weight = 21.0, Value = 50, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Iron Warhammer", Category = "Two-Handed", Damage = 18, Weight = 24.0, Value = 60, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Madness Warhammer (AE)", Category = "Two-Handed", Damage = 29, Weight = 36.0, Value = 4500, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Warhammer (AE)", Category = "Two-Handed", Damage = 23, Weight = 19.0, Value = 550, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Nordic Warhammer (DB)", Category = "Two-Handed", Damage = 23, Weight = 26.0, Value = 625, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Orcish Warhammer", Category = "Two-Handed", Damage = 21, Weight = 26.0, Value = 300, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Warhammer (DB)", Category = "Two-Handed", Damage = 26, Weight = 29.0, Value = 2100, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "Steel Warhammer", Category = "Two-Handed", Damage = 20, Weight = 25.0, Value = 110, Reach = 1.3, Speed = 0.6, Stagger = 1.25 });
+            WeaponDatabase.Add(new Weapon { Name = "The Longhammer", Category = "Two-Handed", Damage = 21, Weight = 18.0, Value = 90, Reach = 1.3, Speed = 0.8, Stagger = 1.25 });
 
             // ==========================================
             // BOWS & CROSSBOWS (Archery)
             // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Amber Bow (AE)", Category = "Archery", Damage = 20, Value = 1900, Reach = 0, Speed = 0.5, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Dark Bow (AE)", Category = "Archery", Damage = 13, Value = 900, Reach = 0, Speed = 0.5, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Daedric Bow", Category = "Archery", Damage = 19, Value = 2500, Reach = 0, Speed = 0.5, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Bow (DG)", Category = "Archery", Damage = 20, Value = 2725, Reach = 0, Speed = 0.75, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven Bow", Category = "Archery", Damage = 12, Value = 270, Reach = 0, Speed = 0.75, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony Bow", Category = "Archery", Damage = 17, Value = 1440, Reach = 0, Speed = 0.5625, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Elven Bow", Category = "Archery", Damage = 13, Value = 470, Reach = 0, Speed = 0.6875, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Glass Bow", Category = "Archery", Damage = 15, Value = 820, Reach = 0, Speed = 0.625, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Golden Bow (AE)", Category = "Archery", Damage = 11, Value = 1000, Reach = 0, Speed = 0.5, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Hunting Bow", Category = "Archery", Damage = 7, Value = 50, Reach = 0, Speed = 0.9375, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Long Bow", Category = "Archery", Damage = 6, Value = 30, Reach = 0, Speed = 1.0, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Madness Bow (AE)", Category = "Archery", Damage = 21, Value = 2800, Reach = 0, Speed = 0.5, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Bow", Category = "Archery", Damage = 11, Value = 200, Reach = 0, Speed = 0.875, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Nordic Bow (DB)", Category = "Archery", Damage = 13, Value = 450, Reach = 0, Speed = 0.6875, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Orcish Bow", Category = "Archery", Damage = 10, Value = 150, Reach = 0, Speed = 0.8125, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Bow (DB)", Category = "Archery", Damage = 17, Value = 1800, Reach = 0, Speed = 0.5625, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Amber Bow (AE)", Category = "Archery", Damage = 20, Weight = 12.0, Value = 1900, Reach = 0, Speed = 0.5, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Dark Bow (AE)", Category = "Archery", Damage = 13, Weight = 11.0, Value = 900, Reach = 0, Speed = 0.5, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric Bow", Category = "Archery", Damage = 19, Weight = 18.0, Value = 2500, Reach = 0, Speed = 0.5, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Bow (DG)", Category = "Archery", Damage = 20, Weight = 20.0, Value = 2725, Reach = 0, Speed = 0.75, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Bow", Category = "Archery", Damage = 12, Weight = 10.0, Value = 270, Reach = 0, Speed = 0.75, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Bow", Category = "Archery", Damage = 17, Weight = 16.0, Value = 1440, Reach = 0, Speed = 0.5625, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven Bow", Category = "Archery", Damage = 13, Weight = 12.0, Value = 470, Reach = 0, Speed = 0.6875, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Glass Bow", Category = "Archery", Damage = 15, Weight = 14.0, Value = 820, Reach = 0, Speed = 0.625, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Golden Bow (AE)", Category = "Archery", Damage = 11, Weight = 13.0, Value = 1000, Reach = 0, Speed = 0.5, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Hunting Bow", Category = "Archery", Damage = 7, Weight = 7.0, Value = 50, Reach = 0, Speed = 0.9375, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Long Bow", Category = "Archery", Damage = 6, Weight = 5.0, Value = 30, Reach = 0, Speed = 1.0, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Madness Bow (AE)", Category = "Archery", Damage = 21, Weight = 21.0, Value = 2800, Reach = 0, Speed = 0.5, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Bow", Category = "Archery", Damage = 11, Weight = 7.0, Value = 200, Reach = 0, Speed = 0.875, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Nordic Bow (DB)", Category = "Archery", Damage = 13, Weight = 11.0, Value = 450, Reach = 0, Speed = 0.6875, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Orcish Bow", Category = "Archery", Damage = 10, Weight = 9.0, Value = 150, Reach = 0, Speed = 0.8125, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Bow (DB)", Category = "Archery", Damage = 17, Weight = 15.0, Value = 1800, Reach = 0, Speed = 0.5625, Stagger = 0 });
 
             // CROSSBOWS
-            WeaponDatabase.Add(new Weapon { Name = "Crossbow (DG)", Category = "Archery", Damage = 19, Value = 120, Reach = 0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Daedric Crossbow (AE)", Category = "Archery", Damage = 28, Value = 2800, Reach = 0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Crossbow (AE)", Category = "Archery", Damage = 30, Value = 3200, Reach = 0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven Crossbow (DG)", Category = "Archery", Damage = 22, Value = 350, Reach = 0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony Crossbow (AE)", Category = "Archery", Damage = 25, Value = 1500, Reach = 0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Elven Crossbow (AE)", Category = "Archery", Damage = 23, Value = 650, Reach = 0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Enhanced Crossbow (DG)", Category = "Archery", Damage = 19, Value = 200, Reach = 0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Enhanced Dwarven Crossbow (DG)", Category = "Archery", Damage = 22, Value = 450, Reach = 0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Crossbow (DG)", Category = "Archery", Damage = 19, Weight = 14.0, Value = 120, Reach = 0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric Crossbow (AE)", Category = "Archery", Damage = 28, Weight = 18.0, Value = 2800, Reach = 0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Crossbow (AE)", Category = "Archery", Damage = 30, Weight = 20.0, Value = 3200, Reach = 0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Crossbow (DG)", Category = "Archery", Damage = 22, Weight = 20.0, Value = 350, Reach = 0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Crossbow (AE)", Category = "Archery", Damage = 25, Weight = 18.0, Value = 1500, Reach = 0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven Crossbow (AE)", Category = "Archery", Damage = 23, Weight = 15.0, Value = 650, Reach = 0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Enhanced Crossbow (DG)", Category = "Archery", Damage = 19, Weight = 14.0, Value = 200, Reach = 0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Enhanced Dwarven Crossbow (DG)", Category = "Archery", Damage = 22, Weight = 20.0, Value = 450, Reach = 0, Speed = 1.0, Stagger = 0.75 });
 
-            // ==========================================
-            // AMMUNITION (Arrows & Bolts)
-            // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Iron Arrow", Category = "Ammunition", Damage = 8, Value = 1 });
-            WeaponDatabase.Add(new Weapon { Name = "Steel Arrow", Category = "Ammunition", Damage = 10, Value = 2 });
-            WeaponDatabase.Add(new Weapon { Name = "Orcish Arrow", Category = "Ammunition", Damage = 12, Value = 3 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven Arrow", Category = "Ammunition", Damage = 14, Value = 4 });
-            WeaponDatabase.Add(new Weapon { Name = "Elven Arrow", Category = "Ammunition", Damage = 16, Value = 5 });
-            WeaponDatabase.Add(new Weapon { Name = "Glass Arrow", Category = "Ammunition", Damage = 18, Value = 6 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony Arrow", Category = "Ammunition", Damage = 20, Value = 7 });
-            WeaponDatabase.Add(new Weapon { Name = "Daedric Arrow", Category = "Ammunition", Damage = 24, Value = 8 });
-            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Arrow (DG)", Category = "Ammunition", Damage = 25, Value = 9 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven Bolt (DG)", Category = "Ammunition", Damage = 14, Value = 4 });
+            // ==================================================================================
+            // AMMUNITION: ARROWS (Pfeile)
+            // ==================================================================================
+            WeaponDatabase.Add(new Weapon { Name = "Iron Arrow", Category = "Ammunition", Damage = 8, Weight = 0, Value = 1 });
+            WeaponDatabase.Add(new Weapon { Name = "Steel Arrow", Category = "Ammunition", Damage = 10, Weight = 0, Value = 2 });
+            WeaponDatabase.Add(new Weapon { Name = "Silver Arrow (AE)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 2 });
+            WeaponDatabase.Add(new Weapon { Name = "Corkbulb Arrow (AE)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 3 });
+            WeaponDatabase.Add(new Weapon { Name = "Orcish Arrow", Category = "Ammunition", Damage = 12, Weight = 0, Value = 3 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Arrow", Category = "Ammunition", Damage = 14, Weight = 0, Value = 4 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven Arrow", Category = "Ammunition", Damage = 16, Weight = 0, Value = 5 });
+            WeaponDatabase.Add(new Weapon { Name = "Golden Arrow (AE)", Category = "Ammunition", Damage = 16, Weight = 0, Value = 5 });
+            WeaponDatabase.Add(new Weapon { Name = "Dark Arrow (AE)", Category = "Ammunition", Damage = 16, Weight = 0, Value = 5 });
+            WeaponDatabase.Add(new Weapon { Name = "Glass Arrow", Category = "Ammunition", Damage = 18, Weight = 0, Value = 6 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Arrow", Category = "Ammunition", Damage = 20, Weight = 0, Value = 7 });
+            WeaponDatabase.Add(new Weapon { Name = "Amber Arrow (AE)", Category = "Ammunition", Damage = 21, Weight = 0, Value = 8 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric Arrow", Category = "Ammunition", Damage = 24, Weight = 0, Value = 8 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Arrow (DG)", Category = "Ammunition", Damage = 25, Weight = 0, Value = 9 });
+            WeaponDatabase.Add(new Weapon { Name = "Bone Arrow (AE)", Category = "Ammunition", Damage = 26, Weight = 0, Value = 10 });
+            WeaponDatabase.Add(new Weapon { Name = "Madness Arrow (AE)", Category = "Ammunition", Damage = 26, Weight = 0, Value = 12 });
+
+            // ==================================================================================
+            // AMMUNITION: ARROWS (Base Game / Factions)
+            // ==================================================================================
+            WeaponDatabase.Add(new Weapon { Name = "Practice Arrow", Category = "Ammunition", Damage = 0, Weight = 0, Value = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Rusty Arrow", Category = "Ammunition", Damage = 4, Weight = 0, Value = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Falmer Arrow", Category = "Ammunition", Damage = 7, Weight = 0, Value = 1 });
+            WeaponDatabase.Add(new Weapon { Name = "Forsworn Arrow", Category = "Ammunition", Damage = 7, Weight = 0, Value = 1 });
+            WeaponDatabase.Add(new Weapon { Name = "Ancient Nord Arrow", Category = "Ammunition", Damage = 10, Weight = 0, Value = 1 });
+            WeaponDatabase.Add(new Weapon { Name = "Nord Hero Arrow", Category = "Ammunition", Damage = 24, Weight = 0, Value = 3 });
+            WeaponDatabase.Add(new Weapon { Name = "Bound Arrow (Spell)", Category = "Ammunition", Damage = 24, Weight = 0, Value = 0 });
+
+            // ==================================================================================
+            // AMMUNITION: ARROWS (Dragonborn DLC)
+            // ==================================================================================
+            // WeaponDatabase.Add(new Weapon { Name = "Riekling Spear (DB)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 2 });
+            WeaponDatabase.Add(new Weapon { Name = "Nordic Arrow (DB)", Category = "Ammunition", Damage = 14, Weight = 0, Value = 4 });
+            WeaponDatabase.Add(new Weapon { Name = "Stalhrim Arrow (DB)", Category = "Ammunition", Damage = 20, Weight = 0, Value = 7 });
+
+            // ==================================================================================
+            // AMMUNITION: SPECIAL ARROWS & BOLTS (Dawnguard DLC)
+            // ==================================================================================
+            WeaponDatabase.Add(new Weapon { Name = "Sunhallowed Elven Arrow (DG)", Category = "Ammunition", Damage = 16, Weight = 0, Value = 16 });
+            WeaponDatabase.Add(new Weapon { Name = "Bloodcursed Elven Arrow (DG)", Category = "Ammunition", Damage = 16, Weight = 0, Value = 16 });
+
+            WeaponDatabase.Add(new Weapon { Name = "Exploding Steel Bolt of Ice (DG)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 15 });
+            WeaponDatabase.Add(new Weapon { Name = "Exploding Steel Bolt of Shock (DG)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 15 });
+            WeaponDatabase.Add(new Weapon { Name = "Exploding Dwarven Bolt of Ice (DG)", Category = "Ammunition", Damage = 14, Weight = 0, Value = 30 });
+            WeaponDatabase.Add(new Weapon { Name = "Exploding Dwarven Bolt of Shock (DG)", Category = "Ammunition", Damage = 14, Weight = 0, Value = 30 });
+
+            // ==================================================================================
+            // AMMUNITION: ARCANE ARCHER (Anniversary Edition)
+            // ==================================================================================
+            WeaponDatabase.Add(new Weapon { Name = "Fire Arrow (AE)", Category = "Ammunition", Damage = 8, Weight = 0, Value = 15 });
+            WeaponDatabase.Add(new Weapon { Name = "Ice Arrow (AE)", Category = "Ammunition", Damage = 8, Weight = 0, Value = 15 });
+            WeaponDatabase.Add(new Weapon { Name = "Lightning Arrow (AE)", Category = "Ammunition", Damage = 8, Weight = 0, Value = 15 });
+            WeaponDatabase.Add(new Weapon { Name = "Soul Stealer Arrow (AE)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 50 });
+            WeaponDatabase.Add(new Weapon { Name = "Telekinesis Arrow (AE)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 50 });
+
+            // ==================================================================================
+            // AMMUNITION: BOLTS (Bolzen)
+            // ==================================================================================
+            WeaponDatabase.Add(new Weapon { Name = "Steel Bolt (DG)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 1 });
+            WeaponDatabase.Add(new Weapon { Name = "Corkbulb Bolt (AE)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 3 });
+            WeaponDatabase.Add(new Weapon { Name = "Orcish Bolt (AE)", Category = "Ammunition", Damage = 12, Weight = 0, Value = 3 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Bolt (DG)", Category = "Ammunition", Damage = 14, Weight = 0, Value = 4 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven Bolt (AE)", Category = "Ammunition", Damage = 16, Weight = 0, Value = 5 });
+            WeaponDatabase.Add(new Weapon { Name = "Glass Bolt (AE)", Category = "Ammunition", Damage = 18, Weight = 0, Value = 6 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Bolt (AE)", Category = "Ammunition", Damage = 20, Weight = 0, Value = 7 });
+            WeaponDatabase.Add(new Weapon { Name = "Amber Bolt (AE)", Category = "Ammunition", Damage = 21, Weight = 0, Value = 8 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric Bolt (AE)", Category = "Ammunition", Damage = 24, Weight = 0, Value = 8 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Bolt (AE)", Category = "Ammunition", Damage = 25, Weight = 0, Value = 9 });
+            WeaponDatabase.Add(new Weapon { Name = "Madness Bolt (AE)", Category = "Ammunition", Damage = 26, Weight = 0, Value = 12 });
+
+            // Bonus: Explosive Bolzen (Optional, falls du sie nutzen willst)
+            WeaponDatabase.Add(new Weapon { Name = "Exploding Steel Bolt (DG)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 5 });
+            WeaponDatabase.Add(new Weapon { Name = "Exploding Dwarven Bolt (DG)", Category = "Ammunition", Damage = 14, Weight = 0, Value = 10 });
+
+            // Spezial-Munition (Explosiv)
+            WeaponDatabase.Add(new Weapon { Name = "Exploding Steel Bolt of Fire (DG)", Category = "Ammunition", Damage = 10, Weight = 0, Value = 15 });
+            WeaponDatabase.Add(new Weapon { Name = "Exploding Dwarven Bolt of Fire (DG)", Category = "Ammunition", Damage = 14, Weight = 0, Value = 30 });
 
             // ==========================================
             // DAGGERS & FACTION WEAPONS
             // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Amber Dagger (AE)", Category = "One-Handed", Damage = 11, Value = 410, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Daedric Dagger", Category = "One-Handed", Damage = 11, Value = 500, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Dagger (DG)", Category = "One-Handed", Damage = 12, Value = 600, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Dwarven Dagger", Category = "One-Handed", Damage = 7, Value = 55, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Ebony Dagger", Category = "One-Handed", Damage = 10, Value = 290, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Elven Dagger", Category = "One-Handed", Damage = 8, Value = 95, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Glass Dagger", Category = "One-Handed", Damage = 9, Value = 165, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Iron Dagger", Category = "One-Handed", Damage = 4, Value = 10, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Orcish Dagger", Category = "One-Handed", Damage = 6, Value = 30, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Steel Dagger", Category = "One-Handed", Damage = 5, Value = 15, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Nordic Dagger (DB)", Category = "One-Handed", Damage = 10, Value = 165, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Steel Dagger", Category = "One-Handed", Damage = 5, Value = 15, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Amber Dagger (AE)", Category = "One-Handed", Damage = 11, Weight = 3.5, Value = 410, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Daedric Dagger", Category = "One-Handed", Damage = 11, Weight = 6.0, Value = 500, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragonbone Dagger (DG)", Category = "One-Handed", Damage = 12, Weight = 6.5, Value = 600, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Dwarven Dagger", Category = "One-Handed", Damage = 7, Weight = 3.5, Value = 55, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Ebony Dagger", Category = "One-Handed", Damage = 10, Weight = 5.0, Value = 290, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Elven Dagger", Category = "One-Handed", Damage = 8, Weight = 4.0, Value = 95, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Glass Dagger", Category = "One-Handed", Damage = 9, Weight = 4.5, Value = 165, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Iron Dagger", Category = "One-Handed", Damage = 4, Weight = 2.0, Value = 10, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Orcish Dagger", Category = "One-Handed", Damage = 6, Weight = 3.0, Value = 30, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Steel Dagger", Category = "One-Handed", Damage = 5, Weight = 2.5, Value = 15, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Nordic Dagger (DB)", Category = "One-Handed", Damage = 10, Weight = 3.5, Value = 165, Reach = 0.7, Speed = 1.3, Stagger = 0 });
 
             // FACTION ITEMS
-            WeaponDatabase.Add(new Weapon { Name = "Blades Sword", Category = "One-Handed", Damage = 11, Value = 300, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Dawnguard War Axe (DG)", Category = "One-Handed", Damage = 11, Value = 110, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
-            WeaponDatabase.Add(new Weapon { Name = "Imperial Sword", Category = "One-Handed", Damage = 8, Value = 23, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Silver Sword", Category = "One-Handed", Damage = 8, Value = 100, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
-            WeaponDatabase.Add(new Weapon { Name = "Scimitar", Category = "One-Handed", Damage = 11, Value = 5, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Blades Sword", Category = "One-Handed", Damage = 11, Weight = 10.0, Value = 300, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Dawnguard War Axe (DG)", Category = "One-Handed", Damage = 11, Weight = 12.0, Value = 110, Reach = 1.0, Speed = 0.9, Stagger = 0.85 });
+            WeaponDatabase.Add(new Weapon { Name = "Imperial Sword", Category = "One-Handed", Damage = 8, Weight = 10.0, Value = 23, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Silver Sword", Category = "One-Handed", Damage = 8, Weight = 7.0, Value = 100, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
+            WeaponDatabase.Add(new Weapon { Name = "Scimitar", Category = "One-Handed", Damage = 11, Weight = 10.0, Value = 5, Reach = 1.0, Speed = 1.0, Stagger = 0.75 });
 
             // ==========================================
-            // TOOLS (Special: Dagger Speed, Sword Perks)
+            // TOOLS
             // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Pickaxe", Category = "One-Handed", Damage = 5, Value = 5, Reach = 1.0, Speed = 1.3, Stagger = 0.75, IsEnchantable = true });
-            WeaponDatabase.Add(new Weapon { Name = "Woodcutter's Axe", Category = "One-Handed", Damage = 5, Value = 5, Reach = 1.0, Speed = 1.3, Stagger = 0.75, IsEnchantable = true });
-            
-            // Ancient Nordic Pickaxe (Wichtig für Stalhrim!)
-            WeaponDatabase.Add(new Weapon { Name = "Ancient Nordic Pickaxe (DB)", Category = "One-Handed", Damage = 5, Value = 40, Reach = 1.0, Speed = 1.3, Stagger = 0.75, IsEnchantable = true });
+            WeaponDatabase.Add(new Weapon { Name = "Pickaxe", Category = "One-Handed", Damage = 5, Weight = 10.0, Value = 5, Reach = 1.0, Speed = 1.3, Stagger = 0.75, IsEnchantable = true });
+            WeaponDatabase.Add(new Weapon { Name = "Woodcutter's Axe", Category = "One-Handed", Damage = 5, Weight = 10.0, Value = 5, Reach = 1.0, Speed = 1.3, Stagger = 0.75, IsEnchantable = true });
+            WeaponDatabase.Add(new Weapon { Name = "Ancient Nordic Pickaxe (DB)", Category = "One-Handed", Damage = 5, Weight = 10.0, Value = 40, Reach = 1.0, Speed = 1.3, Stagger = 0.75, IsEnchantable = true });
 
-            // The "Dinner" Set (Ja, man kann mit Besteck kämpfen!)
-            WeaponDatabase.Add(new Weapon { Name = "Knife (Weapon)", Category = "One-Handed", Damage = 1, Value = 1, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-            WeaponDatabase.Add(new Weapon { Name = "Fork (Weapon)", Category = "One-Handed", Damage = 1, Value = 1, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            // The "Dinner" Set
+            WeaponDatabase.Add(new Weapon { Name = "Knife (Weapon)", Category = "One-Handed", Damage = 1, Weight = 0.5, Value = 1, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Fork (Weapon)", Category = "One-Handed", Damage = 1, Weight = 0.5, Value = 1, Reach = 0.7, Speed = 1.3, Stagger = 0 });
 
-            // Shiv (Die Gefängnis-Waffe aus Cidhna Mine)
-            WeaponDatabase.Add(new Weapon { Name = "Shiv", Category = "One-Handed", Damage = 5, Value = 5, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            // Shiv
+            WeaponDatabase.Add(new Weapon { Name = "Shiv", Category = "One-Handed", Damage = 5, Weight = 2.0, Value = 5, Reach = 0.7, Speed = 1.3, Stagger = 0 });
 
             // ==========================================
             // UNARMED (Fists)
             // ==========================================
-            WeaponDatabase.Add(new Weapon { Name = "Fists", Category = "Unarmed", Damage = 4, Value = 0, Reach = 0.7, Speed = 1.0, Stagger = 0.5, IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Fists", Category = "Unarmed", Damage = 4, Weight = 0, Value = 0, Reach = 0.7, Speed = 1.0, Stagger = 0.5, IsEnchantable = false });
 
-            // ==========================================
+            /// ==========================================
             // UNIQUE / ARTIFACTS (Most are IsEnchantable = false)
             // ==========================================
 
             // Daedric Artifacts
-            WeaponDatabase.Add(new Weapon { Name = "Blade of Woe", Category = "One-Handed", Damage = 12, Value = 880, Reach = 0.7, Speed = 1.0, Stagger = 0, Effect = "Absorbs 10 Health.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Dawnbreaker", Category = "One-Handed", Damage = 12, Value = 740, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Explosion vs Undead.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Mace of Molag Bal", Category = "One-Handed", Damage = 16, Value = 1257, Reach = 1.0, Speed = 0.8, Stagger = 1.0, Effect = "25 Stamina/Magicka damage. Soul Trap.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Mehrunes' Razor", Category = "One-Handed", Damage = 11, Value = 860, Reach = 0.7, Speed = 1.3, Stagger = 0, Effect = "1.98% Instant Kill chance.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Volendrung", Category = "Two-Handed", Damage = 25, Value = 1843, Reach = 1.3, Speed = 0.7, Stagger = 1.25, Effect = "Absorbs 50 Stamina.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Blade of Woe", Category = "One-Handed", Damage = 12, Weight = 7.0, Value = 880, Reach = 0.7, Speed = 1.0, Stagger = 0, Effect = "Absorbs 10 Health.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Dawnbreaker", Category = "One-Handed", Damage = 12, Weight = 10.0, Value = 740, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Explosion vs Undead.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Mace of Molag Bal", Category = "One-Handed", Damage = 16, Weight = 18.0, Value = 1257, Reach = 1.0, Speed = 0.8, Stagger = 1.0, Effect = "25 Stamina/Magicka damage. Soul Trap.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Mehrunes' Razor", Category = "One-Handed", Damage = 11, Weight = 3.0, Value = 860, Reach = 0.7, Speed = 1.3, Stagger = 0, Effect = "1.98% Instant Kill chance.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Volendrung", Category = "Two-Handed", Damage = 25, Weight = 26.0, Value = 1843, Reach = 1.3, Speed = 0.7, Stagger = 1.25, Effect = "Absorbs 50 Stamina.", IsEnchantable = false });
 
             // Quest Rewards & Set Items
-            WeaponDatabase.Add(new Weapon { Name = "Wuuthrad", Category = "Two-Handed", Damage = 25, Value = 2000, Reach = 1.3, Speed = 0.7, Stagger = 1.15, Effect = "1.2x Damage against Elves.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Windshear", Category = "One-Handed", Damage = 11, Value = 40, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Bash has 100% Stagger chance.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Keening", Category = "One-Handed", Damage = 8, Value = 20, Reach = 0.7, Speed = 1.3, Stagger = 0, Effect = "Absorbs Health/Magicka/Stamina", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Ghostblade", Category = "One-Handed", Damage = 8, Value = 300, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "3 extra points of damage, ignores armor.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Valdr's Lucky Dagger", Category = "One-Handed", Damage = 5, Value = 15, Reach = 0.7, Speed = 1.3, Stagger = 0, Effect = "25% Critical Hit chance", IsEnchantable = true });
+            WeaponDatabase.Add(new Weapon { Name = "Wuuthrad", Category = "Two-Handed", Damage = 25, Weight = 25.0, Value = 2000, Reach = 1.3, Speed = 0.7, Stagger = 1.15, Effect = "1.2x Damage against Elves.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Windshear", Category = "One-Handed", Damage = 11, Weight = 10.0, Value = 40, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Bash has 100% Stagger chance.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Keening", Category = "One-Handed", Damage = 8, Weight = 4.0, Value = 20, Reach = 0.7, Speed = 1.3, Stagger = 0, Effect = "Absorbs Health/Magicka/Stamina", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Ghostblade", Category = "One-Handed", Damage = 8, Weight = 1.0, Value = 300, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "3 extra points of damage, ignores armor.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Valdr's Lucky Dagger", Category = "One-Handed", Damage = 5, Weight = 2.5, Value = 15, Reach = 0.7, Speed = 1.3, Stagger = 0, Effect = "25% Critical Hit chance", IsEnchantable = true });
 
             // Red Eagle & Ancient Sets
-            WeaponDatabase.Add(new Weapon { Name = "Red Eagle's Fury", Category = "One-Handed", Damage = 8, Value = 45, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Unique named sword.", IsEnchantable = true });
-            WeaponDatabase.Add(new Weapon { Name = "Red Eagle's Bane", Category = "One-Handed", Damage = 11, Value = 1133, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Burns Undead for 10 points and turns them.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Eduj", Category = "One-Handed", Damage = 11, Value = 250, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "10 Frost Damage.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Okin", Category = "One-Handed", Damage = 12, Value = 300, Reach = 1.0, Speed = 0.9, Stagger = 0.85, Effect = "10 Frost Damage.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Bolar's Oathblade", Category = "One-Handed", Damage = 11, Value = 292, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "25 Stamina Dmg, Fear up to Lvl 12.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Red Eagle's Fury", Category = "One-Handed", Damage = 8, Weight = 10.0, Value = 45, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Unique named sword.", IsEnchantable = true });
+            WeaponDatabase.Add(new Weapon { Name = "Red Eagle's Bane", Category = "One-Handed", Damage = 11, Weight = 12.0, Value = 1133, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Burns Undead for 10 points and turns them.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Eduj", Category = "One-Handed", Damage = 11, Weight = 9.0, Value = 250, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "10 Frost Damage.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Okin", Category = "One-Handed", Damage = 12, Weight = 11.0, Value = 300, Reach = 1.0, Speed = 0.9, Stagger = 0.85, Effect = "10 Frost Damage.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Bolar's Oathblade", Category = "One-Handed", Damage = 11, Weight = 10.0, Value = 292, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "25 Stamina Dmg, Fear up to Lvl 12.", IsEnchantable = false });
 
             // DLC Uniques (Dawnguard & Dragonborn)
-            WeaponDatabase.Add(new Weapon { Name = "Harkon's Sword (DG)", Category = "One-Handed", Damage = 8, Value = 1472, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Absorbs Health/Magicka/Stamina if Vampire.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Bloodskal Blade (DB)", Category = "Two-Handed", Damage = 21, Value = 500, Reach = 1.3, Speed = 0.7, Stagger = 1.1, Effect = "Energy blast on power attacks (30 dmg).", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Champion's Cudgel (DB)", Category = "Two-Handed", Damage = 24, Value = 1767, Reach = 1.3, Speed = 0.6, Stagger = 1.25, Effect = "50% chance for Elemental Damage.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Harkon's Sword (DG)", Category = "One-Handed", Damage = 8, Weight = 9.0, Value = 1472, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Absorbs Health/Magicka/Stamina if Vampire.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Bloodskal Blade (DB)", Category = "Two-Handed", Damage = 21, Weight = 16.0, Value = 500, Reach = 1.3, Speed = 0.7, Stagger = 1.1, Effect = "Energy blast on power attacks (30 dmg).", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Champion's Cudgel (DB)", Category = "Two-Handed", Damage = 24, Weight = 27.0, Value = 1767, Reach = 1.3, Speed = 0.6, Stagger = 1.25, Effect = "50% chance for Elemental Damage.", IsEnchantable = false });
 
-            // The Longhammer (Einzigartig: Hat die Speed eines Einhandschwerts!)
-            WeaponDatabase.Add(new Weapon { Name = "The Longhammer", Category = "Two-Handed", Damage = 21, Value = 90, Reach = 1.3, Speed = 0.8, Stagger = 1.25, IsEnchantable = true });
+            // The Longhammer (Unique: Fast speed for a warhammer)
+            WeaponDatabase.Add(new Weapon { Name = "The Longhammer", Category = "Two-Handed", Damage = 21, Weight = 18.0, Value = 90, Reach = 1.3, Speed = 0.8, Stagger = 1.25, IsEnchantable = true });
 
-            // Aegisbane (Eis-Hammer)
-            WeaponDatabase.Add(new Weapon { Name = "Aegisbane", Category = "Two-Handed", Damage = 18, Value = 60, Reach = 1.3, Speed = 0.6, Stagger = 1.25, Effect = "5 Frost Damage to Health and Stamina.", IsEnchantable = false });
+            // Aegisbane
+            WeaponDatabase.Add(new Weapon { Name = "Aegisbane", Category = "Two-Handed", Damage = 18, Weight = 24.0, Value = 60, Reach = 1.3, Speed = 0.6, Stagger = 1.25, Effect = "5 Frost Damage to Health and Stamina.", IsEnchantable = false });
 
-            // Trollsbane (Feuer-Hammer)
-            WeaponDatabase.Add(new Weapon { Name = "Trollsbane", Category = "Two-Handed", Damage = 20, Value = 110, Reach = 1.3, Speed = 0.6, Stagger = 1.25, Effect = "15 Fire Damage to Trolls.", IsEnchantable = false });
+            // Trollsbane
+            WeaponDatabase.Add(new Weapon { Name = "Trollsbane", Category = "Two-Handed", Damage = 20, Weight = 25.0, Value = 110, Reach = 1.3, Speed = 0.6, Stagger = 1.25, Effect = "15 Fire Damage to Trolls.", IsEnchantable = false });
 
-            // Ghostly Weapons (Drain-Set aus Labyrinthion)
-            WeaponDatabase.Add(new Weapon { Name = "Drainheart Sword", Category = "One-Handed", Damage = 11, Value = 73, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Absorbs 15 Stamina.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Drainblood Battleaxe", Category = "Two-Handed", Damage = 21, Value = 266, Reach = 1.3, Speed = 0.7, Stagger = 1.15, Effect = "Absorbs 15 Health.", IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Drainspell Bow", Category = "Archery", Damage = 14, Value = 415, Reach = 0, Speed = 0.625, Stagger = 0, Effect = "Absorbs 15 Magicka.", IsEnchantable = false });
+            // Ghostly Weapons (Drain-Set from Labyrinthian)
+            WeaponDatabase.Add(new Weapon { Name = "Drainheart Sword", Category = "One-Handed", Damage = 11, Weight = 3.0, Value = 73, Reach = 1.0, Speed = 1.0, Stagger = 0.75, Effect = "Absorbs 15 Stamina.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Drainblood Battleaxe", Category = "Two-Handed", Damage = 21, Weight = 6.0, Value = 266, Reach = 1.3, Speed = 0.7, Stagger = 1.15, Effect = "Absorbs 15 Health.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Drainspell Bow", Category = "Archery", Damage = 14, Weight = 6.0, Value = 415, Reach = 0, Speed = 0.625, Stagger = 0, Effect = "Absorbs 15 Magicka.", IsEnchantable = false });
 
-            // Einzigartiges Werkzeug: Notched Pickaxe (Spitzhacke des Gipfelstürmers)
-            WeaponDatabase.Add(new Weapon { Name = "Notched Pickaxe", Category = "One-Handed", Damage = 5, Value = 300, Reach = 1.0, Speed = 1.3, Stagger = 0.75, Effect = "5 Shock damage. Boosts Smithing.", IsEnchantable = false });
+            // Tools
+            WeaponDatabase.Add(new Weapon { Name = "Notched Pickaxe", Category = "One-Handed", Damage = 5, Weight = 10.0, Value = 300, Reach = 1.0, Speed = 1.3, Stagger = 0.75, Effect = "5 Shock damage. Boosts Smithing.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Poacher's Axe", Category = "One-Handed", Damage = 5, Weight = 10.0, Value = 15, Reach = 1.0, Speed = 1.3, Stagger = 0.75, Effect = "3 extra damage to animals.", IsEnchantable = false });
 
-            // Poacher's Axe (Einzigartige Holzhackeraxt)
-            WeaponDatabase.Add(new Weapon { Name = "Poacher's Axe", Category = "One-Handed", Damage = 5, Value = 15, Reach = 1.0, Speed = 1.3, Stagger = 0.75, Effect = "3 extra damage to animals.", IsEnchantable = false });
+            // Archery Uniques
+            WeaponDatabase.Add(new Weapon { Name = "Zephyr (DG)", Category = "Archery", Damage = 12, Weight = 10.0, Value = 670, Reach = 0, Speed = 1.0, Stagger = 0, Effect = "Fires 30% faster than a standard bow.", IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Auriel's Bow (DG)", Category = "Archery", Damage = 13, Weight = 11.0, Value = 1440, Reach = 0, Speed = 1.0, Stagger = 0, Effect = "Sun Damage. Triple damage vs Undead.", IsEnchantable = false });
 
-            // Zephyr (Der schnellste Bogen im Spiel)
-            WeaponDatabase.Add(new Weapon { Name = "Zephyr (DG)", Category = "Archery", Damage = 12, Value = 670, Reach = 0, Speed = 1.0, Stagger = 0, Effect = "Fires 30% faster than a standard bow.", IsEnchantable = false });
+            // Others
+            WeaponDatabase.Add(new Weapon { Name = "Headsman's Axe", Category = "Two-Handed", Damage = 17, Weight = 11.0, Value = 15, Reach = 1.5, Speed = 0.7, Stagger = 1.15 });
+            WeaponDatabase.Add(new Weapon { Name = "Dragon Priest Dagger", Category = "One-Handed", Damage = 6, Weight = 5.0, Value = 9, Reach = 0.7, Speed = 1.3, Stagger = 0 });
+            WeaponDatabase.Add(new Weapon { Name = "Horksbane", Category = "One-Handed", Damage = 10, Weight = 14.0, Value = 115, Reach = 1.0, Speed = 0.8, Stagger = 1.0, Effect = "20 extra damage to Horkers.", IsEnchantable = false });
 
-            // 2. Auriel's Bow
-            WeaponDatabase.Add(new Weapon { Name = "Auriel's Bow (DG)", Category = "Archery", Damage = 13, Value = 1440, Reach = 0, Speed = 1.0, Stagger = 0, Effect = "Sun Damage. Triple damage vs Undead.", IsEnchantable = false });
-
-            // Headsman's Axe
-            WeaponDatabase.Add(new Weapon { Name = "Headsman's Axe", Category = "Two-Handed", Damage = 17, Value = 15, Reach = 1.5, Speed = 0.7, Stagger = 1.15 });
-
-            // Dragon Priest Dagger
-            WeaponDatabase.Add(new Weapon { Name = "Dragon Priest Dagger", Category = "One-Handed", Damage = 6, Value = 9, Reach = 0.7, Speed = 1.3, Stagger = 0 });
-
-            // Horksbane
-            WeaponDatabase.Add(new Weapon { Name = "Horksbane", Category = "One-Handed", Damage = 10, Value = 115, Reach = 1.0, Speed = 0.8, Stagger = 1.0, Effect = "20 extra damage to Horkers.", IsEnchantable = false });
             // ==========================================
             // LEVELED ITEMS
             // ==========================================
 
-            // Chillrend (Das Glas-Schwert der Diebesgilde)
+            // Chillrend (Glass Sword base weight)
             WeaponDatabase.Add(new Weapon
             {
                 Name = "Chillrend",
                 Category = "One-Handed",
+                Weight = 15.0,
                 Reach = 1.0,
                 Speed = 1.0,
                 Stagger = 0.75,
                 IsEnchantable = false,
                 LevelVariants = new List<LeveledStat> {
-        new LeveledStat { MinLevel = 1, Damage = 10, Value = 542, Effect = "5 Frost, 2s Paralyze" },
-        new LeveledStat { MinLevel = 46, Damage = 15, Value = 1442, Effect = "30 Frost, 2s Paralyze" } }
+            new LeveledStat { MinLevel = 1, Damage = 10, Value = 542, Effect = "5 Frost, 2s Paralyze" },
+            new LeveledStat { MinLevel = 46, Damage = 15, Value = 1442, Effect = "30 Frost, 2s Paralyze" }
+        }
             });
 
-            // Nightingale Blade (Das Gegenstück zum Bogen)
+            // Nightingale Blade
             WeaponDatabase.Add(new Weapon
             {
                 Name = "Nightingale Blade",
                 Category = "One-Handed",
+                Weight = 15.0,
                 Reach = 1.0,
                 Speed = 1.0,
                 Stagger = 0.75,
                 IsEnchantable = false,
                 LevelVariants = new List<LeveledStat> {
-        new LeveledStat { MinLevel = 1, Damage = 10, Value = 380, Effect = "Absorbs 5 HP/Stamina" },
-        new LeveledStat { MinLevel = 46, Damage = 14, Value = 1425, Effect = "Absorbs 25 HP/Stamina" } }
+            new LeveledStat { MinLevel = 1, Damage = 10, Value = 380, Effect = "Absorbs 5 HP/Stamina" },
+            new LeveledStat { MinLevel = 46, Damage = 14, Value = 1425, Effect = "Absorbs 25 HP/Stamina" }
+        }
             });
 
-            // Nightingale Bow (Bogen der Nachtigall)
+            // Nightingale Bow
             WeaponDatabase.Add(new Weapon
             {
                 Name = "Nightingale Bow",
                 Category = "Archery",
+                Weight = 18.0,
                 Reach = 0,
                 Speed = 0.5,
                 Stagger = 0,
                 IsEnchantable = false,
                 LevelVariants = new List<LeveledStat> {
-        new LeveledStat { MinLevel = 1, Damage = 12, Value = 470, Effect = "10 Frost/5 Shock" },
-        new LeveledStat { MinLevel = 46, Damage = 19, Value = 3700, Effect = "30 Frost/15 Shock" } }
+            new LeveledStat { MinLevel = 1, Damage = 12, Value = 470, Effect = "10 Frost/5 Shock" },
+            new LeveledStat { MinLevel = 46, Damage = 19, Value = 3700, Effect = "30 Frost/15 Shock" }
+        }
             });
 
-            // Dragonbane (Das Anti-Drachen-Schwert)
+            // Dragonbane (Katana weight)
             WeaponDatabase.Add(new Weapon
             {
                 Name = "Dragonbane",
                 Category = "One-Handed",
+                Weight = 10.0,
                 Reach = 1.0,
                 Speed = 1.0,
                 Stagger = 0.75,
                 IsEnchantable = false,
                 LevelVariants = new List<LeveledStat> {
-        new LeveledStat { MinLevel = 1, Damage = 10, Value = 412, Effect = "20 Lightning, 40 extra dmg vs Dragons" },
-        new LeveledStat { MinLevel = 46, Damage = 14, Value = 1172, Effect = "40 Lightning, 80 extra dmg vs Dragons" } }
+            new LeveledStat { MinLevel = 1, Damage = 10, Value = 412, Effect = "20 Lightning, 40 extra dmg vs Dragons" },
+            new LeveledStat { MinLevel = 46, Damage = 14, Value = 1172, Effect = "40 Lightning, 80 extra dmg vs Dragons" }
+        }
             });
 
-            // Miraak's Sword (Höchste Reichweite!)
+            // Miraak's Sword (Extremely light!)
             WeaponDatabase.Add(new Weapon
             {
                 Name = "Miraak's Sword (DB)",
                 Category = "One-Handed",
+                Weight = 3.0,
                 Reach = 1.2,
                 Speed = 1.0,
                 Stagger = 0.75,
                 IsEnchantable = false,
                 LevelVariants = new List<LeveledStat> {
-        new LeveledStat { MinLevel = 1, Damage = 12, Value = 415, Effect = "Absorbs 15 Stamina" },
-        new LeveledStat { MinLevel = 60, Damage = 16, Value = 1245, Effect = "Absorbs 25 Stamina" } }
+            new LeveledStat { MinLevel = 1, Damage = 12, Value = 415, Effect = "Absorbs 15 Stamina" },
+            new LeveledStat { MinLevel = 60, Damage = 16, Value = 1245, Effect = "Absorbs 25 Stamina" }
+        }
             });
 
-            // The Pale Blade (Frost/Furcht)
+            // The Pale Blade
             WeaponDatabase.Add(new Weapon
             {
                 Name = "The Pale Blade",
                 Category = "One-Handed",
+                Weight = 15.0,
                 Reach = 1.0,
                 Speed = 1.0,
                 Stagger = 0.75,
                 IsEnchantable = false,
                 LevelVariants = new List<LeveledStat> {
-        new LeveledStat { MinLevel = 1, Damage = 8, Value = 129, Effect = "5 Frost, Fear up to Lvl 8" },
-        new LeveledStat { MinLevel = 27, Damage = 13, Value = 753, Effect = "25 Frost, Fear up to Lvl 16" } }
+            new LeveledStat { MinLevel = 1, Damage = 8, Value = 129, Effect = "5 Frost, Fear up to Lvl 8" },
+            new LeveledStat { MinLevel = 27, Damage = 13, Value = 753, Effect = "25 Frost, Fear up to Lvl 16" }
+        }
             });
 
             // Gauldur Blackblade
@@ -749,13 +795,15 @@ namespace Skyrim_Build_Architect
             {
                 Name = "Gauldur Blackblade",
                 Category = "One-Handed",
+                Weight = 15.0,
                 Reach = 1.0,
                 Speed = 1.0,
                 Stagger = 0.75,
                 IsEnchantable = false,
                 LevelVariants = new List<LeveledStat> {
-        new LeveledStat { MinLevel = 1, Damage = 8, Value = 265, Effect = "Absorbs 5 Health" },
-        new LeveledStat { MinLevel = 36, Damage = 11, Value = 875, Effect = "Absorbs 25 Health" } }
+            new LeveledStat { MinLevel = 1, Damage = 8, Value = 265, Effect = "Absorbs 5 Health" },
+            new LeveledStat { MinLevel = 36, Damage = 11, Value = 875, Effect = "Absorbs 25 Health" }
+        }
             });
 
             // Gauldur Blackbow
@@ -763,20 +811,22 @@ namespace Skyrim_Build_Architect
             {
                 Name = "Gauldur Blackbow",
                 Category = "Archery",
+                Weight = 18.0,
                 Reach = 0,
                 Speed = 0.625,
                 Stagger = 0,
                 IsEnchantable = false,
                 LevelVariants = new List<LeveledStat> {
-        new LeveledStat { MinLevel = 1, Damage = 8, Value = 270, Effect = "Absorbs 10 Magicka" },
-        new LeveledStat { MinLevel = 36, Damage = 14, Value = 1000, Effect = "Absorbs 30 Magicka" } }
+            new LeveledStat { MinLevel = 1, Damage = 8, Value = 270, Effect = "Absorbs 10 Magicka" },
+            new LeveledStat { MinLevel = 36, Damage = 14, Value = 1000, Effect = "Absorbs 30 Magicka" }
+        }
             });
 
-            // SPELL WEAPONS (Bound)
-            WeaponDatabase.Add(new Weapon { Name = "Bound Sword (Spell)", Category = "One-Handed", Damage = 9, Value = 0, Reach = 1.0, Speed = 1.0, Stagger = 0.75, IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Bound Dagger (Spell)", Category = "One-Handed", Damage = 6, Value = 0, Reach = 0.7, Speed = 1.3, Stagger = 0, IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Bound Battleaxe (Spell)", Category = "Two-Handed", Damage = 17, Value = 0, Reach = 1.3, Speed = 0.7, Stagger = 1.15, IsEnchantable = false });
-            WeaponDatabase.Add(new Weapon { Name = "Bound Bow (Spell)", Category = "Archery", Damage = 18, Value = 0, Reach = 0, Speed = 0.875, Stagger = 0, IsEnchantable = false });
+            // SPELL WEAPONS (Weight is 0 as they are magical)
+            WeaponDatabase.Add(new Weapon { Name = "Bound Sword (Spell)", Category = "One-Handed", Weight = 0, Damage = 9, Value = 0, Reach = 1.0, Speed = 1.0, Stagger = 0.75, IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Bound Dagger (Spell)", Category = "One-Handed", Weight = 0, Damage = 6, Value = 0, Reach = 0.7, Speed = 1.3, Stagger = 0, IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Bound Battleaxe (Spell)", Category = "Two-Handed", Weight = 0, Damage = 17, Value = 0, Reach = 1.3, Speed = 0.7, Stagger = 1.15, IsEnchantable = false });
+            WeaponDatabase.Add(new Weapon { Name = "Bound Bow (Spell)", Category = "Archery", Weight = 0, Damage = 18, Value = 0, Reach = 0, Speed = 0.875, Stagger = 0, IsEnchantable = false });
 
             // SORTIERUNG AM ENDE
             WeaponDatabase = WeaponDatabase.OrderBy(w => w.Name).ToList();
@@ -915,6 +965,7 @@ namespace Skyrim_Build_Architect
             ArmorDatabase.Add(new Armor { Name = "Otar", Slot = "Head", Category = "Heavy Armor", ArmorRating = 23, Weight = 9.0, Value = 455, Effect = "+30% Fire, Frost, and Shock Resistance." });
             ArmorDatabase.Add(new Armor { Name = "Vokun", Slot = "Head", Category = "Heavy Armor", ArmorRating = 23, Weight = 9.0, Value = 455, Effect = "-20% Conjuration, Illusion, Alteration Cost." });
             ArmorDatabase.Add(new Armor { Name = "Ahzidal (DB)", Slot = "Head", Category = "Heavy Armor", ArmorRating = 23, Weight = 9.0, Value = 455, Effect = "50% Fire Resist, 25% Fire spell dmg." });
+            ArmorDatabase.Add(new Armor { Name = "Nahkriin", Slot = "Head", Category = "Heavy Armor", ArmorRating = 23, Weight = 9.0, Value = 3200, Effect = "+50 Magicka, Destruction/Restoration cost 20% less." });
 
             ArmorDatabase.Add(new Armor { Name = "Visage of Mzund (DB)", Slot = "Head", Category = "Heavy Armor", ArmorRating = 24, Weight = 15.0, Value = 1300, Effect = "+60 Stamina, Breath of Nchuak attack." });
             ArmorDatabase.Add(new Armor { Name = "Lord's Mail (AE)", Slot = "Chest", Category = "Heavy Armor", ArmorRating = 45, Weight = 35.0, Value = 2000, Effect = "Absorb Health, Resist Poison/Magic." });
@@ -993,6 +1044,18 @@ namespace Skyrim_Build_Architect
             ArmorDatabase.Add(new Armor { Name = "Golden Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 14, Weight = 7.0, Value = 150 });
             ArmorDatabase.Add(new Armor { Name = "Golden Helmet (AE)", Slot = "Head", Category = "Heavy Armor", ArmorRating = 19, Weight = 8.0, Value = 350 });
             ArmorDatabase.Add(new Armor { Name = "Golden Shield (AE)", Slot = "Shield", Category = "Shield", ArmorRating = 28, Weight = 10.0, Value = 350 });
+
+            // ==========================================
+            // HEAVY ARMOR - BRAWLER'S GAUNTLETS (AE - Fearsome Fists)
+            // ==========================================
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Iron Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 10, Weight = 5.0, Value = 175, Effect = "Unarmed strikes do 10 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Steel Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 12, Weight = 4.0, Value = 250, Effect = "Unarmed strikes do 12 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Dwarven Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 13, Weight = 8.0, Value = 375, Effect = "Unarmed strikes do 14 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Orcish Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 15, Weight = 7.0, Value = 550, Effect = "Unarmed strikes do 15 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Ebony Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 16, Weight = 7.0, Value = 1200, Effect = "Unarmed strikes do 16 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Daedric Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 18, Weight = 6.0, Value = 2200, Effect = "Unarmed strikes do 18 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Dragonplate Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 17, Weight = 8.0, Value = 2100, Effect = "Unarmed strikes do 20 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Madness Gauntlets (AE)", Slot = "Hands", Category = "Heavy Armor", ArmorRating = 18, Weight = 6.0, Value = 2500, Effect = "Unarmed strikes do 22 additional damage." });
 
             // ==========================================
             // HEAVY ARMOR - CIVIL WAR CHAMPIONS (AE)
@@ -1155,9 +1218,9 @@ namespace Skyrim_Build_Architect
                 }
             });
 
-            // ==========================================
-            // LIGHT ARMOR - BASIC MATERIALS
-            // ==========================================
+            // ==========================================================================================
+            // 1. LIGHT ARMOR - BASIC CRAFTING MATERIALS
+            // ==========================================================================================
 
             ArmorDatabase.Add(new Armor { Name = "Hide Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 20, Weight = 5.0, Value = 50 });
             ArmorDatabase.Add(new Armor { Name = "Hide Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 5, Weight = 1.0, Value = 10 });
@@ -1185,30 +1248,170 @@ namespace Skyrim_Build_Architect
             ArmorDatabase.Add(new Armor { Name = "Dragonscale Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 14, Weight = 3.0, Value = 300 });
             ArmorDatabase.Add(new Armor { Name = "Dragonscale Helmet", Slot = "Head", Category = "Light Armor", ArmorRating = 19, Weight = 4.0, Value = 750 });
 
-            // ==========================================
-            // LIGHT ARMOR - UNIQUES & FACTIONS
-            // ==========================================
+            // ==========================================================================================
+            // 2. LIGHT ARMOR - STANDARD VARIANTS (FUR & SCALED)
+            // ==========================================================================================
 
-            // Thieves Guild (Standard)
+            ArmorDatabase.Add(new Armor { Name = "Fur Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 24, Weight = 6.0, Value = 50 });
+            ArmorDatabase.Add(new Armor { Name = "Fur Shoes", Slot = "Feet", Category = "Light Armor", ArmorRating = 6, Weight = 2.0, Value = 10 });
+            ArmorDatabase.Add(new Armor { Name = "Fur Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 6, Weight = 2.0, Value = 10 });
+            ArmorDatabase.Add(new Armor { Name = "Fur Helmet", Slot = "Head", Category = "Light Armor", ArmorRating = 10, Weight = 2.0, Value = 25 });
+
+            ArmorDatabase.Add(new Armor { Name = "Scaled Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 32, Weight = 6.0, Value = 350 });
+            ArmorDatabase.Add(new Armor { Name = "Scaled Horn Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 32, Weight = 6.0, Value = 400 });
+            ArmorDatabase.Add(new Armor { Name = "Scaled Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 75 });
+            ArmorDatabase.Add(new Armor { Name = "Scaled Bracers", Slot = "Hands", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 75 });
+            ArmorDatabase.Add(new Armor { Name = "Scaled Helmet", Slot = "Head", Category = "Light Armor", ArmorRating = 16, Weight = 2.0, Value = 175 });
+
+            // ==========================================================================================
+            // 3. LIGHT ARMOR - DLC & ANNIVERSARY EDITION SETS
+            // ==========================================================================================
+
+            // Stalhrim & Chitin (Dragonborn)
+            ArmorDatabase.Add(new Armor { Name = "Stalhrim Light Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 39, Weight = 7.0, Value = 1825 });
+            ArmorDatabase.Add(new Armor { Name = "Stalhrim Light Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 360 });
+            ArmorDatabase.Add(new Armor { Name = "Stalhrim Light Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 360 });
+            ArmorDatabase.Add(new Armor { Name = "Stalhrim Light Helmet", Slot = "Head", Category = "Light Armor", ArmorRating = 18, Weight = 2.0, Value = 910 });
+
+            ArmorDatabase.Add(new Armor { Name = "Chitin Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 29, Weight = 4.0, Value = 225 });
+            ArmorDatabase.Add(new Armor { Name = "Chitin Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 45 });
+            ArmorDatabase.Add(new Armor { Name = "Chitin Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 45 });
+            ArmorDatabase.Add(new Armor { Name = "Chitin Helmet", Slot = "Head", Category = "Light Armor", ArmorRating = 15, Weight = 1.0, Value = 110 });
+
+            // Scout & Netch Leather (AE)
+            ArmorDatabase.Add(new Armor { Name = "Scout Leather Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 32, Weight = 6.0, Value = 225 });
+            ArmorDatabase.Add(new Armor { Name = "Scout Leather Boots (AE)", Slot = "Feet", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 45 });
+            ArmorDatabase.Add(new Armor { Name = "Scout Leather Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 45 });
+            ArmorDatabase.Add(new Armor { Name = "Scout Leather Helmet (AE)", Slot = "Head", Category = "Light Armor", ArmorRating = 16, Weight = 2.0, Value = 110 });
+
+            ArmorDatabase.Add(new Armor { Name = "Netch Leather Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 26, Weight = 6.0, Value = 125 });
+            ArmorDatabase.Add(new Armor { Name = "Netch Leather Boots (AE)", Slot = "Feet", Category = "Light Armor", ArmorRating = 9, Weight = 2.0, Value = 25 });
+            ArmorDatabase.Add(new Armor { Name = "Netch Leather Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 9, Weight = 2.0, Value = 25 });
+            ArmorDatabase.Add(new Armor { Name = "Netch Leather Helmet (AE)", Slot = "Head", Category = "Light Armor", ArmorRating = 14, Weight = 2.0, Value = 60 });
+            ArmorDatabase.Add(new Armor { Name = "Boiled Netch Leather Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 32, Weight = 8.0, Value = 250 });
+            ArmorDatabase.Add(new Armor { Name = "Boiled Netch Leather Helmet (AE)", Slot = "Head", Category = "Light Armor", ArmorRating = 16, Weight = 3.0, Value = 120 });
+
+            // Amber & Dark (AE)
+            ArmorDatabase.Add(new Armor { Name = "Amber Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 40, Weight = 6.0, Value = 1700 });
+            ArmorDatabase.Add(new Armor { Name = "Amber Boots (AE)", Slot = "Feet", Category = "Light Armor", ArmorRating = 14, Weight = 2.0, Value = 340 });
+            ArmorDatabase.Add(new Armor { Name = "Amber Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 14, Weight = 2.0, Value = 340 });
+            ArmorDatabase.Add(new Armor { Name = "Amber Helmet (AE)", Slot = "Head", Category = "Light Armor", ArmorRating = 19, Weight = 2.0, Value = 850 });
+
+            ArmorDatabase.Add(new Armor { Name = "Dark Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 36, Weight = 7.0, Value = 750 });
+            ArmorDatabase.Add(new Armor { Name = "Dark Boots (AE)", Slot = "Feet", Category = "Light Armor", ArmorRating = 12, Weight = 2.0, Value = 150 });
+            ArmorDatabase.Add(new Armor { Name = "Dark Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 12, Weight = 2.0, Value = 150 });
+            ArmorDatabase.Add(new Armor { Name = "Dark Helmet (AE)", Slot = "Head", Category = "Light Armor", ArmorRating = 17, Weight = 2.0, Value = 375 });
+
+            // Daedric Mail & Dragonbone Mail (AE)
+            ArmorDatabase.Add(new Armor { Name = "Daedric Mail Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 38, Weight = 10.0, Value = 1500 });
+            ArmorDatabase.Add(new Armor { Name = "Daedric Mail Boots (AE)", Slot = "Feet", Category = "Light Armor", ArmorRating = 13, Weight = 3.0, Value = 300 });
+            ArmorDatabase.Add(new Armor { Name = "Daedric Mail Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 13, Weight = 3.0, Value = 300 });
+            ArmorDatabase.Add(new Armor { Name = "Daedric Mail Helmet (AE)", Slot = "Head", Category = "Light Armor", ArmorRating = 18, Weight = 4.0, Value = 750 });
+            ArmorDatabase.Add(new Armor { Name = "Dragonbone Mail Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 41, Weight = 15.0, Value = 2000, Effect = "Resist Fire 100%." });
+            ArmorDatabase.Add(new Armor { Name = "Studded Dragonscale Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 44, Weight = 10.0, Value = 1800 });
+            ArmorDatabase.Add(new Armor { Name = "Imperial Light Shield", Slot = "Shield", Category = "Shield", ArmorRating = 15, Weight = 4.0, Value = 40 });
+            ArmorDatabase.Add(new Armor { Name = "Guard's Shield", Slot = "Shield", Category = "Shield", ArmorRating = 15, Weight = 4.0, Value = 25 });
+
+            // ==========================================================================================
+            // 4. LIGHT ARMOR - SHIELDS
+            // ==========================================================================================
+
+            ArmorDatabase.Add(new Armor { Name = "Hide Shield", Slot = "Shield", Category = "Shield", ArmorRating = 15, Weight = 4.0, Value = 25 });
+            ArmorDatabase.Add(new Armor { Name = "Elven Shield", Slot = "Shield", Category = "Shield", ArmorRating = 21, Weight = 4.0, Value = 115 });
+            ArmorDatabase.Add(new Armor { Name = "Glass Shield", Slot = "Shield", Category = "Shield", ArmorRating = 27, Weight = 6.0, Value = 450 });
+            ArmorDatabase.Add(new Armor { Name = "Dragonscale Shield", Slot = "Shield", Category = "Shield", ArmorRating = 29, Weight = 6.0, Value = 750 });
+            ArmorDatabase.Add(new Armor { Name = "Chitin Shield (DB)", Slot = "Shield", Category = "Shield", ArmorRating = 20, Weight = 5.0, Value = 115 });
+            ArmorDatabase.Add(new Armor { Name = "Amber Shield (AE)", Slot = "Shield", Category = "Shield", ArmorRating = 28, Weight = 5.0, Value = 850 });
+
+            // ==========================================================================================
+            // 5. LIGHT ARMOR - FACTIONS & GUARDS
+            // ==========================================================================================
+
+            ArmorDatabase.Add(new Armor { Name = "Guard's Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 23, Weight = 6.0, Value = 50 });
+            ArmorDatabase.Add(new Armor { Name = "Guard's Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 9, Weight = 2.0, Value = 10 });
+            ArmorDatabase.Add(new Armor { Name = "Guard's Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 9, Weight = 2.0, Value = 10 });
+            ArmorDatabase.Add(new Armor { Name = "Guard's Helmet", Slot = "Head", Category = "Light Armor", ArmorRating = 14, Weight = 2.0, Value = 25 });
+
+            ArmorDatabase.Add(new Armor { Name = "Stormcloak Officer Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 26, Weight = 6.0, Value = 60 });
+            ArmorDatabase.Add(new Armor { Name = "Stormcloak Officer Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 8, Weight = 2.0, Value = 15 });
+            ArmorDatabase.Add(new Armor { Name = "Stormcloak Officer Bracers", Slot = "Hands", Category = "Light Armor", ArmorRating = 8, Weight = 2.0, Value = 15 });
+            ArmorDatabase.Add(new Armor { Name = "Stormcloak Officer Helmet", Slot = "Head", Category = "Light Armor", ArmorRating = 12, Weight = 1.0, Value = 40 });
+
+            ArmorDatabase.Add(new Armor { Name = "Forsworn Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 26, Weight = 6.0, Value = 125 });
+            ArmorDatabase.Add(new Armor { Name = "Forsworn Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 8, Weight = 2.0, Value = 25 });
+            ArmorDatabase.Add(new Armor { Name = "Forsworn Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 8, Weight = 2.0, Value = 25 });
+            ArmorDatabase.Add(new Armor { Name = "Forsworn Headdress", Slot = "Head", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 60 });
+
+            ArmorDatabase.Add(new Armor { Name = "Penitus Oculatus Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 29, Weight = 5.0, Value = 250 });
+            ArmorDatabase.Add(new Armor { Name = "Penitus Oculatus Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 50 });
+            ArmorDatabase.Add(new Armor { Name = "Penitus Oculatus Bracers", Slot = "Hands", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 50 });
+            ArmorDatabase.Add(new Armor { Name = "Penitus Oculatus Helmet", Slot = "Head", Category = "Light Armor", ArmorRating = 15, Weight = 2.0, Value = 120 });
+
+            ArmorDatabase.Add(new Armor { Name = "Morag Tong Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 29, Weight = 4.0, Value = 225 });
+            ArmorDatabase.Add(new Armor { Name = "Morag Tong Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 45 });
+            ArmorDatabase.Add(new Armor { Name = "Morag Tong Bracers", Slot = "Hands", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 45 });
+            ArmorDatabase.Add(new Armor { Name = "Morag Tong Cowl", Slot = "Head", Category = "Light Armor", ArmorRating = 15, Weight = 1.0, Value = 110 });
+
+            ArmorDatabase.Add(new Armor { Name = "Vampire Royal Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 30, Weight = 5.0, Value = 1250, Effect = "Magicka Regen 125% faster." });
+            ArmorDatabase.Add(new Armor { Name = "Vampire Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 24, Weight = 4.0, Value = 175 });
+            ArmorDatabase.Add(new Armor { Name = "Vampire Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 6, Weight = 1.0, Value = 30 });
+            ArmorDatabase.Add(new Armor { Name = "Vampire Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 6, Weight = 1.0, Value = 30 });
+
+            ArmorDatabase.Add(new Armor { Name = "Dawnguard Armor (Light)", Slot = "Chest", Category = "Light Armor", ArmorRating = 31, Weight = 6.0, Value = 250 });
+            ArmorDatabase.Add(new Armor { Name = "Dawnguard Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 45 });
+            ArmorDatabase.Add(new Armor { Name = "Dawnguard Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 45 });
+
+            // ==========================================================================================
+            // 6. LIGHT ARMOR - GUILD SETS & UPGRADES
+            // ==========================================================================================
+
             ArmorDatabase.Add(new Armor { Name = "Thieves Guild Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 28, Weight = 5.0, Value = 398, Effect = "+20 Carry Weight" });
             ArmorDatabase.Add(new Armor { Name = "Thieves Guild Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 8, Weight = 1.5, Value = 135, Effect = "Pickpocket 15% better" });
             ArmorDatabase.Add(new Armor { Name = "Thieves Guild Gloves", Slot = "Hands", Category = "Light Armor", ArmorRating = 8, Weight = 1.5, Value = 135, Effect = "Lockpicking 15% easier" });
             ArmorDatabase.Add(new Armor { Name = "Thieves Guild Hood", Slot = "Head", Category = "Light Armor", ArmorRating = 13, Weight = 1.5, Value = 194, Effect = "Prices 10% better" });
 
-            // Dark Brotherhood
+            ArmorDatabase.Add(new Armor { Name = "Guild Master's Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 38, Weight = 11.0, Value = 1178, Effect = "+50 Carry Weight" });
+            ArmorDatabase.Add(new Armor { Name = "Guild Master's Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 265, Effect = "Pickpocket 35% better" });
+            ArmorDatabase.Add(new Armor { Name = "Guild Master's Gloves", Slot = "Hands", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 265, Effect = "Lockpicking 35% easier" });
+            ArmorDatabase.Add(new Armor { Name = "Guild Master's Hood", Slot = "Head", Category = "Light Armor", ArmorRating = 18, Weight = 2.0, Value = 649, Effect = "Prices 20% better" });
+
+            ArmorDatabase.Add(new Armor { Name = "Linwe's Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 31, Weight = 6.0, Value = 628, Effect = "+15 Stamina" });
+            ArmorDatabase.Add(new Armor { Name = "Linwe's Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 175, Effect = "Sneak 15% better" });
+            ArmorDatabase.Add(new Armor { Name = "Linwe's Gloves", Slot = "Hands", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 175, Effect = "One-Handed attacks do 15% more damage" });
+            ArmorDatabase.Add(new Armor { Name = "Linwe's Hood", Slot = "Head", Category = "Light Armor", ArmorRating = 16, Weight = 2.0, Value = 312, Effect = "Bows do 15% more damage" });
+
+            ArmorDatabase.Add(new Armor { Name = "Blackguard's Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 33, Weight = 6.0, Value = 1435, Effect = "+50 Carry Weight" });
+            ArmorDatabase.Add(new Armor { Name = "Blackguard's Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 12, Weight = 2.0, Value = 345, Effect = "Pickpocket 40% better" });
+            ArmorDatabase.Add(new Armor { Name = "Blackguard's Gloves", Slot = "Hands", Category = "Light Armor", ArmorRating = 12, Weight = 2.0, Value = 345, Effect = "Lockpicking 40% easier" });
+            ArmorDatabase.Add(new Armor { Name = "Blackguard's Hood", Slot = "Head", Category = "Light Armor", ArmorRating = 16, Weight = 2.0, Value = 835, Effect = "Prices 25% better" });
+
             ArmorDatabase.Add(new Armor { Name = "Shrouded Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 29, Weight = 7.0, Value = 464, Effect = "Resist Poison 50%" });
             ArmorDatabase.Add(new Armor { Name = "Shrouded Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 8, Weight = 2.0, Value = 155, Effect = "Muffle" });
             ArmorDatabase.Add(new Armor { Name = "Shrouded Gloves", Slot = "Hands", Category = "Light Armor", ArmorRating = 8, Weight = 2.0, Value = 155, Effect = "Double Sneak Attack Dmg with 1H" });
             ArmorDatabase.Add(new Armor { Name = "Shrouded Cowl", Slot = "Head", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 227, Effect = "Bows do 20% more damage" });
 
-            // Artifacts
-            ArmorDatabase.Add(new Armor { Name = "Savior's Hide", Slot = "Chest", Category = "Light Armor", ArmorRating = 26, Weight = 6.0, Value = 2679, Effect = "Magic Resist 15%, Poison Resist 50%" });
-            ArmorDatabase.Add(new Armor { Name = "Deathbrand Armor (DB)", Slot = "Chest", Category = "Light Armor", ArmorRating = 39, Weight = 7.0, Value = 2616, Effect = "+15 Stamina per Deathbrand item worn" });
-            ArmorDatabase.Add(new Armor { Name = "Ancient Falmer Armor (DG)", Slot = "Chest", Category = "Light Armor", ArmorRating = 38, Weight = 7.0, Value = 900 });
+            ArmorDatabase.Add(new Armor { Name = "Ancient Shrouded Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 33, Weight = 5.0, Value = 836, Effect = "Resist Poison 100%" });
+            ArmorDatabase.Add(new Armor { Name = "Ancient Shrouded Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 12, Weight = 1.5, Value = 279, Effect = "Muffle (0.5)" });
+            ArmorDatabase.Add(new Armor { Name = "Ancient Shrouded Gloves", Slot = "Hands", Category = "Light Armor", ArmorRating = 12, Weight = 1.5, Value = 279, Effect = "Double Sneak Attack Dmg with 1H" });
+            ArmorDatabase.Add(new Armor { Name = "Ancient Shrouded Cowl", Slot = "Head", Category = "Light Armor", ArmorRating = 15, Weight = 1.5, Value = 409, Effect = "Bows do 35% more damage" });
 
-            // ==========================================
-            // LIGHT ARMOR - LEVELED ITEMS
-            // ==========================================
+            // ==========================================================================================
+            // 7. LIGHT ARMOR - ARTIFACTS, DRAGON PRIESTS & LEVELED
+            // ==========================================================================================
+
+            ArmorDatabase.Add(new Armor { Name = "Savior's Hide", Slot = "Chest", Category = "Light Armor", ArmorRating = 26, Weight = 6.0, Value = 2679, Effect = "Magic Resist 15%, Poison Resist 50%" });
+            ArmorDatabase.Add(new Armor { Name = "Ancient Falmer Armor (DG)", Slot = "Chest", Category = "Light Armor", ArmorRating = 38, Weight = 7.0, Value = 900 });
+            ArmorDatabase.Add(new Armor { Name = "Diadem of the Savant", Slot = "Head", Category = "Light Armor", ArmorRating = 7, Weight = 4.0, Value = 181, Effect = "All spells cost 5% less to cast. (Counts as all armor types)" });
+
+            ArmorDatabase.Add(new Armor { Name = "Deathbrand Armor (DB)", Slot = "Chest", Category = "Light Armor", ArmorRating = 39, Weight = 7.0, Value = 2616, Effect = "+15 Stamina per Deathbrand item worn" });
+            ArmorDatabase.Add(new Armor { Name = "Deathbrand Boots (DB)", Slot = "Feet", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 413, Effect = "+10 Carry Weight per Deathbrand item worn." });
+            ArmorDatabase.Add(new Armor { Name = "Deathbrand Gauntlets (DB)", Slot = "Hands", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 413, Effect = "One-Handed 10% more damage per Deathbrand item worn." });
+            ArmorDatabase.Add(new Armor { Name = "Deathbrand Helm (DB)", Slot = "Head", Category = "Light Armor", ArmorRating = 16, Weight = 2.0, Value = 1007, Effect = "Waterbreathing, Armor bonus per Deathbrand item worn." });
+
+            ArmorDatabase.Add(new Armor { Name = "Krosis", Slot = "Head", Category = "Light Armor", ArmorRating = 21, Weight = 5.0, Value = 1600, Effect = "Lockpicking, Archery, Alchemy 20% better." });
+            ArmorDatabase.Add(new Armor { Name = "Morokei", Slot = "Head", Category = "Light Armor", ArmorRating = 21, Weight = 4.0, Value = 3200, Effect = "Magicka Regen +100%." });
+            ArmorDatabase.Add(new Armor { Name = "Volsung", Slot = "Head", Category = "Light Armor", ArmorRating = 21, Weight = 5.0, Value = 4611, Effect = "Prices 20% better, Waterbreathing, +20 Carry Weight." });
+            ArmorDatabase.Add(new Armor { Name = "Wooden Mask", Slot = "Head", Category = "Light Armor", ArmorRating = 2, Weight = 2.0, Value = 50, Effect = "Access to Dragon Priest Shrine." });
 
             ArmorDatabase.Add(new Armor
             {
@@ -1238,239 +1441,174 @@ namespace Skyrim_Build_Architect
                 }
             });
 
-            // ==========================================
-            // LIGHT ARMOR - STALHRIM & CHITIN (DB)
-            // ==========================================
+            // ==========================================================================================
+            // 8. CLOTHING - CIVILIAN & ROLEPLAY
+            // ==========================================================================================
 
-            // Stalhrim Light
-            ArmorDatabase.Add(new Armor { Name = "Stalhrim Light Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 39, Weight = 7.0, Value = 1825 });
-            ArmorDatabase.Add(new Armor { Name = "Stalhrim Light Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 360 });
-            ArmorDatabase.Add(new Armor { Name = "Stalhrim Light Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 360 });
-            ArmorDatabase.Add(new Armor { Name = "Stalhrim Light Helmet", Slot = "Head", Category = "Light Armor", ArmorRating = 18, Weight = 2.0, Value = 910 });
+            ArmorDatabase.Add(new Armor { Name = "Clothes (Common)", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1 });
+            ArmorDatabase.Add(new Armor { Name = "Fine Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 25 });
+            ArmorDatabase.Add(new Armor { Name = "Merchant's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 10 });
+            ArmorDatabase.Add(new Armor { Name = "Barkeeper's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
+            ArmorDatabase.Add(new Armor { Name = "Chef's Tunic", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
+            ArmorDatabase.Add(new Armor { Name = "Emperor's Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 150, Effect = "The robes of Titus Mede II." });
+            ArmorDatabase.Add(new Armor { Name = "Ulfric's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 50 });
+            ArmorDatabase.Add(new Armor { Name = "Wedding Dress", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 100 });
+            ArmorDatabase.Add(new Armor { Name = "Party Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 100, Effect = "Elegant embassy attire." });
 
-            // Chitin Light
-            ArmorDatabase.Add(new Armor { Name = "Chitin Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 29, Weight = 4.0, Value = 225 });
-            ArmorDatabase.Add(new Armor { Name = "Chitin Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 45 });
-            ArmorDatabase.Add(new Armor { Name = "Chitin Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 45 });
-            ArmorDatabase.Add(new Armor { Name = "Chitin Helmet", Slot = "Head", Category = "Light Armor", ArmorRating = 15, Weight = 1.0, Value = 110 });
+            ArmorDatabase.Add(new Armor { Name = "Tavern Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Miner's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Roughspun Tunic", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1, Effect = "The prisoner's starting clothes." });
+            ArmorDatabase.Add(new Armor { Name = "Ragged Trousers", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1 });
+            ArmorDatabase.Add(new Armor { Name = "Executioner's Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
+            ArmorDatabase.Add(new Armor { Name = "Embroidered Garment", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 20 });
+            ArmorDatabase.Add(new Armor { Name = "Mourner's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
+            ArmorDatabase.Add(new Armor { Name = "Blacksmith's Apron", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 15 });
+            ArmorDatabase.Add(new Armor { Name = "Beggar Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1 });
 
-            // ==========================================
-            // LIGHT ARMOR - VAMPIRE & DAWNGUARD (DG)
-            // ==========================================
+            ArmorDatabase.Add(new Armor { Name = "Cicero's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1455, Effect = "Prices 20% better, One-Handed +20%." });
+            ArmorDatabase.Add(new Armor { Name = "Jester's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 464, Effect = "Prices 10% better, One-Handed +12%." });
 
-            ArmorDatabase.Add(new Armor { Name = "Vampire Royal Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 30, Weight = 5.0, Value = 1250, Effect = "Magicka Regen 125% faster." });
-            ArmorDatabase.Add(new Armor { Name = "Vampire Armor", Slot = "Chest", Category = "Light Armor", ArmorRating = 24, Weight = 4.0, Value = 175 });
-            ArmorDatabase.Add(new Armor { Name = "Vampire Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 6, Weight = 1.0, Value = 30 });
-            ArmorDatabase.Add(new Armor { Name = "Vampire Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 6, Weight = 1.0, Value = 30 });
+            // ==========================================================================================
+            // 9. CLOTHING - ACCESSORIES & NICHE ITEMS
+            // ==========================================================================================
 
-            ArmorDatabase.Add(new Armor { Name = "Dawnguard Armor (Light)", Slot = "Chest", Category = "Light Armor", ArmorRating = 31, Weight = 6.0, Value = 250 });
-            ArmorDatabase.Add(new Armor { Name = "Dawnguard Boots", Slot = "Feet", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 45 });
-            ArmorDatabase.Add(new Armor { Name = "Dawnguard Gauntlets", Slot = "Hands", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 45 });
+            ArmorDatabase.Add(new Armor { Name = "Shoes", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Fine Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 15 });
+            ArmorDatabase.Add(new Armor { Name = "Boots (Brown)", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Boots (Black)", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Pleated Shoes", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
+            ArmorDatabase.Add(new Armor { Name = "Cuffed Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Footwraps", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 1 });
+            ArmorDatabase.Add(new Armor { Name = "Ragged Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1 });
+            ArmorDatabase.Add(new Armor { Name = "Executioner's Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Cicero's Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 155, Effect = "Muffle." });
 
-            // ==========================================
-            // LIGHT ARMOR - ANNIVERSARY EDITION (AE)
-            // ==========================================
+            ArmorDatabase.Add(new Armor { Name = "Gloves", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Executioner's Gloves", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Cicero's Gloves", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 155, Effect = "Double Sneak Attack damage (1H)." });
+            ArmorDatabase.Add(new Armor { Name = "Prisoner's Cuffs", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 0 });
+            ArmorDatabase.Add(new Armor { Name = "Fine Armguards", Slot = "Hands", Category = "Light Armor", ArmorRating = 7, Weight = 1.0, Value = 45, Effect = "Unique elegant light armor bracers." }); // Leicht Rüstung, aber passt zu Nische
 
-            // Amber Armor (Bernstein)
-            ArmorDatabase.Add(new Armor { Name = "Amber Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 40, Weight = 6.0, Value = 1700 });
-            ArmorDatabase.Add(new Armor { Name = "Amber Boots (AE)", Slot = "Feet", Category = "Light Armor", ArmorRating = 14, Weight = 2.0, Value = 340 });
-            ArmorDatabase.Add(new Armor { Name = "Amber Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 14, Weight = 2.0, Value = 340 });
-            ArmorDatabase.Add(new Armor { Name = "Amber Helmet (AE)", Slot = "Head", Category = "Light Armor", ArmorRating = 19, Weight = 2.0, Value = 850 });
-            ArmorDatabase.Add(new Armor { Name = "Amber Shield (AE)", Slot = "Shield", Category = "Shield", ArmorRating = 28, Weight = 5.0, Value = 850 });
+            ArmorDatabase.Add(new Armor { Name = "Hat", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Fine Hat (Elegant)", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 15 });
+            ArmorDatabase.Add(new Armor { Name = "Cowl", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 5 });
+            ArmorDatabase.Add(new Armor { Name = "Mourner's Hat", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 5 });
+            ArmorDatabase.Add(new Armor { Name = "Chef's Hat", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Mage Hood", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 50, Effect = "+30 Magicka." });
+            ArmorDatabase.Add(new Armor { Name = "Cicero's Hat", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 227, Effect = "Sneak 35% better." });
+            ArmorDatabase.Add(new Armor { Name = "Execution Hood", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 10 });
+            ArmorDatabase.Add(new Armor { Name = "Ulfric's Gag", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 0, Effect = "Prevents the wearer from speaking or Shouting." });
 
-            // Dark Armor
-            ArmorDatabase.Add(new Armor { Name = "Dark Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 36, Weight = 7.0, Value = 750 });
-            ArmorDatabase.Add(new Armor { Name = "Dark Boots (AE)", Slot = "Feet", Category = "Light Armor", ArmorRating = 12, Weight = 2.0, Value = 150 });
-            ArmorDatabase.Add(new Armor { Name = "Dark Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 12, Weight = 2.0, Value = 150 });
-            ArmorDatabase.Add(new Armor { Name = "Dark Helmet (AE)", Slot = "Head", Category = "Light Armor", ArmorRating = 17, Weight = 2.0, Value = 375 });
+            // ==========================================================================================
+            // 10. CLOTHING - MAGE ROBES & FACTIONS
+            // ==========================================================================================
 
-            // ==========================================
-            // LIGHT ARMOR - ALTERNATIVE ARMORS (AE)
-            // ==========================================
-
-            // Daedric Mail
-            ArmorDatabase.Add(new Armor { Name = "Daedric Mail Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 38, Weight = 10.0, Value = 1500 });
-            ArmorDatabase.Add(new Armor { Name = "Daedric Mail Boots (AE)", Slot = "Feet", Category = "Light Armor", ArmorRating = 13, Weight = 3.0, Value = 300 });
-            ArmorDatabase.Add(new Armor { Name = "Daedric Mail Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 13, Weight = 3.0, Value = 300 });
-            ArmorDatabase.Add(new Armor { Name = "Daedric Mail Helmet (AE)", Slot = "Head", Category = "Light Armor", ArmorRating = 18, Weight = 4.0, Value = 750 });
-
-            // Dragonbone Mail
-            ArmorDatabase.Add(new Armor { Name = "Dragonbone Mail Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 41, Weight = 15.0, Value = 2000, Effect = "Resist Fire 100%." });
-
-            // Studded Dragonscale
-            ArmorDatabase.Add(new Armor { Name = "Studded Dragonscale Armor (AE)", Slot = "Chest", Category = "Light Armor", ArmorRating = 44, Weight = 10.0, Value = 1800 });
-
-            // ==========================================
-            // LIGHT ARMOR - DEATHBRAND SET (DB)
-            // ==========================================
-
-            ArmorDatabase.Add(new Armor { Name = "Deathbrand Boots (DB)", Slot = "Feet", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 413, Effect = "+10 Carry Weight per Deathbrand item worn." });
-            ArmorDatabase.Add(new Armor { Name = "Deathbrand Gauntlets (DB)", Slot = "Hands", Category = "Light Armor", ArmorRating = 11, Weight = 2.0, Value = 413, Effect = "One-Handed 10% more damage per Deathbrand item worn." });
-            ArmorDatabase.Add(new Armor { Name = "Deathbrand Helm (DB)", Slot = "Head", Category = "Light Armor", ArmorRating = 16, Weight = 2.0, Value = 1007, Effect = "Waterbreathing, Armor bonus per Deathbrand item worn." });
-
-            // ==========================================
-            // CLOTHING - MAGE ROBES (BASE VARIANTS)
-            // ==========================================
             ArmorDatabase.Add(new Armor { Name = "Novice Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 45, Effect = "Magicka Regen +50%." });
             ArmorDatabase.Add(new Armor { Name = "Apprentice Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 125, Effect = "Magicka Regen +75%." });
             ArmorDatabase.Add(new Armor { Name = "Adept Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 400, Effect = "Magicka Regen +100%." });
             ArmorDatabase.Add(new Armor { Name = "Expert Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 900, Effect = "Magicka Regen +125%." });
             ArmorDatabase.Add(new Armor { Name = "Master Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1800, Effect = "Magicka Regen +150%." });
 
-            // ==========================================
-            // CLOTHING - SCHOOL SPECIFIC ROBES
-            // ==========================================
-            // Destruction
             ArmorDatabase.Add(new Armor { Name = "Novice Robes of Destruction", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 145, Effect = "Destruction spells cost 12% less, Magicka Regen +50%." });
             ArmorDatabase.Add(new Armor { Name = "Apprentice Robes of Destruction", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 310, Effect = "Destruction spells cost 15% less, Magicka Regen +75%." });
             ArmorDatabase.Add(new Armor { Name = "Adept Robes of Destruction", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 750, Effect = "Destruction spells cost 17% less, Magicka Regen +100%." });
             ArmorDatabase.Add(new Armor { Name = "Expert Robes of Destruction", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1400, Effect = "Destruction spells cost 20% less, Magicka Regen +125%." });
             ArmorDatabase.Add(new Armor { Name = "Master Robes of Destruction", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2300, Effect = "Destruction spells cost 22% less, Magicka Regen +150%." });
 
-            // Restoration
             ArmorDatabase.Add(new Armor { Name = "Novice Robes of Restoration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 145, Effect = "Restoration spells cost 12% less, Magicka Regen +50%." });
             ArmorDatabase.Add(new Armor { Name = "Apprentice Robes of Restoration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 310, Effect = "Restoration spells cost 15% less, Magicka Regen +75%." });
             ArmorDatabase.Add(new Armor { Name = "Adept Robes of Restoration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 750, Effect = "Restoration spells cost 17% less, Magicka Regen +100%." });
             ArmorDatabase.Add(new Armor { Name = "Expert Robes of Restoration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1400, Effect = "Restoration spells cost 20% less, Magicka Regen +125%." });
             ArmorDatabase.Add(new Armor { Name = "Master Robes of Restoration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2300, Effect = "Restoration spells cost 22% less, Magicka Regen +150%." });
 
-            // Alteration
             ArmorDatabase.Add(new Armor { Name = "Novice Robes of Alteration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 145, Effect = "Alteration spells cost 12% less, Magicka Regen +50%." });
             ArmorDatabase.Add(new Armor { Name = "Apprentice Robes of Alteration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 310, Effect = "Alteration spells cost 15% less, Magicka Regen +75%." });
             ArmorDatabase.Add(new Armor { Name = "Adept Robes of Alteration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 750, Effect = "Alteration spells cost 17% less, Magicka Regen +100%." });
             ArmorDatabase.Add(new Armor { Name = "Expert Robes of Alteration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1400, Effect = "Alteration spells cost 20% less, Magicka Regen +125%." });
             ArmorDatabase.Add(new Armor { Name = "Master Robes of Alteration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2300, Effect = "Alteration spells cost 22% less, Magicka Regen +150%." });
 
-            // Conjuration
             ArmorDatabase.Add(new Armor { Name = "Novice Robes of Conjuration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 145, Effect = "Conjuration spells cost 12% less, Magicka Regen +50%." });
             ArmorDatabase.Add(new Armor { Name = "Apprentice Robes of Conjuration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 310, Effect = "Conjuration spells cost 15% less, Magicka Regen +75%." });
             ArmorDatabase.Add(new Armor { Name = "Adept Robes of Conjuration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 750, Effect = "Conjuration spells cost 17% less, Magicka Regen +100%." });
             ArmorDatabase.Add(new Armor { Name = "Expert Robes of Conjuration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1400, Effect = "Conjuration spells cost 20% less, Magicka Regen +125%." });
             ArmorDatabase.Add(new Armor { Name = "Master Robes of Conjuration", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2300, Effect = "Conjuration spells cost 22% less, Magicka Regen +150%." });
 
-            // Illusion
             ArmorDatabase.Add(new Armor { Name = "Novice Robes of Illusion", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 145, Effect = "Illusion spells cost 12% less, Magicka Regen +50%." });
             ArmorDatabase.Add(new Armor { Name = "Apprentice Robes of Illusion", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 310, Effect = "Illusion spells cost 15% less, Magicka Regen +75%." });
             ArmorDatabase.Add(new Armor { Name = "Adept Robes of Illusion", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 750, Effect = "Illusion spells cost 17% less, Magicka Regen +100%." });
             ArmorDatabase.Add(new Armor { Name = "Expert Robes of Illusion", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1400, Effect = "Illusion spells cost 20% less, Magicka Regen +125%." });
             ArmorDatabase.Add(new Armor { Name = "Master Robes of Illusion", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2300, Effect = "Illusion spells cost 22% less, Magicka Regen +150%." });
 
-            // ==========================================
-            // CLOTHING - UNIQUE ROBES & SPECIALS
-            // ==========================================
             ArmorDatabase.Add(new Armor { Name = "Arch-Mage's Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 3000, Effect = "All spells cost 15% less, +50 Magicka, Magicka Regen +100%." });
             ArmorDatabase.Add(new Armor { Name = "Miraak's Robes (DB)", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1250, Effect = "Absorb 15% Magicka from breath/spells." });
             ArmorDatabase.Add(new Armor { Name = "Telvanni Robes (DB)", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1115, Effect = "Magicka Regen +75%." });
             ArmorDatabase.Add(new Armor { Name = "Temple Priest Robes (DB)", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 55, Effect = "Restoration spells cost 12% less." });
             ArmorDatabase.Add(new Armor { Name = "Tunic of the Unmourned (AE)", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 550, Effect = "Health/Stamina Regen +15%." });
+            ArmorDatabase.Add(new Armor { Name = "Necromancer Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 50, Effect = "Magicka Regen +75%" });
+            ArmorDatabase.Add(new Armor { Name = "Black Mage Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 50, Effect = "Magicka Regen +50%" });
+            ArmorDatabase.Add(new Armor { Name = "Monk Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
+            ArmorDatabase.Add(new Armor { Name = "Vampire Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 15 });
 
-            // ==========================================
-            // CLOTHING - FACTION SETS (FULL)
-            // ==========================================
-            // Thalmor Set
+            // Factions
             ArmorDatabase.Add(new Armor { Name = "Thalmor Robes (Hooded)", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 175, Effect = "Destruction spells cost 12% less." });
             ArmorDatabase.Add(new Armor { Name = "Thalmor Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 150, Effect = "Destruction spells cost 12% less." });
             ArmorDatabase.Add(new Armor { Name = "Thalmor Gloves", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
             ArmorDatabase.Add(new Armor { Name = "Thalmor Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
 
-            // Psijic Order Set
             ArmorDatabase.Add(new Armor { Name = "Psijic Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 100 });
             ArmorDatabase.Add(new Armor { Name = "Psijic Hood", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 50 });
             ArmorDatabase.Add(new Armor { Name = "Psijic Gloves", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 25 });
             ArmorDatabase.Add(new Armor { Name = "Psijic Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 25 });
 
-            // Mythic Dawn Set
             ArmorDatabase.Add(new Armor { Name = "Mythic Dawn Robes (Enchanted)", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 75, Effect = "Magicka Regen +75%." });
             ArmorDatabase.Add(new Armor { Name = "Mythic Dawn Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 25 });
             ArmorDatabase.Add(new Armor { Name = "Mythic Dawn Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
 
-            // Cultist Set (Dragonborn)
             ArmorDatabase.Add(new Armor { Name = "Cultist Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 250, Effect = "Magicka Regen +75%." });
             ArmorDatabase.Add(new Armor { Name = "Cultist Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 10 });
             ArmorDatabase.Add(new Armor { Name = "Cultist Gloves", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 10 });
             ArmorDatabase.Add(new Armor { Name = "Cultist Mask", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 50 });
 
-            // Skaal Set (Dragonborn)
             ArmorDatabase.Add(new Armor { Name = "Skaal Coat", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 25 });
             ArmorDatabase.Add(new Armor { Name = "Skaal Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 10 });
             ArmorDatabase.Add(new Armor { Name = "Skaal Gloves", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 10 });
             ArmorDatabase.Add(new Armor { Name = "Skaal Hat", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 10 });
 
-            // ==========================================
-            // CLOTHING - CIVILIAN (BASE & UNIQUE)
-            // ==========================================
-            ArmorDatabase.Add(new Armor { Name = "Clothes (Common)", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1 });
-            ArmorDatabase.Add(new Armor { Name = "Fine Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 25 });
-            ArmorDatabase.Add(new Armor { Name = "Merchant's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 10 });
-            ArmorDatabase.Add(new Armor { Name = "Barkeeper's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
-            ArmorDatabase.Add(new Armor { Name = "Chef's Tunic", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
-            ArmorDatabase.Add(new Armor { Name = "Chef's Hat", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 2 });
-            ArmorDatabase.Add(new Armor { Name = "Emperor's Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 150, Effect = "The robes of Titus Mede II." });
-            ArmorDatabase.Add(new Armor { Name = "Ulfric's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 50 });
-            ArmorDatabase.Add(new Armor { Name = "Wedding Dress", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 100 });
-            ArmorDatabase.Add(new Armor { Name = "Party Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 100, Effect = "Elegant embassy attire." });
+            ArmorDatabase.Add(new Armor { Name = "Moth Priest Robes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 50 });
+            ArmorDatabase.Add(new Armor { Name = "Moth Priest Sandals", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Moth Priest Blindfold", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 2, Effect = "Covers the eyes completely." });
 
-            // Cicero & Jester
-            ArmorDatabase.Add(new Armor { Name = "Cicero's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1455, Effect = "Prices 20% better, One-Handed +20%." });
-            ArmorDatabase.Add(new Armor { Name = "Cicero's Hat", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 227, Effect = "Sneak 35% better." });
-            ArmorDatabase.Add(new Armor { Name = "Cicero's Gloves", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 155, Effect = "Double Sneak Attack damage (1H)." });
-            ArmorDatabase.Add(new Armor { Name = "Cicero's Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 155, Effect = "Muffle." });
-            ArmorDatabase.Add(new Armor { Name = "Jester's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 464, Effect = "Prices 10% better, One-Handed +12%." });
+            ArmorDatabase.Add(new Armor { Name = "Redguard Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 10 });
+            ArmorDatabase.Add(new Armor { Name = "Redguard Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 2.0, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Redguard Hood", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 2 });
+
+            ArmorDatabase.Add(new Armor { Name = "College Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
+            ArmorDatabase.Add(new Armor { Name = "Worn Shrouded Armor", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 100, Effect = "Clothing version of DB armor. No armor rating." });
+            ArmorDatabase.Add(new Armor { Name = "Gilded Wristguards", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 15, Effect = "The Emperor's bracers." });
 
             // ==========================================
-            // CLOTHING - ACCESSORIES & BASE ITEMS
+            // LIGHT ARMOR - BRAWLER'S GAUNTLETS (AE - Fearsome Fists)
             // ==========================================
-            ArmorDatabase.Add(new Armor { Name = "Shoes", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
-            ArmorDatabase.Add(new Armor { Name = "Fine Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 15 });
-            ArmorDatabase.Add(new Armor { Name = "Gloves", Slot = "Hands", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 2 });
-            ArmorDatabase.Add(new Armor { Name = "Hat", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 2 });
-            ArmorDatabase.Add(new Armor { Name = "Mage Hood", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 50, Effect = "+30 Magicka." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Fur Gloves (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 6, Weight = 2.0, Value = 125, Effect = "Unarmed strikes do 8 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Hide Bracers (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 5, Weight = 1.0, Value = 125, Effect = "Unarmed strikes do 8 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Leather Bracers (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 9, Weight = 2.0, Value = 225, Effect = "Unarmed strikes do 10 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Elven Bracers (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 10, Weight = 1.0, Value = 350, Effect = "Unarmed strikes do 12 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Glass Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 13, Weight = 2.0, Value = 750, Effect = "Unarmed strikes do 14 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Dragonscale Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 14, Weight = 3.0, Value = 1400, Effect = "Unarmed strikes do 16 additional damage." });
+            ArmorDatabase.Add(new Armor { Name = "Brawler's Amber Gauntlets (AE)", Slot = "Hands", Category = "Light Armor", ArmorRating = 14, Weight = 2.0, Value = 1350, Effect = "Unarmed strikes do 18 additional damage." });
 
-            // ==========================================
-            // CLOTHING - ADDITIONAL CIVILIAN & VARIANTS
-            // ==========================================
-            // Zusätzliche Fußbekleidung
-            ArmorDatabase.Add(new Armor { Name = "Boots (Brown)", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
-            ArmorDatabase.Add(new Armor { Name = "Boots (Black)", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
-            ArmorDatabase.Add(new Armor { Name = "Pleated Shoes", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
-            ArmorDatabase.Add(new Armor { Name = "Cuffed Boots", Slot = "Feet", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 2 });
+            // ==========================================================================================
+            // 11. JEWELRY - RINGS, AMULETS, CIRCLETS & ARTIFACTS
+            // ==========================================================================================
 
-            // Zusätzliche Kopfbedeckungen
-            ArmorDatabase.Add(new Armor { Name = "Fine Hat (Elegant)", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 15 });
-            ArmorDatabase.Add(new Armor { Name = "Cowl", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 5 });
-            ArmorDatabase.Add(new Armor { Name = "Mourner's Hat", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.5, Value = 5 });
-
-            // Zusätzliche Körperkleidung (Varianten)
-            ArmorDatabase.Add(new Armor { Name = "Embroidered Garment", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 20 });
-            ArmorDatabase.Add(new Armor { Name = "Mourner's Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 5 });
-            ArmorDatabase.Add(new Armor { Name = "Blacksmith's Apron", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 15 });
-            ArmorDatabase.Add(new Armor { Name = "Beggar Clothes", Slot = "Chest", Category = "Clothing", ArmorRating = 0, Weight = 1.0, Value = 1 });
-
-            // ==========================================
-            // CLOTHING - ALL CIRCLETS (REIFE)
-            // ==========================================
-            ArmorDatabase.Add(new Armor { Name = "Copper and Moonstone Circlet", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.3, Value = 100 });
-            ArmorDatabase.Add(new Armor { Name = "Copper and Onyx Circlet", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.3, Value = 50 });
-            ArmorDatabase.Add(new Armor { Name = "Copper and Sapphire Circlet", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.3, Value = 150 });
-            ArmorDatabase.Add(new Armor { Name = "Silver and Moonstone Circlet", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.3, Value = 250 });
-            ArmorDatabase.Add(new Armor { Name = "Silver and Sapphire Circlet", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.3, Value = 400 });
-            ArmorDatabase.Add(new Armor { Name = "Gold and Emerald Circlet", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.3, Value = 600 });
-            ArmorDatabase.Add(new Armor { Name = "Gold and Ruby Circlet", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.3, Value = 500 });
-            ArmorDatabase.Add(new Armor { Name = "Jade and Emerald Circlet", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.3, Value = 300 });
-            ArmorDatabase.Add(new Armor { Name = "Jade and Sapphire Circlet", Slot = "Head", Category = "Clothing", ArmorRating = 0, Weight = 0.3, Value = 350 });
-
-            // ==========================================
-            // JEWELRY - RINGS, AMULETS & CIRCLETS
-            // ==========================================
-
-            // Base Rings & Necklaces
+            // Base Jewelry
             ArmorDatabase.Add(new Armor { Name = "Silver Ring", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.1, Value = 30 });
             ArmorDatabase.Add(new Armor { Name = "Gold Ring", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.1, Value = 75 });
             ArmorDatabase.Add(new Armor { Name = "Gold Diamond Ring", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.1, Value = 900 });
             ArmorDatabase.Add(new Armor { Name = "Silver Sapphire Necklace", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 400 });
             ArmorDatabase.Add(new Armor { Name = "Gold Necklace", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 120 });
 
-            // Amulets of the Nine Divines
+            // Amulets of the Divines
             ArmorDatabase.Add(new Armor { Name = "Amulet of Akatosh", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 15, Effect = "Magicka Regen +25%." });
             ArmorDatabase.Add(new Armor { Name = "Amulet of Arkay", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 15, Effect = "+10 Health." });
             ArmorDatabase.Add(new Armor { Name = "Amulet of Dibella", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 15, Effect = "+15 Speech." });
@@ -1481,20 +1619,25 @@ namespace Skyrim_Build_Architect
             ArmorDatabase.Add(new Armor { Name = "Amulet of Talos", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 15, Effect = "Shout cooldown reduced 20%." });
             ArmorDatabase.Add(new Armor { Name = "Amulet of Zenithar", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 15, Effect = "Prices 10% better." });
 
-            // Artifact Jewelry
-            ArmorDatabase.Add(new Armor { Name = "The Gauldur Amulet", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 1864, Effect = "+30 Health, Magicka, and Stamina." });
-            ArmorDatabase.Add(new Armor { Name = "Savos Aren's Amulet", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 757, Effect = "+50 Magicka." });
-            ArmorDatabase.Add(new Armor { Name = "Ring of Namira", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.1, Value = 870, Effect = "+50 Stamina, Cannibalism." });
-            ArmorDatabase.Add(new Armor { Name = "Ring of Hircine", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.1, Value = 1100, Effect = "Extra Werewolf transformations." });
-            ArmorDatabase.Add(new Armor { Name = "Ahzidal's Ring of Arcana", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.1, Value = 1100, Effect = "Grants Ignite and Freeze spells." });
-            ArmorDatabase.Add(new Armor { Name = "Locket of Saint Jiub", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 1250, Effect = "+50 Carry Weight & Stamina." });
+            // Dawnguard Bone Hawk
+            ArmorDatabase.Add(new Armor { Name = "Bone Hawk Amulet (DG)", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 10 });
+            ArmorDatabase.Add(new Armor { Name = "Bone Hawk Ring (DG)", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.25, Value = 5 });
 
-            // Circlets (Reife)
+            // Unique Faction Jewelry
+            ArmorDatabase.Add(new Armor { Name = "Nightweaver's Band", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.1, Value = 1131, Effect = "Sneak 10% better, Destruction spells cost 10% less." });
+            ArmorDatabase.Add(new Armor { Name = "Saarthal Amulet", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 100, Effect = "All spells cost 3% less to cast." });
+
+            // Circlets
             ArmorDatabase.Add(new Armor { Name = "Copper and Moonstone Circlet", Slot = "Head", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 100 });
-            ArmorDatabase.Add(new Armor { Name = "Silver Sapphire Circlet", Slot = "Head", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 400 });
+            ArmorDatabase.Add(new Armor { Name = "Copper and Onyx Circlet", Slot = "Head", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 50 });
+            ArmorDatabase.Add(new Armor { Name = "Copper and Sapphire Circlet", Slot = "Head", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 150 });
+            ArmorDatabase.Add(new Armor { Name = "Silver and Moonstone Circlet", Slot = "Head", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 250 });
+            ArmorDatabase.Add(new Armor { Name = "Silver and Sapphire Circlet", Slot = "Head", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 400 });
             ArmorDatabase.Add(new Armor { Name = "Gold and Emerald Circlet", Slot = "Head", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 600 });
+            ArmorDatabase.Add(new Armor { Name = "Gold and Ruby Circlet", Slot = "Head", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 500 });
+            ArmorDatabase.Add(new Armor { Name = "Jade and Emerald Circlet", Slot = "Head", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 300 });
+            ArmorDatabase.Add(new Armor { Name = "Jade and Sapphire Circlet", Slot = "Head", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 350 });
 
-            // Leveled Mage's Circlet
             ArmorDatabase.Add(new Armor
             {
                 Name = "Mage's Circlet",
@@ -1503,11 +1646,48 @@ namespace Skyrim_Build_Architect
                 Weight = 0.3,
                 LevelVariants = new List<LeveledStat>
                 {
-            new LeveledStat { MinLevel = 1, Value = 500, Effect = "+20 Magicka" },
-            new LeveledStat { MinLevel = 15, Value = 700, Effect = "+40 Magicka" },
-            new LeveledStat { MinLevel = 25, Value = 1000, Effect = "+70 Magicka" }
+                     new LeveledStat { MinLevel = 1, Value = 500, Effect = "+20 Magicka" },
+                     new LeveledStat { MinLevel = 15, Value = 700, Effect = "+40 Magicka" },
+                     new LeveledStat { MinLevel = 25, Value = 1000, Effect = "+70 Magicka" }
                 }
             });
+
+            ArmorDatabase.Add(new Armor
+            {
+                Name = "Amulet of Articulation",
+                Slot = "Necklace",
+                Category = "Light Armor", // Trägt sich als Kette, gibt aber Light Armor XP!
+                Weight = 0.5,
+                LevelVariants = new List<LeveledStat>
+                {
+                     new LeveledStat { MinLevel = 1, ArmorRating = 3, Value = 636, Effect = "Persuade always succeeds. Speech +5." },
+                     new LeveledStat { MinLevel = 15, ArmorRating = 5, Value = 1205, Effect = "Persuade always succeeds. Speech +15." },
+                     new LeveledStat { MinLevel = 35, ArmorRating = 8, Value = 2654, Effect = "Persuade always succeeds. Speech +35." }
+                }
+            });
+
+            // Unique & Artifact Jewelry
+            ArmorDatabase.Add(new Armor { Name = "The Gauldur Amulet", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 1864, Effect = "+30 Health, Magicka, and Stamina." });
+            ArmorDatabase.Add(new Armor { Name = "Gauldur Amulet Fragment (Jyrik's)", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 621, Effect = "+30 Magicka." });
+            ArmorDatabase.Add(new Armor { Name = "Gauldur Amulet Fragment (Mikrul's)", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 621, Effect = "+30 Health." });
+            ArmorDatabase.Add(new Armor { Name = "Gauldur Amulet Fragment (Sigdis')", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 621, Effect = "+30 Stamina." });
+            ArmorDatabase.Add(new Armor { Name = "Necromancer Amulet", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 2600, Effect = "+50 Magicka, Conjuration costs 25% less. Health & Stamina regen -75%." });
+            ArmorDatabase.Add(new Armor { Name = "Savos Aren's Amulet", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 757, Effect = "+50 Magicka." });
+            ArmorDatabase.Add(new Armor { Name = "Locket of Saint Jiub", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 1250, Effect = "+50 Carry Weight & Stamina." });
+
+            ArmorDatabase.Add(new Armor { Name = "Ring of Namira", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.1, Value = 870, Effect = "+50 Stamina, Cannibalism." });
+            ArmorDatabase.Add(new Armor { Name = "Ring of Hircine", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.1, Value = 1100, Effect = "Extra Werewolf transformations." });
+            ArmorDatabase.Add(new Armor { Name = "Ahzidal's Ring of Arcana", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.1, Value = 1100, Effect = "Grants Ignite and Freeze spells." });
+
+            // DLC Vampire & Werewolf Jewelry
+            ArmorDatabase.Add(new Armor { Name = "Ring of Bloodlust (DG)", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 1500, Effect = "Werewolf attacks do 50% more damage, but you take 50% more damage." });
+            ArmorDatabase.Add(new Armor { Name = "Ring of Instinct (DG)", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 1500, Effect = "When entering Werewolf form, time slows for 20 seconds." });
+            ArmorDatabase.Add(new Armor { Name = "Ring of the Hunt (DG)", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 1500, Effect = "While in Werewolf form, your Health regenerates." });
+            ArmorDatabase.Add(new Armor { Name = "Ring of the Moon (DG)", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 1500, Effect = "Increases duration of Werewolf Howls by 25%." });
+            ArmorDatabase.Add(new Armor { Name = "Ring of the Beast (DG)", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 1500, Effect = "+100 Health, Vampire Lord claw attacks do 20 extra damage." });
+            ArmorDatabase.Add(new Armor { Name = "Ring of the Erudite (DG)", Slot = "Ring", Category = "Jewelry", ArmorRating = 0, Weight = 0.3, Value = 1500, Effect = "+100 Magicka, Magicka regenerates faster." });
+            ArmorDatabase.Add(new Armor { Name = "Amulet of Bats (DG)", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 1500, Effect = "Vampire Lord Bats drain life from nearby enemies." });
+            ArmorDatabase.Add(new Armor { Name = "Amulet of The Gargoyle (DG)", Slot = "Necklace", Category = "Jewelry", ArmorRating = 0, Weight = 0.5, Value = 1500, Effect = "Vampire Lord Gargoyle summoning spell summons two Gargoyles." });
 
             // SORTIERUNG AM ENDE
             ArmorDatabase = ArmorDatabase.OrderBy(a => a.Name).ToList();
@@ -1562,9 +1742,18 @@ namespace Skyrim_Build_Architect
             EnchantmentDatabase.Add(new Enchantment { Name = "Turn Undead", AddedValue = 0, CompatibleSlots = weaponOnly, Description = "Undead up to level {0} flee for 30 seconds." });
             EnchantmentDatabase.Add(new Enchantment { Name = "Fear", AddedValue = 0, CompatibleSlots = weaponOnly, Description = "Creatures and people up to level {0} flee for 30 seconds." });
 
+            // Special Disenchantable Weapon Effects
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fiery Soul Trap", AddedValue = 10, CompatibleSlots = weaponOnly, Description = "Deals 10 points of fire damage. Fills a soul gem if the target dies within {0} seconds." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Silent Moons Enchant", AddedValue = 10, CompatibleSlots = weaponOnly, Description = "Burns the target for {0} points while the moons are out." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Huntsman's Prowess", AddedValue = 3, CompatibleSlots = weaponOnly, Description = "Does {0} extra points of damage to animals." });
+
             // ==========================================
             // APPAREL ENCHANTMENTS (According to UESP)
             // ==========================================
+
+            // Crafting
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Alchemy", AddedValue = 8, CompatibleSlots = new List<string> { "Head", "Hands", "Necklace", "Ring" }, Description = "Created potions and poisons are {0}% more powerful." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Smithing", AddedValue = 8, CompatibleSlots = new List<string> { "Chest", "Hands", "Necklace", "Ring" }, Description = "Weapons and armor can be improved {0}% better." });
 
             // Fortify Attributes
             EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Health", AddedValue = 20, CompatibleSlots = new List<string> { "Chest", "Shield", "Necklace", "Ring" }, Description = "Increases Health by {0} points." });
@@ -1573,11 +1762,13 @@ namespace Skyrim_Build_Architect
             EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Carry Weight", AddedValue = 15, CompatibleSlots = new List<string> { "Feet", "Hands", "Necklace", "Ring" }, Description = "Carrying capacity increased by {0} points." });
             EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Unarmed", AddedValue = 5, CompatibleSlots = new List<string> { "Hands", "Ring" }, Description = "Unarmed strikes do {0} additional damage." });
 
-            // Fortify Combat Skills
+            // Fortify Combat & Armor Skills
             EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Archery", AddedValue = 15, CompatibleSlots = new List<string> { "Head", "Hands", "Necklace", "Ring" }, Description = "Bows do {0}% more damage." });
             EnchantmentDatabase.Add(new Enchantment { Name = "Fortify One-Handed", AddedValue = 15, CompatibleSlots = new List<string> { "Hands", "Feet", "Necklace", "Ring" }, Description = "One-handed weapons do {0}% more damage." });
             EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Two-Handed", AddedValue = 15, CompatibleSlots = new List<string> { "Hands", "Feet", "Necklace", "Ring" }, Description = "Two-handed weapons do {0}% more damage." });
             EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Block", AddedValue = 15, CompatibleSlots = new List<string> { "Hands", "Shield", "Necklace", "Ring" }, Description = "Blocks are {0}% more effective." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Light Armor", AddedValue = 15, CompatibleSlots = new List<string> { "Chest", "Hands", "Necklace", "Ring" }, Description = "Increases Light Armor skill by {0} points." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Heavy Armor", AddedValue = 15, CompatibleSlots = new List<string> { "Chest", "Hands", "Necklace", "Ring" }, Description = "Increases Heavy Armor skill by {0} points." });
 
             // Fortify Stealth & Utility Skills
             EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Sneak", AddedValue = 15, CompatibleSlots = new List<string> { "Feet", "Hands", "Necklace", "Ring" }, Description = "Sneaking is {0}% better." });
@@ -1593,8 +1784,16 @@ namespace Skyrim_Build_Architect
             EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Illusion", AddedValue = 12, CompatibleSlots = magicSchools, Description = "Illusion spells cost {0}% less to cast." });
             EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Restoration", AddedValue = 12, CompatibleSlots = magicSchools, Description = "Restoration spells cost {0}% less to cast." });
 
+            // Multi-Magic School (Robes Enchantment)
+            var robesOnly = new List<string> { "Chest" };
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Alteration & Magicka Regen", AddedValue = 12, CompatibleSlots = robesOnly, Description = "Alteration spells cost {0}% less. Magicka regenerates faster." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Conjuration & Magicka Regen", AddedValue = 12, CompatibleSlots = robesOnly, Description = "Conjuration spells cost {0}% less. Magicka regenerates faster." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Destruction & Magicka Regen", AddedValue = 12, CompatibleSlots = robesOnly, Description = "Destruction spells cost {0}% less. Magicka regenerates faster." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Illusion & Magicka Regen", AddedValue = 12, CompatibleSlots = robesOnly, Description = "Illusion spells cost {0}% less. Magicka regenerates faster." });
+            EnchantmentDatabase.Add(new Enchantment { Name = "Fortify Restoration & Magicka Regen", AddedValue = 12, CompatibleSlots = robesOnly, Description = "Restoration spells cost {0}% less. Magicka regenerates faster." });
+
             // Resistances
-            var elementalResist = new List<string> { "Chest", "Feet", "Shield", "Necklace", "Ring" };
+            var elementalResist = new List<string> { "Feet", "Shield", "Necklace", "Ring" };
             EnchantmentDatabase.Add(new Enchantment { Name = "Resist Fire", AddedValue = 15, CompatibleSlots = elementalResist, Description = "Increases Fire Resistance by {0}%." });
             EnchantmentDatabase.Add(new Enchantment { Name = "Resist Frost", AddedValue = 15, CompatibleSlots = elementalResist, Description = "Increases Frost Resistance by {0}%." });
             EnchantmentDatabase.Add(new Enchantment { Name = "Resist Shock", AddedValue = 15, CompatibleSlots = elementalResist, Description = "Increases Shock Resistance by {0}%." });

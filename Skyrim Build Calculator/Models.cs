@@ -4,12 +4,14 @@ using System.Linq;
 namespace Skyrim_Build_Architect
 {
     // --- DIE DATEN-MODELLE ---
+
     public class Weapon
     {
         public string Name { get; set; } = "";
         public string Category { get; set; } = "";
         public string Slot => "Weapon";
         public double Damage { get; set; }
+        public double Weight { get; set; }
         public double Value { get; set; }
         public double Reach { get; set; }
         public double Speed { get; set; }
@@ -44,53 +46,67 @@ namespace Skyrim_Build_Architect
         }
     }
 
+    // WICHTIG: Nur diese EINE Version von EquippedItem behalten!
+    public class EquippedItem : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string _rating = "";
+        private string _sneakRating = "0";
+
+        public string ItemName { get; set; } = "";
+        public string Slot { get; set; } = "";
+        public string Category { get; set; } = "";
+        public string Enchantment { get; set; } = "";
+
+        public object? OriginalObject { get; set; }
+
+        public string Rating
+        {
+            get => _rating;
+            set { if (_rating != value) { _rating = value; OnPropertyChanged(nameof(Rating)); } }
+        }
+
+        public string SneakRating
+        {
+            get => _sneakRating;
+            set { if (_sneakRating != value) { _sneakRating = value; OnPropertyChanged(nameof(SneakRating)); } }
+        }
+
+        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+    }
+
     public class Perk : System.ComponentModel.INotifyPropertyChanged
     {
         private bool _isActive;
-        private bool _isAvailable = true;
+        private bool _isAvailable = false;
+        private string _availabilityHint = "Checking conditions...";
 
+        // --- Diese Felder müssen vorhanden sein ---
         public string Name { get; set; } = "";
         public string BaseName { get; set; } = "";
         public string Description { get; set; } = "";
         public int RequiredLevel { get; set; }
-        public string Category { get; set; } = "";    // z.B. WARRIOR
-        public string SubCategory { get; set; } = ""; // z.B. One-Handed
-        public string SkillGroup { get; set; } = "";
-        public double Multiplier { get; set; } = 1.0;
+        public string Category { get; set; } = "";
+        public string SubCategory { get; set; } = "";
+        public string SkillGroup { get; set; } = "";  // <--- War im letzten Schritt weg
+        public double Multiplier { get; set; } = 1.0; // <--- War im letzten Schritt weg
 
         public bool IsActive
         {
             get => _isActive;
-            set
-            {
-                if (_isActive != value)
-                {
-                    _isActive = value;
-                    OnPropertyChanged(nameof(IsActive));
-                }
-            }
-        }
-
-        public class WeaponCalculationResult
-        {
-            public double FinalDamage { get; set; }
-            public double SneakDamage { get; set; }
-            public string FinalEffectText { get; set; } = "";
-            public string SmithingTierName { get; set; } = "";
-            public double FinalStagger { get; set; } // NEU: Damit der Wert zur UI kommt
+            set { if (_isActive != value) { _isActive = value; OnPropertyChanged(nameof(IsActive)); } }
         }
 
         public bool IsAvailable
         {
             get => _isAvailable;
-            set
-            {
-                if (_isAvailable != value)
-                {
-                    _isAvailable = value;
-                    OnPropertyChanged(nameof(IsAvailable));
-                }
-            }
+            set { if (_isAvailable != value) { _isAvailable = value; OnPropertyChanged(nameof(IsAvailable)); } }
+        }
+
+        public string AvailabilityHint
+        {
+            get => _availabilityHint;
+            set { if (_availabilityHint != value) { _availabilityHint = value; OnPropertyChanged(nameof(AvailabilityHint)); } }
         }
 
         public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
@@ -112,8 +128,6 @@ namespace Skyrim_Build_Architect
         public double AddedValue { get; set; }
         public string SkillGroup { get; set; } = "Enchanting";
         public string Description { get; set; } = "";
-
-        // Das muss EXAKT so heißen, damit die Fehler in MainWindow verschwinden:
         public List<string> CompatibleSlots { get; set; } = new List<string>();
     }
 
@@ -138,16 +152,6 @@ namespace Skyrim_Build_Architect
         public int BonusMagicka { get; set; } = 0;
     }
 
-    public class EquippedItem
-    {
-        public string ItemName { get; set; } = "";
-        public string Slot { get; set; } = "";
-        public string Rating { get; set; } = "";
-        public string SneakRating { get; set; } = "0";
-        public string Enchantment { get; set; } = "";
-        public string Category { get; set; } = "";
-    }
-
     public class StandingStone
     {
         public string Name { get; set; } = "";
@@ -163,12 +167,23 @@ namespace Skyrim_Build_Architect
 
     public class SavedBuild
     {
-        public string BuildName { get; set; } = "";
-        public string SelectedRace { get; set; } = "";
-        public int Level { get; set; }
+        public string BuildName { get; set; } = "Dovahkiin";
+        public string SelectedRace { get; set; } = "None";
+        public int Level { get; set; } = 1;
         public int InvestMagicka { get; set; }
         public int InvestHealth { get; set; }
         public int InvestStamina { get; set; }
+        public string SelectedStandingStone { get; set; } = "None";
+        public string SelectedFleshSpell { get; set; } = "None";
         public List<string> ActivePerkNames { get; set; } = new List<string>();
+        public List<EquippedItemSaveData> EquippedItems { get; set; } = new List<EquippedItemSaveData>();
+    }
+
+    public class EquippedItemSaveData
+    {
+        public string ItemName { get; set; } = "";
+        public string Slot { get; set; } = "";
+        public string Enchantment1 { get; set; } = "None";
+        public string Enchantment2 { get; set; } = "None";
     }
 }

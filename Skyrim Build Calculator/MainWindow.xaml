@@ -146,7 +146,11 @@
                         <TextBlock Text="Power:" Foreground="#E1B80D" FontSize="11" Margin="0,0,0,2"/>
                         <TextBlock x:Name="TxtRacePower" Text="-" Foreground="#20FFD4" TextWrapping="Wrap" FontSize="11" FontStyle="Italic" Margin="0,0,0,10"/>
 
-                        <TextBlock x:Name="LblAvailablePoints" Text="Stat Points: 0 / 0" Foreground="#E1B80D" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <StackPanel Margin="0,0,0,5">
+                            <TextBlock x:Name="LblAvailablePoints" Text="Attribute Points: 0 / 0" Foreground="#E1B80D" FontWeight="Bold"/>
+                            <TextBlock x:Name="LblAvailablePerkPoints" Text="Perk Points: 0 / 0" Foreground="#E1B80D" FontWeight="Bold"/>
+                        </StackPanel>
+
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -196,8 +200,12 @@
                                 <TextBlock x:Name="TxtTotalStamina" Text="100" Grid.Row="2" Grid.Column="1" Foreground="#44FF44" FontWeight="Bold" Margin="10,2"/>
                                 <TextBlock x:Name="TxtRegenStamina" Text="(+5.0 /s)" Grid.Row="2" Grid.Column="2" Foreground="#44FF44" Opacity="0.7" Margin="0,2"/>
 
-                                <TextBlock Text="Carry Weight:" Grid.Row="3" Grid.Column="0" Foreground="#E1B80D" Margin="0,6,0,2"/>
-                                <TextBlock x:Name="TxtTotalCarryWeight" Text="300" Grid.Row="3" Grid.Column="1" Foreground="#E1B80D" FontWeight="Bold" Margin="10,6,0,2"/>
+                                <TextBlock Text="Weight:" Grid.Row="3" Grid.Column="0" Foreground="#E1B80D" Margin="0,6,0,2"/>
+                                <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Margin="10,6,0,2">
+                                    <TextBlock x:Name="TxtCurrentWeight" Text="0" Foreground="#E1B80D" FontWeight="Bold"/>
+                                    <TextBlock Text=" / " Foreground="#E1B80D" FontWeight="Bold"/>
+                                    <TextBlock x:Name="TxtTotalCarryWeight" Text="300" Foreground="#E1B80D" FontWeight="Bold"/>
+                                </StackPanel>
 
                                 <TextBlock Text="Magic Resist:" Grid.Row="4" Grid.Column="0" Foreground="#BF80FF" Margin="0,2"/>
                                 <TextBlock x:Name="TxtMagicResist" Text="0%" Grid.Row="4" Grid.Column="1" Foreground="#BF80FF" FontWeight="Bold" Margin="10,2"/>
@@ -252,6 +260,14 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
+                <TextBlock x:Name="LblAmmo" Text="Select Ammunition:" Foreground="#E1B80D" Margin="0,0,0,2" Visibility="Collapsed"/>
+                <ComboBox x:Name="CmbAmmo" SelectionChanged="CmbAmmo_SelectionChanged" Margin="0,0,0,10" Visibility="Collapsed">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Foreground="#E1B80D" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <TextBlock Text="Enchantment 1:" Foreground="#E1B80D" Margin="0,0,0,2"/>
                 <ComboBox x:Name="CmbEnchantment" SelectionChanged="CmbEnchantment_SelectionChanged" Margin="0,0,0,10">
                     <ComboBox.ItemTemplate>
@@ -281,42 +297,56 @@
 
                 <Grid>
                     <StackPanel x:Name="WeaponPanel" Visibility="Visible" Background="#1A1A1A">
-                        <Border BorderBrush="#E1B80D" BorderThickness="1" Padding="15" CornerRadius="2">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="110"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="Weapon Stats" Grid.Row="0" Grid.ColumnSpan="2" Foreground="#E1B80D" FontWeight="Bold" Margin="0,0,0,10" FontSize="14"/>
-                                <TextBlock Text="Category:" Grid.Row="1" Grid.Column="0" Foreground="#E1B80D" Margin="0,3"/>
-                                <TextBlock x:Name="TxtWeaponCategory" Text="-" Grid.Row="1" Grid.Column="1" Foreground="#E1B80D" Margin="0,3"/>
-                                <TextBlock Text="Damage:" Grid.Row="2" Grid.Column="0" Foreground="#FF4444" Margin="0,3"/>
-                                <TextBlock x:Name="TxtDamageDisplay" Text="-" Grid.Row="2" Grid.Column="1" Foreground="#FF4444" FontWeight="Bold" Margin="0,3"/>
-                                <TextBlock Text="Sneak Dmg:" Grid.Row="3" Grid.Column="0" Foreground="#44FF44" Margin="0,3"/>
-                                <TextBlock x:Name="TxtSneakDisplay" Text="-" Grid.Row="3" Grid.Column="1" Foreground="#44FF44" FontWeight="Bold" Margin="0,3"/>
-                                <TextBlock Text="Reach:" Grid.Row="4" Grid.Column="0" Foreground="#E1B80D" Margin="0,3"/>
-                                <TextBlock x:Name="TxtReach" Text="-" Grid.Row="4" Grid.Column="1" Foreground="#E1B80D" Margin="0,3"/>
-                                <TextBlock Text="Speed:" Grid.Row="5" Grid.Column="0" Foreground="#E1B80D" Margin="0,3"/>
-                                <TextBlock x:Name="TxtSpeed" Text="-" Grid.Row="5" Grid.Column="1" Foreground="#E1B80D" Margin="0,3"/>
-                                <TextBlock Text="Stagger:" Grid.Row="6" Grid.Column="0" Foreground="#E1B80D" Margin="0,3"/>
-                                <TextBlock x:Name="TxtStagger" Text="-" Grid.Row="6" Grid.Column="1" Foreground="#E1B80D" Margin="0,3"/>
-                                <TextBlock Text="Value (Gold):" Grid.Row="7" Grid.Column="0" Foreground="#E1B80D" Margin="0,3"/>
-                                <TextBlock x:Name="TxtValue" Text="-" Grid.Row="7" Grid.Column="1" Foreground="#E1B80D" Margin="0,3"/>
-                                <TextBlock Text="Effect:" Grid.Row="8" Grid.Column="0" Foreground="#E1B80D" Margin="0,10,0,0"/>
-                                <TextBlock x:Name="TxtEffect" Text="None" Grid.Row="8" Grid.Column="1" Foreground="#BF80FF" TextWrapping="Wrap" Margin="0,10,0,0" FontStyle="Italic"/>
-                            </Grid>
+                        <Border BorderBrush="#E1B80D" BorderThickness="1" Margin="5" Padding="10" CornerRadius="2">
+                            <StackPanel>
+                                <TextBlock Text="Weapon Stats" Foreground="#E1B80D" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" MinWidth="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Category:" Grid.Row="0" Grid.Column="0" Foreground="#E1B80D" VerticalAlignment="Top" Margin="0,2"/>
+                                    <TextBlock x:Name="TxtWeaponCategory" Grid.Row="0" Grid.Column="1" 
+                                               Text="-" Foreground="#E1B80D" 
+                                               TextWrapping="Wrap" VerticalAlignment="Top" Margin="5,2,0,2"/>
+
+                                    <TextBlock Text="Damage:" Grid.Row="1" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
+                                    <TextBlock x:Name="TxtDamageDisplay" Grid.Row="1" Grid.Column="1" 
+                                               Text="0" Foreground="Red" FontWeight="Bold" Margin="5,5,0,2"/>
+
+                                    <TextBlock Text="Sneak Dmg:" Grid.Row="2" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
+                                    <TextBlock x:Name="TxtSneakDisplay" Grid.Row="2" Grid.Column="1" 
+                                               Text="0" Foreground="LightGreen" FontWeight="Bold" Margin="5,5,0,2"/>
+
+                                    <TextBlock Text="Reach:" Grid.Row="3" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
+                                    <TextBlock x:Name="TxtReach" Grid.Row="3" Grid.Column="1" Text="-" Foreground="#E1B80D" Margin="5,5,0,2"/>
+
+                                    <TextBlock Text="Speed:" Grid.Row="4" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
+                                    <TextBlock x:Name="TxtSpeed" Grid.Row="4" Grid.Column="1" Text="-" Foreground="#E1B80D" Margin="5,5,0,2"/>
+
+                                    <TextBlock Text="Stagger:" Grid.Row="5" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
+                                    <TextBlock x:Name="TxtStagger" Grid.Row="5" Grid.Column="1" Text="-" Foreground="#E1B80D" Margin="5,5,0,2"/>
+
+                                    <TextBlock Text="Value (Gold):" Grid.Row="6" Grid.Column="0" Foreground="#E1B80D" Margin="0,5,0,2"/>
+                                    <TextBlock x:Name="TxtValue" Grid.Row="6" Grid.Column="1" Text="-" Foreground="#E1B80D" Margin="5,5,0,2"/>
+
+                                    <TextBlock Text="Effect:" Grid.Row="7" Grid.Column="0" Foreground="#E1B80D" Margin="0,10,0,0"/>
+                                    <TextBlock x:Name="TxtEffect" Grid.Row="7" Grid.Column="1" Text="None" Foreground="#BF80FF" 
+                                               TextWrapping="Wrap" Margin="5,10,0,0" FontStyle="Italic"/>
+                                </Grid>
+                            </StackPanel>
                         </Border>
                     </StackPanel>
 
@@ -328,7 +358,6 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
@@ -475,7 +504,12 @@
                     <DataTemplate>
                         <Border x:Name="PerkBorder" Margin="2,1" Padding="8,4" CornerRadius="4" BorderThickness="1" BorderBrush="Transparent">
                             <StackPanel>
-                                <CheckBox IsChecked="{Binding IsActive}" IsEnabled="{Binding IsAvailable}" Checked="Perk_CheckChanged" Unchecked="Perk_CheckChanged">
+                                <CheckBox IsChecked="{Binding IsActive}" 
+                                          IsEnabled="{Binding IsAvailable}" 
+                                          ToolTip="{Binding AvailabilityHint}"
+                                          ToolTipService.ShowOnDisabled="True" 
+                                          Checked="Perk_CheckChanged" 
+                                          Unchecked="Perk_CheckChanged">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock x:Name="TxtName" Text="{Binding Name}" FontWeight="Bold" FontSize="14" Foreground="#E1B80D"/>
                                         <TextBlock x:Name="TxtLvl" Text="{Binding RequiredLevel, StringFormat=' (Lvl {0})'}" FontSize="12" Margin="5,0,0,0" VerticalAlignment="Center" Opacity="0.6" Foreground="#E1B80D"/>
