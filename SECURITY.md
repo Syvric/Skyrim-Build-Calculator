@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Currently, only the latest release of **Skyrim Build Architect** is actively supported with security updates.
+Only the latest release of **Skyrim Build Architect** is actively supported with updates and bug fixes. I do not provide patches for older versions, so please ensure you are always using the newest build available.
 
 | Version | Supported |
 | :--- | :--- |
@@ -11,11 +11,11 @@ Currently, only the latest release of **Skyrim Build Architect** is actively sup
 
 ## Reporting a Vulnerability
 
-I take the security of this tool seriously. If you find a security vulnerability, please do not report it publicly in the "Issues" section.
+I take the security and integrity of this tool seriously. If you find a potential security vulnerability, please do not report it publicly in the "Issues" section. 
 
 Instead, please report it privately through one of the following channels:
 
-1. **GitHub:** Use the "Private vulnerability reporting" feature on this repository.
-2. **Discord:** You can contact me directly on Discord (**@Syvric**).
+* GitHub: Use the "Private vulnerability reporting" feature on this repository.
+* Discord: You can contact me directly on Discord (@Syvric).
 
-I will try to respond as quickly as possible to address any concerns. Thank you for helping to keep this tool safe for the Skyrim community!
+I will respond as quickly as possible to address any concerns. Thank you for helping to keep this tool safe for the Skyrim community! 🛡️⚔️
