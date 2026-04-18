@@ -38,7 +38,7 @@ To verify that the binary provided on Nexus Mods matches this source code, you c
 * **.NET 10.0 SDK** (Ensure you have the latest version installed).
 * **Visual Studio 2026** (with the ".NET Desktop Development" workload).
 
-### Option 1: Command Line (Recommended for Verification)
+### Option 1: Command Line
 1. Open a terminal (PowerShell or CMD) in the project's root folder.
 2. Run the following command to create a production-ready build:
    ```bash
